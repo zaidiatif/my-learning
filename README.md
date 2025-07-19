@@ -4,10 +4,11 @@ My knowledge sharing center
 
 ## Complete topics
 
+- [JavaScript](./src/JavaScript/index.md)
+
 ## Ongoing topics
 
-1. [JavaScript](./src/JavaScript/index.md)
-2. [create a video](./src/extra/create_a_video.md)
+- [Create a video](./src/extra/create_a_video.md)
 
 ## comming soon
 

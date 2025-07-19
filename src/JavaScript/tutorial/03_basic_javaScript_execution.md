@@ -35,30 +35,7 @@ Starting with JavaScript can be as simple as creating a file and running a few l
 
 ---
 
-## **2. Using the Browser Console**
-
-The browser console is a quick and efficient tool for testing JavaScript code without any setup.
-
-### **How to Access the Console**:
-
-- Open Developer Tools in your browser:
-  - **Chrome/Edge**: `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Option+I` (Mac).
-  - **Firefox**: `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Option+I` (Mac).
-  - **Safari**: Enable Developer Mode in Preferences and press `Cmd+Option+I`.
-- Navigate to the **Console** tab.
-
-### **Example**:
-
-- Type the following in the console:
-  ```javascript
-  let greeting = "Hello, Console!";
-  console.log(greeting);
-  ```
-- Observe the output directly in the console.
-
----
-
-## **3. Using Online JavaScript Playgrounds**
+## **2. Using Online JavaScript Playgrounds**
 
 Online JavaScript playgrounds provide a collaborative environment to write, test, and share JavaScript code without installing any software.
 
@@ -90,7 +67,7 @@ Online JavaScript playgrounds provide a collaborative environment to write, test
 
 ---
 
-## **4. console.log() and Output**
+## **3. console.log() and Output**
 
 The `console.log()` method is a developer's best friend for debugging and displaying information during development.
 
