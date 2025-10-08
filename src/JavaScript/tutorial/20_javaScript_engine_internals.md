@@ -1,4 +1,4 @@
-# Chapter 18: JavaScript Engine Internals
+# Chapter 20: JavaScript Engine Internals
 
 JavaScript is powered by engines that interpret and execute the code written by developers. Understanding the inner workings of these engines can help developers write more efficient code and debug complex issues. This chapter explores the architecture of modern JavaScript engines, the phases of code execution, and advanced optimizations performed by the engine to deliver high performance.
 
@@ -49,6 +49,13 @@ Once the AST is created, the engine converts it into bytecode, an intermediate r
 
 ---
 
+## 3.1 Interpreter and Optimizing Compiler (V8 Ignition + TurboFan)
+
+- Ignition: bytecode interpreter, fast startup, collects feedback.
+- TurboFan: optimizing compiler, uses feedback (types/shapes) to emit optimized machine code; can deopt.
+
+---
+
 ## 4. Inline Caching, Hidden Classes, Object Transitions
 
 Modern engines implement several techniques to optimize JavaScript execution:
@@ -67,6 +74,22 @@ Optimizes changes to object structure (e.g., adding or removing properties) by m
 
 ---
 
+## 4.1 Inline Cache States (Mono/Poly/Megamorphic)
+
+- Monomorphic: one shape; fastest.
+- Polymorphic: few shapes (small cache of targets) still fast.
+- Megamorphic: many shapes; falls back to slower generic path.
+
+```javascript
+function getName(u) { return u.name; }
+// Keep objects created with same field order/shape to stay mono/poly
+const a = { name: 'a', age: 1 };
+const b = { name: 'b', age: 2 };
+getName(a); getName(b); // likely polymorphic and still fast
+```
+
+---
+
 ## 5. JIT Compilation and V8 Optimizations
 
 The V8 engine incorporates state-of-the-art optimizations to improve JavaScript execution:
@@ -76,6 +99,31 @@ The V8 engine incorporates state-of-the-art optimizations to improve JavaScript 
 - **Garbage Collection**: Uses generational and incremental garbage collection techniques to efficiently manage memory.
 
 These strategies allow V8 to deliver both fast startup times and high execution speed for long-running scripts.
+
+---
+
+## 5.1 Deoptimization Triggers (Common Causes)
+
+- Changing object shapes after hot code compiled; accessing missing properties; adding `try/catch` or `with`; using `arguments` in ways that prevent optimization; non-inlinable functions.
+- Engines attach deopt reasons; in Node you can inspect with flags.
+
+```bash
+node --trace-opt --trace-deopt app.js
+```
+
+---
+
+## 5.2 Escape Analysis and Scalar Replacement
+
+- If an object does not escape a function, optimizing compilers can allocate it on the stack or eliminate it, keeping only its fields in registers.
+
+```javascript
+function sumPoint(x, y) {
+  // point object may be eliminated in optimized code
+  const p = { x, y };
+  return p.x + p.y;
+}
+```
 
 ---
 
@@ -90,6 +138,13 @@ The call stack keeps track of function calls. Each time a function is invoked, i
 ### Event Loop
 
 JavaScript uses an event-driven model to handle asynchronous operations. The event loop ensures that tasks from the **call stack**, **callback queue**, and **microtask queue** are executed in the correct order.
+
+---
+
+## 6.1 Microtasks vs Macrotasks (Scheduling Semantics)
+
+- Microtasks: promise jobs, `queueMicrotask`; run after current task before rendering.
+- Macrotasks: timers, I/O; run in the task queue; rendering may occur between tasks.
 
 ---
 
@@ -108,6 +163,13 @@ Garbage collection (GC) is the process of reclaiming memory occupied by objects 
 
 ---
 
+## 7.1 Heap Layout and Write Barriers (High Level)
+
+- Young (nursery) vs old space; promotion of survivors.
+- Card marking/write barriers track inter-generational pointers efficiently.
+
+---
+
 ## 8. Optimizations Performed by JavaScript Engines
 
 JavaScript engines perform numerous optimizations to improve execution speed:
@@ -121,6 +183,37 @@ Understanding these optimizations can help you write code that aligns with engin
 
 ---
 
+## 8.1 String and Array Optimizations
+
+- Small strings may be represented as ropes/cons strings; flatten on demand.
+- Arrays have elements kinds (e.g., packed double, packed smi, holey). Keeping arrays packed avoids slow paths.
+
+```javascript
+// Avoid creating holey arrays
+const arr = [1,2,3];
+arr[100] = 5; // creates holes; slower elements kind
+```
+
+---
+
+## 10. WebAssembly and Interop (Brief)
+
+- Engines embed a Wasm compiler with fast startup; JS <-> Wasm calls cross boundaries; use typed arrays/shared memory for data exchange.
+
+---
+
+## 11. Profiling Flags and Tools (V8/Node)
+
+- `--prof` generate CPU profile; `--prof-process` to process.
+- `--trace-gc` log GC events; `--trace-opt`/`--trace-deopt` for optimization diagnostics.
+- Chrome DevTools: Performance/Memory/JS profiler for both browser and Node (via `--inspect`).
+
+```bash
+node --inspect --trace-gc --prof app.js
+```
+
+---
+
 ## 9. Debugging and Profiling with Engine-Specific Tools
 
 Most engines provide developer tools for debugging and profiling:
@@ -130,6 +223,17 @@ Most engines provide developer tools for debugging and profiling:
 - **Node.js Inspector**: Debugging tools for server-side JavaScript applications.
 
 Use these tools to gain insights into how your code is executed and identify areas for improvement.
+
+---
+
+---
+
+## 12. Practical Tips to Align with Engines
+
+- Keep object shapes stable (create properties in the same order; avoid adding new ones later in hot paths).
+- Prefer `Map/Set` for dynamic keys; avoid megamorphic property access in tight loops.
+- Keep hot functions small and inline-friendly; avoid `arguments` and non-simple rest patterns in hot paths.
+- Keep arrays packed; avoid holes and mixed types.
 
 ---
 

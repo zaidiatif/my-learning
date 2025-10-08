@@ -290,6 +290,114 @@ console.log("End");
 
 ---
 
+## **10. Promise Combinators and Patterns**
+
+- `Promise.allSettled` waits for all outcomes; `Promise.any` fulfills on the first success.
+- Build timeouts and races for resilience.
+
+```javascript
+const results = await Promise.allSettled([fetch(a), fetch(b)]);
+const firstOk = await Promise.any([
+  fetch('/a'),
+  fetch('/b')
+]);
+
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, rej) => setTimeout(() => rej(new Error('Timeout')), ms))
+  ]);
+}
+```
+
+---
+
+## **11. Concurrency Control (Pooling/Semaphore)**
+
+Limit concurrent async work to avoid resource spikes.
+
+```javascript
+async function runPool(tasks, limit = 3) {
+  const results = [];
+  const executing = new Set();
+  for (const task of tasks) {
+    const p = Promise.resolve().then(task).then(r => { executing.delete(p); return r; });
+    results.push(p);
+    executing.add(p);
+    if (executing.size >= limit) await Promise.race(executing);
+  }
+  return Promise.all(results);
+}
+```
+
+---
+
+## **12. Cancellation and Timeouts with AbortController**
+
+Use `AbortController` to cancel fetches and propagate cancellation to your APIs.
+
+```javascript
+const ac = new AbortController();
+setTimeout(() => ac.abort(), 200);
+try {
+  await fetch('/slow', { signal: ac.signal });
+} catch (e) {
+  if (e.name === 'AbortError') console.log('Cancelled');
+}
+```
+
+---
+
+## **13. Async Generators and Streams**
+
+Produce values over time and consume with `for await...of`.
+
+```javascript
+async function* stream(ids) {
+  for (const id of ids) {
+    const res = await fetch(`/api/${id}`);
+    yield res.json();
+  }
+}
+// for await (const item of stream([1, 2, 3])) console.log(item);
+```
+
+---
+
+## **14. Microtasks: queueMicrotask vs setTimeout**
+
+Microtasks run before the next macrotask; useful for deferring but prioritizing work.
+
+```javascript
+console.log('A');
+setTimeout(() => console.log('timeout'), 0); // macrotask
+queueMicrotask(() => console.log('micro'));  // microtask
+console.log('B');
+// Order: A, B, micro, timeout
+```
+
+---
+
+## **15. Web Workers (Offloading CPU)**
+
+Run heavy computations off the main thread.
+
+```javascript
+// main.js
+const worker = new Worker('worker.js');
+worker.postMessage({ n: 1e7 });
+worker.onmessage = (e) => console.log('result', e.data);
+
+// worker.js
+self.onmessage = (e) => {
+  const { n } = e.data; let sum = 0;
+  for (let i = 0; i < n; i++) sum += i;
+  self.postMessage(sum);
+};
+```
+
+---
+
 ## **Conclusion**
 
 Asynchronous programming is essential for creating responsive and efficient JavaScript applications. By mastering callbacks, promises, `async/await`, and understanding the event loop, developers can handle asynchronous operations effectively and write cleaner, more maintainable code.

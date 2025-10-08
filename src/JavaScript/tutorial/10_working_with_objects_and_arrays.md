@@ -191,6 +191,128 @@ console.log(jsonData); // {"name":"Alice","age":25}
 
 ---
 
+## **7. Property Descriptors and Immutability**
+
+- Control property characteristics with `Object.defineProperty`.
+- Freeze or seal objects to prevent mutations.
+- Examples:
+  ```javascript
+  const user = {};
+  Object.defineProperty(user, 'id', { value: 1, writable: false, enumerable: true });
+  // user.id = 2; // TypeError in strict mode
+
+  const cfg = Object.freeze({ mode: 'prod' }); // no adds/removes/changes
+  const semi = Object.seal({ a: 1 }); // no adds/removes, can change existing
+  ```
+
+---
+
+## **8. Prototypes and Inheritance Basics**
+
+- Create objects with a specific prototype using `Object.create`.
+- Check own keys vs prototype keys with `Object.hasOwn`.
+- Examples:
+  ```javascript
+  const proto = { greet() { return `hi ${this.name}`; } };
+  const alice = Object.create(proto);
+  alice.name = 'Alice';
+  console.log(alice.greet()); // hi Alice
+  console.log(Object.hasOwn(alice, 'greet')); // false
+  ```
+
+---
+
+## **9. Copying and Merging (Shallow vs Deep)**
+
+- Shallow clone: spread or `Object.assign`.
+- Deep clone: `structuredClone` (where available) or libraries for complex cases.
+- Examples:
+  ```javascript
+  const a = { x: { y: 1 } };
+  const shallow = { ...a }; // shares nested refs
+  const deep = typeof structuredClone === 'function' ? structuredClone(a) : JSON.parse(JSON.stringify(a));
+  ```
+
+---
+
+## **10. Advanced Array Operations**
+
+- `slice` (non-mutating) vs `splice` (mutating).
+- `find`/`findIndex`, `includes`, `some`/`every`, `flat`/`flatMap`.
+- `sort` with a comparator; avoid default lexicographic pitfalls.
+- Examples:
+  ```javascript
+  const arr = [3, 1, 10];
+  console.log(arr.slice(0, 2)); // [3,1]
+  arr.splice(1, 1); // arr = [3,10]
+  console.log([1, [2, 3]].flat()); // [1,2,3]
+  console.log(arr.sort((a, b) => a - b)); // numeric sort
+  ```
+
+---
+
+## **11. Sets and Maps**
+
+- Use `Set` for uniqueness and `Map` for key-value with non-string keys.
+- Examples:
+  ```javascript
+  const unique = [...new Set([1, 2, 2, 3])]; // [1,2,3]
+  const counts = new Map();
+  for (const n of [1,1,2]) counts.set(n, (counts.get(n) || 0) + 1);
+  ```
+
+---
+
+## **12. Iterating Objects Safely**
+
+- Prefer `Object.keys/values/entries` over `for...in` for own keys.
+- Convert pairs back to objects with `Object.fromEntries`.
+- Examples:
+  ```javascript
+  const obj = { a: 1, b: 2 };
+  for (const [k, v] of Object.entries(obj)) console.log(k, v);
+  const mapped = Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, v * 2]));
+  ```
+
+---
+
+## **13. JSON Gotchas**
+
+- `JSON.stringify` drops functions, `undefined`, `Symbol`, and loses `Date` types.
+- Use replacer/reviver for custom handling.
+- Example:
+  ```javascript
+  const reviver = (k, v) => (k === 'createdAt' ? new Date(v) : v);
+  const user = { createdAt: new Date() };
+  const s = JSON.stringify(user);
+  const parsed = JSON.parse(s, reviver);
+  ```
+
+---
+
+## **14. Optional Chaining and Nullish Coalescing**
+
+- Safely access deep properties and set defaults only for `null`/`undefined`.
+- Examples:
+  ```javascript
+  const city = person?.address?.city ?? 'Unknown';
+  const [head, ...tail] = (fruits ?? []);
+  ```
+
+---
+
+## **15. Performance Notes**
+
+- Avoid sparse arrays; prefer contiguous indices.
+- Pre-allocate when size is known; minimize intermediate arrays in hot paths.
+- Consider Typed Arrays for numeric, fixed-size data.
+- Example:
+  ```javascript
+  const buf = new Uint8Array(1024); // fixed-size numeric storage
+  ```
+
+---
+
 ## **Conclusion**
 
 Understanding how to effectively use objects and arrays is crucial for working with JavaScript. These data structures provide the foundation for organizing and manipulating data in most JavaScript applications.

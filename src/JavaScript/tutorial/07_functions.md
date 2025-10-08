@@ -213,6 +213,86 @@ Higher-order functions take other functions as arguments or return them as resul
 
 ---
 
+## **7. Arrow Function Details**
+
+- Arrow functions do not have their own `this`, `arguments`, `super`, or `new.target` and cannot be used as constructors.
+- To return an object literal implicitly, wrap it in parentheses.
+- Examples:
+  ```javascript
+  const getObj = () => ({ id: 1 });
+  // const x = new (() => {})(); // TypeError: not constructible
+  ```
+
+## **8. Parameter Destructuring and Defaults**
+
+- Destructure parameters for clarity and provide defaults directly in the signature.
+- Example:
+  ```javascript
+  function createUser({ name, role = "user" }) {
+    return { name, role };
+  }
+  console.log(createUser({ name: "Alice" })); // { name: 'Alice', role: 'user' }
+  ```
+
+## **9. `arguments` vs Rest Parameters**
+
+- `arguments` is array-like and only available in non-arrow functions.
+- Rest parameters (`...args`) produce a real array and are preferred.
+- Example:
+  ```javascript
+  function oldWay() {
+    const args = Array.from(arguments);
+    return args.join(",");
+  }
+  const newWay = (...args) => args.join(",");
+  console.log(oldWay(1, 2, 3)); // "1,2,3"
+  console.log(newWay(1, 2, 3)); // "1,2,3"
+  ```
+
+## **10. Generators**
+
+- Generator functions (`function*`) can pause and resume execution using `yield`.
+- Useful for iterators, lazy evaluation, and controlling async flows (with libraries).
+- Example:
+  ```javascript
+  function* idGen() {
+    let i = 0;
+    while (true) yield i++;
+  }
+  const g = idGen();
+  console.log(g.next().value); // 0
+  console.log(g.next().value); // 1
+  ```
+
+## **11. Pitfalls and Best Practices**
+
+- Closures in loops: prefer `let` over `var` to capture per-iteration values.
+- Prefer early returns to reduce nesting and improve readability.
+- Example (closure in loops):
+  ```javascript
+  const fns = [];
+  for (var i = 0; i < 3; i++) {
+    fns.push(() => i);
+  }
+  console.log(fns[0]()); // 3 (single shared binding)
+
+  const fns2 = [];
+  for (let j = 0; j < 3; j++) {
+    fns2.push(() => j);
+  }
+  console.log(fns2[0]()); // 0
+  ```
+
+## **12. Useful Function Metadata**
+
+- `Function.name`: the function’s name; `Function.length`: number of declared parameters.
+- Example:
+  ```javascript
+  function sample(a, b, c) {}
+  console.log(sample.name);   // 'sample'
+  console.log(sample.length); // 3
+  ```
+
 ## **Conclusion**
 
 Functions are a cornerstone of JavaScript programming, enabling code reusability, modularity, and cleaner design. Understanding the various types of functions, scopes, closures, and higher-order functions is essential for writing efficient and effective JavaScript code.

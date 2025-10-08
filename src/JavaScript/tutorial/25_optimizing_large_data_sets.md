@@ -1,4 +1,4 @@
-# Chapter 22: Optimizing Large Data Sets
+# Chapter 25: Optimizing Large Data Sets
 
 Working with large data sets efficiently is a critical skill in modern software development. This chapter explores strategies and techniques to process, analyze, and manipulate large data sets without compromising performance. From leveraging efficient algorithms to utilizing advanced JavaScript features, this chapter provides practical guidance to handle large-scale data effectively.
 
@@ -131,6 +131,108 @@ Efficient memory usage prevents crashes and improves performance when handling l
 - Use **references** instead of duplicating data.
 - Remove unnecessary objects.
 - Use **garbage collection-friendly** patterns.
+
+---
+
+## 7. Streaming and Incremental Processing
+
+- Prefer streaming over loading entire datasets: Web Streams API, async iterables, Node streams.
+- Parse NDJSON/CSV incrementally; process records as they arrive.
+
+```javascript
+// Fetch streaming NDJSON
+const res = await fetch('/data.ndjson');
+const reader = res.body.getReader();
+const decoder = new TextDecoder();
+let buf = '';
+for (;;) {
+  const { value, done } = await reader.read();
+  if (done) break;
+  buf += decoder.decode(value, { stream: true });
+  let idx;
+  while ((idx = buf.indexOf('\n')) >= 0) {
+    const line = buf.slice(0, idx); buf = buf.slice(idx + 1);
+    if (line) handle(JSON.parse(line));
+  }
+}
+```
+
+---
+
+## 8. Transferables, Shared Memory, and Worker Pools
+
+- Use `postMessage` with transferables (`ArrayBuffer`) to avoid copying.
+- Share state with `SharedArrayBuffer` and coordinate with `Atomics`.
+- Maintain a pool of Web Workers to parallelize CPU-bound chunks.
+
+```javascript
+// Transferable
+worker.postMessage(buffer, [buffer]); // ownership moves to worker
+```
+
+---
+
+## 9. Efficient File Formats and Binary Handling
+
+- Prefer columnar or compact formats (Arrow/Parquet) for analytics workflows.
+- Use TypedArrays/DataView to parse binary records without allocations.
+
+```javascript
+const view = new DataView(arrayBuffer);
+const n = view.getUint32(0, true);
+```
+
+---
+
+## 10. Batching, Backpressure, and Rate Control
+
+- Batch writes/DOM updates/network calls; apply backpressure to producers.
+- In Node, respect stream backpressure by checking `writable.write()` return and `drain`.
+
+```javascript
+// Node writable backpressure
+let ok = stream.write(chunk);
+if (!ok) await once(stream, 'drain');
+```
+
+---
+
+## 11. Virtualization and Windowed Aggregations
+
+- Use windowed computations (tumbling/sliding windows) to compute stats over streams.
+
+```javascript
+function* windows(arr, size, step = size) {
+  for (let i = 0; i + size <= arr.length; i += step) yield arr.slice(i, i + size);
+}
+```
+
+---
+
+## 12. Indexing and Search at Scale
+
+- Build indexes (maps from key→offset) to avoid full scans.
+- For fuzzy membership tests, use probabilistic structures (Bloom filters) to reduce IO.
+
+---
+
+## 13. Caching Strategies (LRU) and Deduplication
+
+- Use size-bounded caches (LRU/LFU) to reuse expensive results; deduplicate identical requests.
+
+```javascript
+class LRU {
+  constructor(limit = 1000) { this.limit = limit; this.map = new Map(); }
+  get(k) { if (!this.map.has(k)) return; const v = this.map.get(k); this.map.delete(k); this.map.set(k, v); return v; }
+  set(k, v) { if (this.map.has(k)) this.map.delete(k); this.map.set(k, v); if (this.map.size > this.limit) this.map.delete(this.map.keys().next().value); }
+}
+```
+
+---
+
+## 14. GPU Acceleration (Brief)
+
+- Offload numeric heavy workloads with WebGL/WebGPU or WASM+SIMD when applicable.
 
 ---
 

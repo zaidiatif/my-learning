@@ -1,4 +1,4 @@
-# Chapter 20: Modern JavaScript Features
+# Chapter 22: Modern JavaScript Features
 
 Modern JavaScript (ECMAScript) introduces a wide range of features that simplify development, enhance performance, and improve code readability. Staying up-to-date with these features is essential for writing efficient and maintainable code. This chapter explores the most important additions to JavaScript in recent versions.
 
@@ -114,6 +114,17 @@ for (const num of generateNumbers()) {
 
 ---
 
+## 5.1 Top-level await (ESM)
+
+- In ES modules, `await` is allowed at the top level.
+```javascript
+// module.mjs
+const data = await fetch('/data.json').then(r => r.json());
+export { data };
+```
+
+---
+
 ## 6. New Data Structures: Maps, Sets, WeakMaps, WeakSets
 
 ### Maps and Sets:
@@ -128,6 +139,21 @@ const set = new Set([1, 2, 3]);
 ### WeakMaps and WeakSets:
 
 Store objects with weak references, allowing garbage collection.
+
+---
+
+## 7. Class Fields, Private Members, and Static Blocks
+
+- Public fields, `#private` fields/methods, and `static {}` initialization.
+```javascript
+class Counter {
+  #count = 0;
+  static registry = new Map();
+  static { Counter.registry.set('default', new Counter()); }
+  inc() { this.#count++; }
+  get value() { return this.#count; }
+}
+```
 
 ---
 
@@ -156,6 +182,17 @@ function sum(...nums) {
 }
 ```
 
+## 8. Logical Assignment Operators and Nullish Coalescing
+
+- `&&=` assign if truthy, `||=` assign if falsy, `??=` assign if nullish.
+```javascript
+obj.enabled ||= true;       // set if falsy
+opts.timeout ??= 500;       // set only if null/undefined
+state.ready &&= checkReady();
+```
+
+---
+
 ## 9. Iterators, Iterables, and the `for...of` Loop
 
 Iterators allow custom iteration logic, and the `for...of` loop simplifies working with iterable objects like arrays and strings.
@@ -169,7 +206,7 @@ for (const num of arr) {
 
 ---
 
-## 1. Optional Chaining (?.) and Nullish Coalescing (??)
+## 10. Optional Chaining (?.) and Nullish Coalescing (??)
 
 ### Optional Chaining:
 
@@ -191,7 +228,7 @@ console.log(value ?? "Default"); // Default
 
 ---
 
-## 2. Promises: Promise.all(), Promise.race(), Promise.allSettled()
+## 11. Promises: Promise.all(), Promise.race(), Promise.allSettled(), Promise.any()
 
 ### Promise.all():
 
@@ -223,9 +260,28 @@ Promise.allSettled([fetch("/api1"), fetch("/api2")]).then((results) =>
 );
 ```
 
+### Promise.any():
+
+Resolves with the first fulfillment; rejects with `AggregateError` if all reject.
+```javascript
+Promise.any([fetch('/fast'), fetch('/slow')])
+  .then(console.log)
+  .catch((e) => console.error(e instanceof AggregateError));
+```
+
 ---
 
-## 3. Understanding Concurrency in JavaScript and Node.js
+## 12. Error Cause
+
+- Attach a cause to errors for better debugging.
+```javascript
+try { doThing(); }
+catch (e) { throw new Error('Failed to doThing', { cause: e }); }
+```
+
+---
+
+## 13. Understanding Concurrency in JavaScript and Node.js
 
 JavaScript employs an event-driven concurrency model, with the **event loop** and **task queues** ensuring non-blocking execution.
 
@@ -238,7 +294,7 @@ In Node.js, the event loop integrates with I/O operations to handle concurrency 
 
 ---
 
-## 4. BigInt and Meta-programming with Proxy/Reflect
+## 14. BigInt and Meta-programming with Proxy/Reflect
 
 ### BigInt:
 
@@ -249,7 +305,7 @@ const largeNumber = 12345678901234567890n;
 console.log(largeNumber * 2n);
 ```
 
-## 10. Proxies and Reflect API
+## 15. Proxies and Reflect API
 
 ### Proxies:
 
@@ -273,7 +329,40 @@ Reflect.set(obj, "prop", value);
 
 ---
 
-## 5. Internationalization (Intl)
+## 16. Useful Additions and APIs
+
+### Numeric Separators:
+```javascript
+const million = 1_000_000;
+```
+
+### `globalThis`:
+```javascript
+console.log(globalThis === window || globalThis === global); // true in respective envs
+```
+
+### Array and Object Helpers:
+```javascript
+arr.at(-1);                 // last element
+arr.flatMap(x => [x, x]);   // flat + map
+Object.fromEntries([['a',1]]);
+Object.hasOwn(obj, 'prop');
+```
+
+### String Helpers:
+```javascript
+'a-b-c'.replaceAll('-', '_');
+for (const m of 'a1b2'.matchAll(/(\w)(\d)/g)) console.log(m[0]);
+```
+
+### Import Assertions and JSON Modules (ESM):
+```javascript
+import data from './data.json' assert { type: 'json' };
+```
+
+---
+
+## 17. Internationalization (Intl)
 
 The `Intl` object provides tools for formatting dates, numbers, and strings according to locale-specific conventions.
 
@@ -296,6 +385,14 @@ const numberFormatter = new Intl.NumberFormat("de-DE", {
   currency: "EUR",
 });
 console.log(numberFormatter.format(number)); // 1.234.567,89 €
+```
+
+### RelativeTimeFormat, ListFormat, Segmenter:
+```javascript
+new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(-1, 'day'); // yesterday
+new Intl.ListFormat('en', { style: 'short', type: 'conjunction' }).format(['a','b','c']);
+const seg = new Intl.Segmenter('en', { granularity: 'word' });
+for (const s of seg.segment('Hello world')) console.log(s.segment);
 ```
 
 ---

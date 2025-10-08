@@ -1,4 +1,4 @@
-# Chapter 19: Event Loop and Concurrency
+# Chapter 21: Event Loop and Concurrency
 
 JavaScript's event loop is the cornerstone of its concurrency model. By managing asynchronous operations and ensuring non-blocking behavior, the event loop enables JavaScript to handle multiple tasks efficiently. This chapter delves into the mechanics of the event loop, its role in concurrency, and strategies for managing asynchronous code.
 
@@ -35,6 +35,21 @@ Contains tasks (e.g., `setTimeout` callbacks) that are scheduled to run after th
 ### Microtask Queue
 
 A higher-priority queue for tasks like Promise resolutions and `MutationObserver` callbacks. Microtasks are processed before moving to the task queue.
+
+---
+
+## 2.2. Browser vs Node.js Event Loop (High Level)
+
+- Browser: tasks (macrotasks) → microtasks checkpoint → rendering → next task.
+- Node.js (libuv): phases (timers, pending callbacks, idle/prepare, poll, check, close) with microtask checkpoints between phases; `process.nextTick` runs before other microtasks.
+
+```javascript
+// Node ordering (typical): nextTick > Promise microtask > setImmediate (check) > setTimeout(0) (timers)
+setTimeout(() => console.log('timeout'), 0);
+setImmediate(() => console.log('immediate'));
+Promise.resolve().then(() => console.log('promise')); 
+process.nextTick?.(() => console.log('nextTick'));
+```
 
 ---
 
@@ -83,6 +98,21 @@ Promises represent a value that may be available now, or in the future, or never
 ### Async/Await
 
 Built on Promises, `async` and `await` provide a syntax resembling synchronous code for better readability and maintainability.
+
+---
+
+## 4.1 Microtask Utilities: queueMicrotask, MessageChannel, postMessage
+
+- `queueMicrotask`: schedule after current turn, before next macrotask.
+- `MessageChannel`/`postMessage`: create a macrotask without minimum timer clamping.
+
+```javascript
+queueMicrotask(() => console.log('microtask'));
+
+const ch = new MessageChannel();
+ch.port1.onmessage = () => console.log('macrotask via MessageChannel');
+ch.port2.postMessage(null);
+```
 
 ---
 
@@ -141,6 +171,31 @@ console.log(Atomics.load(sharedArray, 0)); // 42
 
 ---
 
+## 8.1 Atomics.wait/notify (Coordinating Workers)
+
+```javascript
+// Main
+const buf = new SharedArrayBuffer(4);
+const ia = new Int32Array(buf);
+const w = new Worker('w.js');
+w.postMessage(buf);
+// signal work ready
+Atomics.store(ia, 0, 1);
+Atomics.notify(ia, 0, 1);
+
+// w.js
+onmessage = ({ data: buf }) => {
+  const ia = new Int32Array(buf);
+  // wait until value != 0
+  while (Atomics.wait(ia, 0, 0) === 'ok') {
+    // process...
+    Atomics.store(ia, 0, 0);
+  }
+};
+```
+
+---
+
 ## 9. Debugging Event Loop Issues
 
 ### Tools:
@@ -152,6 +207,53 @@ console.log(Atomics.load(sharedArray, 0)); // 42
 
 - Log execution order to understand task scheduling.
 - Use `Performance` APIs to measure delays and response times.
+
+---
+
+## 10. Rendering Ticks and Scheduling Work
+
+- Use `requestAnimationFrame` for visual updates; `requestIdleCallback` for idle tasks.
+- Break long tasks; yield via `setTimeout(0)` or `MessageChannel`.
+
+```javascript
+function chunk(items, fn) {
+  let i = 0;
+  function step() {
+    const start = performance.now();
+    while (i < items.length && performance.now() - start < 8) fn(items[i++]);
+    if (i < items.length) setTimeout(step, 0);
+  }
+  step();
+}
+```
+
+---
+
+## 11. Detecting Long Tasks
+
+```javascript
+new PerformanceObserver((list) => {
+  for (const e of list.getEntries()) console.warn('Long task', e.duration);
+}).observe({ type: 'longtask', buffered: true });
+```
+
+---
+
+## 12. Priority and Cooperative Scheduling (Patterns)
+
+- Prioritize user input and rendering; defer low-priority work.
+- Simple cooperative scheduler:
+```javascript
+const tasks = { high: [], normal: [], low: [] };
+function schedule(priority, fn) { tasks[priority].push(fn); }
+function run() {
+  const q = tasks.high.length ? tasks.high : tasks.normal.length ? tasks.normal : tasks.low;
+  if (!q.length) return;
+  (q.shift())();
+  queueMicrotask(run);
+}
+run();
+```
 
 ---
 

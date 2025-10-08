@@ -292,6 +292,113 @@ console.log(gen.next().value); // Output: 2
 
 ---
 
+## **11. Proxies and Reflect**
+
+Proxies let you intercept operations on objects; `Reflect` provides the default semantics for these operations.
+
+```javascript
+const target = { a: 1 };
+const proxy = new Proxy(target, {
+  get(obj, key, receiver) {
+    console.log('get', key);
+    return Reflect.get(obj, key, receiver);
+  },
+  set(obj, key, value, receiver) {
+    console.log('set', key, value);
+    return Reflect.set(obj, key, value, receiver);
+  }
+});
+proxy.a;      // logs: get a
+proxy.b = 42; // logs: set b 42
+```
+
+---
+
+## **12. Class Fields, Private Members, and Static Blocks**
+
+Class fields simplify initialization; `#private` members enforce encapsulation; static blocks perform one-time class setup.
+
+```javascript
+class Counter {
+  #count = 0;           // private field
+  static registry = new Map();
+  static {               // static initialization
+    Counter.registry.set('default', new Counter());
+  }
+  increment() { this.#count++; }
+  get value() { return this.#count; }
+}
+```
+
+---
+
+## **13. Modules Deep Dive (ESM vs CJS, Top-level await)**
+
+- ESM (import/export) is static and supports tree-shaking; CJS (require/module.exports) is dynamic.
+- Interop: `default` vs `module.exports` require care; prefer staying within one system per package.
+- Top-level `await` is allowed in ESM.
+
+```javascript
+// ESM
+import data from './data.json' assert { type: 'json' };
+export const value = (await import('./mod.js')).value;
+
+// CJS
+const fs = require('fs');
+module.exports = { read: fs.readFileSync };
+```
+
+---
+
+## **14. Event Loop: Microtasks vs Macrotasks**
+
+Microtasks (Promises, queueMicrotask) run before the next macrotask (setTimeout, setInterval, I/O).
+
+```javascript
+console.log('A');
+setTimeout(() => console.log('timeout'), 0);     // macrotask
+Promise.resolve().then(() => console.log('then')); // microtask
+queueMicrotask(() => console.log('micro'));
+console.log('B');
+// Order: A, B, then, micro, timeout (microtask order may vary among microtasks)
+```
+
+---
+
+## **15. WeakRef and FinalizationRegistry**
+
+Manage references without preventing garbage collection; use sparingly.
+
+```javascript
+let obj = { big: 'data' };
+const wr = new WeakRef(obj);
+const reg = new FinalizationRegistry((heldValue) => {
+  console.log('finalized', heldValue);
+});
+reg.register(obj, 'myObj');
+obj = null; // eventually GC may collect and trigger registry callback
+
+const maybe = wr.deref();
+if (maybe) console.log('still alive');
+```
+
+---
+
+## **16. Well-known Symbols**
+
+Customize language behavior with symbols like `Symbol.iterator`, `Symbol.toStringTag`, and `Symbol.species`.
+
+```javascript
+const coll = {
+  items: [1, 2, 3],
+  [Symbol.iterator]() { return this.items[Symbol.iterator](); },
+  get [Symbol.toStringTag]() { return 'Collection'; }
+};
+console.log(Object.prototype.toString.call(coll)); // [object Collection]
+```
+
+---
+
 ## **Conclusion**
 
 Understanding these advanced JavaScript concepts is crucial for developing complex applications and mastering the language. By incorporating these techniques, developers can write more efficient and maintainable code.

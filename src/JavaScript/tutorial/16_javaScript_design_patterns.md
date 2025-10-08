@@ -391,6 +391,129 @@ light.pressButton(); // Turning off the light...
 
 Many patterns can work together to create robust applications. For instance, the module pattern can encapsulate a singleton object, or the observer pattern can be combined with factories to manage event-driven systems dynamically.
 
+---
+
+## **5. Additional Patterns (Concise Guide + Examples)**
+
+### **5.1 Adapter (Structural)**
+Converts one interface to another expected by clients.
+```javascript
+class OldApi { getUser(id) { return { id, name: 'Alice' }; } }
+class NewApi { fetchUser(id) { return Promise.resolve({ id, fullName: 'Alice' }); } }
+class Adapter {
+  constructor(newApi) { this.newApi = newApi; }
+  async getUser(id) { const u = await this.newApi.fetchUser(id); return { id: u.id, name: u.fullName }; }
+}
+```
+
+### **5.2 Facade (Structural)**
+Simplifies a complex subsystem with a unified API.
+```javascript
+function buildReport({ fetchData, transform, render }) {
+  return async function run() { const raw = await fetchData(); const view = transform(raw); return render(view); };
+}
+```
+
+### **5.3 Bridge (Structural)**
+Decouple abstraction from implementation to vary independently.
+```javascript
+class Shape { constructor(renderer) { this.renderer = renderer; } draw() { this.renderer.draw(this); } }
+class Circle extends Shape { constructor(renderer, r) { super(renderer); this.r = r; } }
+class CanvasRenderer { draw(shape) { /* draw on <canvas> */ } }
+class SvgRenderer { draw(shape) { /* draw as <svg> */ } }
+```
+
+### **5.4 Flyweight (Structural)**
+Share intrinsic state to reduce memory.
+```javascript
+class IconFactory {
+  constructor() { this.cache = new Map(); }
+  get(name) { if (!this.cache.has(name)) this.cache.set(name, loadIcon(name)); return this.cache.get(name); }
+}
+```
+
+### **5.5 Builder (Creational)**
+Step-by-step construction for complex objects.
+```javascript
+class Query { constructor({ select = [], where = [] } = {}) { Object.assign(this, { select, where }); } }
+class QueryBuilder {
+  constructor() { this.state = { select: [], where: [] }; }
+  select(...fields) { this.state.select.push(...fields); return this; }
+  where(clause) { this.state.where.push(clause); return this; }
+  build() { return new Query(this.state); }
+}
+```
+
+### **5.6 Prototype (Creational)**
+Clone existing objects to create new ones.
+```javascript
+const proto = { greet() { return `hi ${this.name}`; } };
+const user = Object.assign(Object.create(proto), { name: 'Alice' });
+```
+
+### **5.7 Mediator (Behavioral)**
+Centralize complex communications between objects.
+```javascript
+class Mediator { constructor() { this.handlers = {}; }
+  on(evt, fn) { (this.handlers[evt] ||= []).push(fn); }
+  emit(evt, payload) { (this.handlers[evt] || []).forEach(fn => fn(payload)); }
+}
+```
+
+### **5.8 Memento (Behavioral)**
+Capture and restore object state (undo).
+```javascript
+class Caretaker { constructor() { this.stack = []; }
+  save(state) { this.stack.push(JSON.stringify(state)); }
+  restore() { return JSON.parse(this.stack.pop()); }
+}
+```
+
+### **5.9 Visitor (Behavioral)**
+Separate operations from object structure.
+```javascript
+function visit(node, visitor) {
+  if (Array.isArray(node.children)) node.children.forEach(c => visit(c, visitor));
+  visitor(node);
+}
+```
+
+### **5.10 Chain of Responsibility (Behavioral)**
+Pass a request along a chain until handled.
+```javascript
+const withAuth = next => ctx => ctx.user ? next(ctx) : { status: 401 };
+const withLogging = next => ctx => (console.log('req'), next(ctx));
+const handler = ctx => ({ status: 200 });
+const pipeline = withAuth(withLogging(handler));
+```
+
+### **5.11 Template Method (Behavioral)**
+Define a skeleton algorithm, letting subclasses override steps.
+```javascript
+class Task { run() { this.before(); this.execute(); this.after(); }
+  before() {} execute() { throw new Error('implement'); } after() {} }
+```
+
+---
+
+## **6. Choosing Patterns and Avoiding Overengineering**
+
+- Prefer simple functions and modules first; introduce patterns when duplication or complexity appears.
+- Composition over inheritance: build pipelines/middlewares instead of deep hierarchies.
+- Make dependencies explicit (constructor injection); avoid hidden singletons.
+- For async workflows, consider Strategy + Chain or Command + Queue.
+- Testability: small pure functions and DI ease unit testing.
+
+---
+
+## **7. TypeScript and Documentation Tips**
+
+- Use interfaces for strategies and commands; narrow types on boundaries.
+- Prefer readonly fields for immutable configuration; expose minimal public surface.
+- Document invariants and extension points; provide small, runnable examples.
+
+---
+
 ## **Conclusion**
 
 Understanding design patterns in JavaScript equips developers to tackle complex problems with efficient, reusable solutions. By mastering these patterns, you can write scalable and maintainable code, ensuring a better development experience.

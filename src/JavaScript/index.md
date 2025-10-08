@@ -6,7 +6,7 @@
 
 - What is JavaScript?
 - History and Evolution
-- Difference between JavaScript, Java, and other programming languages.
+- Difference between JavaScript, Java, and other programming languages.    
 - Ecosystem Overview
 - Use Cases (Web, server, mobile, game, ML)
 

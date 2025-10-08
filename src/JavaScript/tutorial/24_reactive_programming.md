@@ -1,4 +1,4 @@
-# Chapter 21: Reactive Programming
+# Chapter 24: Reactive Programming
 
 Reactive programming is a programming paradigm focused on asynchronous data streams and the propagation of change. It is particularly useful for managing complex, event-driven systems such as user interfaces, data synchronization, and real-time applications. This chapter explores the principles of reactive programming, key libraries, and how to implement reactive patterns in JavaScript.
 
@@ -158,6 +158,131 @@ throwError("Error!")
   .pipe(catchError((err) => of("Recovered!")))
   .subscribe(console.log); // Recovered!
 ```
+
+---
+
+## 9. Cold vs Hot Observables, Multicasting, and Subjects
+
+- Cold: producer starts per-subscription (e.g., `ajax`, `of`). Hot: shared producer emits regardless of subscribers (e.g., DOM events, WebSocket).
+- Multicasting shares one source among many observers.
+- Subjects bridge push sources to Observables.
+
+```javascript
+import { Subject } from 'rxjs';
+const subject = new Subject();
+subject.subscribe(v => console.log('A', v));
+subject.next(1);
+subject.subscribe(v => console.log('B', v));
+subject.next(2); // A 2, B 2
+```
+
+Common Subject variants:
+- `BehaviorSubject(initial)`: caches last value; new subscribers get it immediately.
+- `ReplaySubject(n)`: replays last n values to new subscribers.
+- `AsyncSubject`: emits last value upon completion.
+
+---
+
+## 10. Sharing Strategies: share, shareReplay, refCount
+
+- `share()`: multicast and refCount; resubscribe causes resubscription to source.
+- `shareReplay({ bufferSize, refCount })`: cache last N values; careful with memory.
+
+```javascript
+import { interval, take, shareReplay } from 'rxjs';
+const shared = interval(1000).pipe(take(3), shareReplay({ bufferSize: 1, refCount: true }));
+shared.subscribe(v => console.log('a', v));
+setTimeout(() => shared.subscribe(v => console.log('b', v)), 1500);
+```
+
+---
+
+## 11. Concurrency and Flattening: mergeMap vs switchMap vs concatMap vs exhaustMap
+
+- `mergeMap`: concurrent inner subscriptions.
+- `switchMap`: cancel previous when new arrives.
+- `concatMap`: queue and run sequentially.
+- `exhaustMap`: ignore new until current completes.
+
+```javascript
+fromEvent(btn, 'click').pipe(
+  switchMap(() => ajax('/api/data'))
+).subscribe();
+```
+
+---
+
+## 12. Backpressure, Throttling, and Windowing
+
+- Use `throttleTime`, `auditTime`, `sampleTime`, or `bufferTime`/`windowTime` to control rate.
+
+```javascript
+fromEvent(window, 'scroll').pipe(throttleTime(200)).subscribe(handleScroll);
+```
+
+---
+
+## 13. Schedulers and Execution Context
+
+- Control when/where work runs: `asyncScheduler` (macrotask), `queueScheduler` (sync), `animationFrameScheduler`.
+
+```javascript
+of(1,2,3, asyncScheduler).subscribe(console.log); // async delivery
+``;
+
+---
+
+## 14. Resource Management: Unsubscribing, takeUntil, finalize
+
+- Prevent leaks: unsubscribe on teardown; use `takeUntil`, `takeWhile`, or `first`.
+
+```javascript
+const destroy$ = new Subject();
+fromEvent(window, 'resize').pipe(takeUntil(destroy$)).subscribe();
+// later
+destroy$.next(); destroy$.complete();
+```
+
+---
+
+## 15. Error Strategies: retry, retryWhen, onErrorResumeNext
+
+```javascript
+ajax('/api').pipe(
+  retry(2),
+  catchError(() => of({ fallback: true }))
+).subscribe();
+```
+
+---
+
+## 16. WebSocket and Event Interop
+
+- `webSocket` from RxJS; `fromEvent`/`fromEventPattern` for DOM/Node events.
+
+```javascript
+import { webSocket } from 'rxjs/webSocket';
+const socket$ = webSocket('wss://example');
+socket$.subscribe(msg => console.log(msg));
+```
+
+---
+
+## 17. Interop with Async Iterables
+
+- Convert async iterables to Observables and vice versa.
+
+```javascript
+import { from } from 'rxjs';
+async function* gen(){ yield 1; yield 2; }
+from(gen()).subscribe(console.log);
+```
+
+---
+
+## 18. Testing Streams (Marble Testing)
+
+- Marble diagrams express time-based behavior; use `TestScheduler` to assert streams deterministically.
 
 ---
 

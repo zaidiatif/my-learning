@@ -1,4 +1,4 @@
-# Chapter 24: WebAssembly
+# Chapter 29: WebAssembly
 
 WebAssembly (Wasm) is a binary instruction format that allows high-performance execution of code on web browsers. It enables developers to run languages like C, C++, and Rust on the web, opening up possibilities for computationally intensive tasks in a web environment.
 
@@ -41,6 +41,21 @@ model. Key components include:
 
 ---
 
+## 3.1 Modules, Imports/Exports, Memory, and Tables
+
+- Modules export functions, memories, tables (function refs), and globals; JS provides imports.
+```javascript
+const imports = {
+  env: {
+    jsLog: (x) => console.log('wasm says', x)
+  }
+};
+const { instance, module } = await WebAssembly.instantiateStreaming(fetch('mod.wasm'), imports);
+instance.exports.main?.();
+```
+
+---
+
 ## 4. Writing WebAssembly Modules
 
 To create WebAssembly, you typically write code in a language like C or Rust and compile it to Wasm using tools like Emscripten or Rust's wasm-bindgen.
@@ -63,7 +78,7 @@ emcc add.c -s WASM=1 -o add.wasm
 
 ---
 
-## 2. Interfacing JavaScript with WebAssembly for High-Performance Applications
+## 5. Interfacing JavaScript with WebAssembly for High-Performance Applications
 
 JavaScript serves as the bridge to load and interact with WebAssembly modules. By offloading computationally expensive tasks to Wasm, developers can achieve significant performance gains.
 
@@ -83,7 +98,31 @@ Use cases include:
 
 ---
 
-## 6. Real-World Use Cases
+## 6. Passing Data: Numbers, Arrays, and Strings
+
+- Wasm uses a linear memory (ArrayBuffer). Pass arrays/strings by writing into memory and passing pointers/lengths.
+```javascript
+// JS writes bytes into wasm memory
+const mem = instance.exports.memory; // WebAssembly.Memory
+const view = new Uint8Array(mem.buffer);
+const encoder = new TextEncoder();
+const str = 'hello';
+const bytes = encoder.encode(str);
+const ptr = instance.exports.malloc(bytes.length);
+view.set(bytes, ptr);
+instance.exports.process(ptr, bytes.length);
+instance.exports.free(ptr);
+```
+
+- i64 values map to JS BigInt: import/export signatures use BigInt.
+```javascript
+// Exported i64 function must be called with BigInt
+instance.exports.add64(1n, 2n);
+```
+
+---
+
+## 7. Real-World Use Cases
 
 - **Gaming**: Porting high-performance games to the web.
 - **Image and Video Processing**: Running computationally expensive algorithms.
@@ -92,7 +131,7 @@ Use cases include:
 
 ---
 
-## 3. Performance Optimization with WebAssembly
+## 8. Performance Optimization with WebAssembly
 
 WebAssembly is inherently optimized for speed, but further optimizations can enhance its performance:
 
@@ -103,6 +142,16 @@ WebAssembly is inherently optimized for speed, but further optimizations can enh
 - Optimize the source code before compilation (e.g., use `-O3` for GCC or Clang).
 - Leverage browser caching for Wasm modules.
 
+### Streaming Compilation and Caching
+- Prefer `instantiateStreaming(fetch(url))` (with correct MIME `application/wasm`) for parse+compile during download.
+- Fallback when server lacks MIME:
+```javascript
+const res = await fetch('mod.wasm');
+const bytes = await res.arrayBuffer();
+const mod = await WebAssembly.compile(bytes); // cache this Module
+const inst = await WebAssembly.instantiate(mod, imports);
+```
+
 ### Debugging
 
 - Use browser developer tools to inspect and debug Wasm modules.
@@ -112,7 +161,7 @@ Debugging tools like Chrome DevTools allow you to monitor Wasm performance metri
 
 ---
 
-## 4. Compiling Other Languages to WebAssembly (C, C++, Rust) and Using it Within JavaScript
+## 9. Compiling Other Languages to WebAssembly (C, C++, Rust) and Using it Within JavaScript
 
 To create WebAssembly, you typically write code in a language like C, C++, or Rust and compile it to Wasm using tools like Emscripten or Rust's wasm-bindgen.
 
@@ -148,6 +197,23 @@ cargo build --target wasm32-unknown-unknown --release
 ```
 
 Integrate the compiled Wasm module into a JavaScript application to utilize its functionality efficiently.
+
+---
+
+## 10. Advanced: Threads, SIMD, Exceptions, and WASI (Brief)
+
+- Threads: `--shared-memory` + `SharedArrayBuffer` enable wasm threads (cross-origin isolation required). Use atomics for synchronization.
+- SIMD: 128-bit vector ops for data-parallel speedups (enable by default in modern engines).
+- Exceptions: Exception Handling proposal adds try/catch to wasm; toolchains can target it progressively.
+- WASI: System interface for non-web hosts (Node/Deno/servers) to access files, clocks, etc.
+
+---
+
+## 11. Security and Limitations
+
+- No direct DOM access; interact through JS. Memory is sandboxed and bounds-checked.
+- Watch for copy overhead JS↔Wasm; batch and use shared memory where possible.
+- Ensure correct MIME type; enable COOP/COEP (cross-origin isolation) for threads and high-res timers.
 
 ---
 

@@ -1,4 +1,4 @@
-# Chapter 23: Web APIs
+# Chapter 26: Web APIs
 
 Web APIs are essential tools that allow developers to interact with the browser and extend application functionality. This chapter explores a variety of Web APIs, their usage, and best practices for integration in modern web applications.
 
@@ -58,6 +58,30 @@ axios
 
 ---
 
+## 1.1 Fetch: AbortController, Timeouts, and Streaming
+
+- Cancel requests and set timeouts with `AbortController`; stream responses via the Streams API.
+
+```javascript
+const ac = new AbortController();
+const t = setTimeout(() => ac.abort(), 5000);
+const res = await fetch('/data', { signal: ac.signal });
+clearTimeout(t);
+
+// Streaming NDJSON
+const reader = res.body.getReader();
+const decoder = new TextDecoder();
+let buf = '';
+for (;;) {
+  const { value, done } = await reader.read();
+  if (done) break;
+  buf += decoder.decode(value, { stream: true });
+  let i; while ((i = buf.indexOf('\n')) >= 0) { handle(buf.slice(0, i)); buf = buf.slice(i + 1); }
+}
+```
+
+---
+
 ## 2. WebSockets, Server-Sent Events, and WebRTC
 
 ### WebSockets
@@ -101,6 +125,17 @@ peerConnection
 
 ---
 
+## 2.1 BroadcastChannel and PostMessage
+
+- Communicate across tabs/windows/origin with `BroadcastChannel`; use `postMessage` for same-window cross-context.
+```javascript
+const bc = new BroadcastChannel('updates');
+bc.onmessage = (e) => console.log(e.data);
+bc.postMessage({ type: 'ping' });
+```
+
+---
+
 ## 3. Working with Web Storage (IndexedDB, localStorage, sessionStorage, Cookies)
 
 ### localStorage and sessionStorage
@@ -130,6 +165,25 @@ request.onupgradeneeded = (event) => {
   const db = event.target.result;
   db.createObjectStore("store", { keyPath: "id" });
 };
+```
+
+---
+
+## 3.1 Cache API and Service Workers (Brief)
+
+- Cache requests for offline/fast repeat loads; integrate with a Service Worker fetch handler.
+```javascript
+// In SW
+self.addEventListener('fetch', (event) => {
+  event.respondWith((async () => {
+    const cache = await caches.open('v1');
+    const cached = await cache.match(event.request);
+    if (cached) return cached;
+    const res = await fetch(event.request);
+    cache.put(event.request, res.clone());
+    return res;
+  })());
+});
 ```
 
 ---
@@ -206,6 +260,84 @@ fileInput.addEventListener("change", (event) => {
   reader.onload = (e) => console.log(e.target.result);
   reader.readAsText(file);
 });
+```
+
+---
+
+## 9. Clipboard and Web Share API
+
+- Read/write clipboard (requires permissions); invoke native share sheets on supported devices.
+```javascript
+await navigator.clipboard.writeText('hello');
+const text = await navigator.clipboard.readText();
+if (navigator.share) await navigator.share({ title: 'My App', url: location.href });
+```
+
+---
+
+## 10. Permissions API
+
+- Query and react to permission state changes.
+```javascript
+const status = await navigator.permissions.query({ name: 'geolocation' });
+console.log(status.state);
+status.onchange = () => console.log('perm changed', status.state);
+```
+
+---
+
+## 11. Web Crypto API
+
+- Secure random, hashing, and key-based crypto.
+```javascript
+const bytes = crypto.getRandomValues(new Uint8Array(16));
+const data = new TextEncoder().encode('hello');
+const hash = await crypto.subtle.digest('SHA-256', data);
+```
+
+---
+
+## 12. URL, URLSearchParams, and History API
+
+```javascript
+const url = new URL('https://example.com/page?x=1');
+url.searchParams.set('q', 'test');
+history.pushState({ q: 'test' }, '', url);
+window.addEventListener('popstate', (e) => console.log('state', e.state));
+```
+
+---
+
+## 13. Performance, Navigation Timing, and Long Tasks
+
+```javascript
+new PerformanceObserver((list) => {
+  for (const e of list.getEntries()) console.log(e.entryType, e.name, e.duration);
+}).observe({ type: 'longtask', buffered: true });
+console.log(performance.getEntriesByType('navigation')[0]);
+```
+
+---
+
+## 14. Web Locks API
+
+- Coordinate resource access across tabs/workers.
+```javascript
+await navigator.locks.request('my-resource', async (lock) => {
+  // exclusive section
+});
+```
+
+---
+
+## 15. Device and Sensor APIs (Brief)
+
+- Battery, Network Information, Device Memory, Sensor APIs (availability varies).
+```javascript
+if (navigator.getBattery) {
+  const b = await navigator.getBattery();
+  console.log(b.level, b.charging);
+}
 ```
 
 ---

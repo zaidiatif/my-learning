@@ -1,4 +1,4 @@
-# Chapter 25: Building Progressive Web Apps (PWAs)
+# Chapter 30: Building Progressive Web Apps (PWAs)
 
 Progressive Web Apps (PWAs) combine the best features of web and mobile applications, offering users a seamless, reliable, and engaging experience. PWAs are designed to be fast, installable, and capable of working offline or on low-quality networks. This chapter covers the key concepts, technologies, and steps for building PWAs.
 
@@ -89,6 +89,42 @@ Caching strategies determine how resources are stored and retrieved to optimize 
 - **Cache First**: Serve resources from the cache, falling back to the network if not available.
 - **Network First**: Fetch resources from the network, falling back to the cache if offline.
 - **Stale While Revalidate**: Serve from the cache while fetching an updated version in the background.
+
+---
+
+## 4.1 Runtime Caching Recipes (Practical)
+
+- Cache-first for static assets; Network-first for HTML/API; Stale-While-Revalidate for images/CSS.
+```javascript
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  if (req.destination === 'document') {
+    // Network-first for documents
+    event.respondWith((async () => {
+      try {
+        const res = await fetch(req);
+        const cache = await caches.open('pages');
+        cache.put(req, res.clone());
+        return res;
+      } catch {
+        const cache = await caches.open('pages');
+        return cache.match(req) || cache.match('/offline.html');
+      }
+    })());
+  }
+});
+```
+
+Include a minimal `/offline.html` in your app and pre-cache it during `install`:
+
+```html
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline</title>
+<h1>You are offline</h1>
+<p>Please check your connection. Some content may be unavailable.</p>
+```
 
 ---
 
@@ -186,12 +222,53 @@ function syncData() {
 
 ---
 
+## 7.1 Periodic Background Sync and Background Fetch (where available)
+
+```javascript
+// Periodic background sync registration
+if ('periodicSync' in registration) {
+  try { await registration.periodicSync.register('content-sync', { minInterval: 24 * 60 * 60 * 1000 }); } catch {}
+}
+```
+
+---
+
 ## 8. Best Practices for Building PWAs
 
 - Use HTTPS to ensure secure communication.
 - Optimize for performance and accessibility.
 - Regularly update service workers to manage changes.
 - Test PWAs on different devices and browsers.
+
+### Lighthouse and Web Vitals
+- Use Lighthouse PWA audit; track LCP, CLS, INP. Improve with preloading, code-splitting, image optimization.
+
+### Offline Fallbacks
+- Provide `/offline.html` and cache it; handle navigation fallback in the service worker.
+
+### Installability and PWA UI
+- Handle `beforeinstallprompt`; provide an install button; tune manifest icons and display modes.
+
+```javascript
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installButton.hidden = false;
+});
+
+installButton.addEventListener('click', async () => {
+  installButton.hidden = true;
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log('PWA install:', outcome);
+  deferredPrompt = null;
+});
+```
+
+### Security and Privacy
+- Ensure HTTPS, proper `Permissions-Policy`, and limit data persisted offline.
 
 ---
 

@@ -1,6 +1,21 @@
-# Chapter 26: JavaScript Security
+# Chapter 32: JavaScript Security
 
 JavaScript is a powerful and versatile programming language widely used for creating dynamic and interactive web applications. However, its flexibility also makes it a target for various security vulnerabilities. In this chapter, we will explore common security risks in JavaScript applications and best practices to mitigate them.
+
+---
+
+## Production Security Checklist (Quick Start)
+
+- HTTPS everywhere (HSTS) and secure cookies: `HttpOnly; Secure; SameSite=Lax|Strict`.
+- Strict CSP (report-only → enforce), avoid `unsafe-inline`; prefer nonces.
+- Enable Trusted Types (where supported) to prevent DOM XSS sinks.
+- Lock down CORS: explicit origins, minimal methods/headers, no credentials by default.
+- SRI for third-party scripts/styles; pin exact versions and audit dependencies.
+- Clickjacking defense: `X-Frame-Options: DENY` or `frame-ancestors 'none'` in CSP.
+- Cross-origin isolation if needed (COOP/COEP/CORP) for SharedArrayBuffer and stronger isolation.
+- Input validation on server and client; output encoding for HTML/JS/CSS/URL contexts.
+- Auth: OIDC Authorization Code + PKCE; short-lived tokens; rotate refresh tokens.
+- Log and monitor: security headers, CSP reports, auth anomalies; rate-limit sensitive endpoints.
 
 ---
 
@@ -163,6 +178,107 @@ Mixed content occurs when a secure HTTPS page loads insecure HTTP resources, pot
 - **DOMPurify:** A library to sanitize HTML and prevent XSS attacks.
 - **OWASP Dependency-Check:** A tool to identify known vulnerabilities in project dependencies.
 - **ESLint Security Rules:** Enhance code quality and security with linting rules.
+
+---
+
+## Advanced Client-Side Security Topics
+
+### 1. Content Security Policy (CSP) – Practical
+
+- Start with `Content-Security-Policy-Report-Only`, then enforce.
+- Prefer nonces over hashes for inline where needed; avoid `unsafe-inline`.
+```http
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-<random>'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report
+```
+
+### 2. Trusted Types (XSS Mitigation)
+
+- Enforce Trusted Types to prevent DOM XSS sinks.
+```html
+<meta http-equiv="Content-Security-Policy" content="trusted-types default; require-trusted-types-for 'script'">
+```
+
+### 3. Subresource Integrity (SRI)
+
+- Pin checksums for third-party scripts/styles.
+```html
+<script src="https://cdn/js/lib.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+```
+
+### 4. Cookie Settings and SameSite
+
+- Use `HttpOnly; Secure; SameSite=Strict` for session cookies; consider `Lax` for typical web apps.
+```http
+Set-Cookie: sid=...; Path=/; HttpOnly; Secure; SameSite=Lax
+```
+
+### 5. CORS – Safe Defaults
+
+- Avoid `*`; reflect only known origins; restrict methods/headers; disallow credentials by default.
+```http
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Methods: GET, POST
+Access-Control-Allow-Headers: Content-Type
+Vary: Origin
+```
+
+### 6. OAuth/OIDC and Token Handling
+
+- Use Authorization Code with PKCE for SPAs. Avoid implicit flow.
+- Prefer short-lived access tokens; refresh via backend or token rotation.
+- Store tokens in httpOnly cookies when possible to mitigate XSS; if using memory storage, guard against CSRF with same-site cookies and double-submit patterns.
+
+### 7. Supply Chain and Dependency Hygiene
+
+- Pin versions with lockfiles; enable npm `--ignore-scripts` for CI; review `postinstall` hooks.
+- Verify provenance/signing where available; use `npm audit`, `Snyk`, `dependabot`.
+
+### 8. postMessage and Cross-Window Messaging
+
+- Always validate `event.origin` and structure; set `targetOrigin` explicitly.
+```javascript
+window.addEventListener('message', (e) => {
+  if (e.origin !== 'https://trusted.example') return;
+  const { type, payload } = e.data || {};
+  if (type === 'READY') {/* ... */}
+});
+iframe.contentWindow.postMessage({ type: 'INIT' }, 'https://trusted.example');
+```
+
+### 9. iframe Sandboxing and Isolation
+
+- Use `sandbox` with least privileges; combine with `allow` for specific APIs.
+```html
+<iframe src="/embed" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+```
+
+### 10. COOP/COEP/CORP (Cross-Origin Isolation)
+
+- Enable for SharedArrayBuffer, high-res timers, and stronger isolation.
+```http
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Resource-Policy: same-site
+```
+
+### 11. Web Crypto API – Safe Usage
+
+- Use `crypto.getRandomValues` for entropy; prefer authenticated encryption (AES-GCM); avoid custom crypto.
+```javascript
+const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt','decrypt']);
+```
+
+### 12. Error Handling and Information Disclosure
+
+- Avoid leaking stack traces, internal URLs, or PII; map stack traces server-side if needed; strip source maps in production or protect their access.
+
+### 13. Storage and Secrets in the Browser
+
+- Avoid storing secrets in `localStorage`; prefer httpOnly cookies for sessions. Use IndexedDB for large non-sensitive data; encrypt at rest when feasible.
+
+### 14. Build/Deploy Hardening
+
+- Disable source map upload publicly or gate behind auth; set `X-Content-Type-Options: nosniff`; `Referrer-Policy: no-referrer` or `strict-origin-when-cross-origin`.
 
 ---
 

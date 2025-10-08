@@ -1,4 +1,4 @@
-# Chapter 17: Performance Optimization
+# Chapter 19: Performance Optimization
 
 As web applications and websites grow in complexity, optimizing performance becomes essential. Slow applications can frustrate users, hurt engagement, and impact overall user experience. JavaScript, while powerful, can be a bottleneck if not optimized properly. This chapter dives deep into various techniques and strategies for optimizing the performance of your JavaScript code and web applications.
 
@@ -44,6 +44,18 @@ Tree shaking is the process of eliminating unused code from your project. This e
 
 ---
 
+## 2.5 Resource Loading Optimizations
+
+- Use `rel="preload"` for critical assets and `rel="preconnect"`/`dns-prefetch` for origins.
+- Prefer HTTP/2 or HTTP/3 to improve multiplexing; enable Brotli compression.
+- Example (HTML):
+```html
+<link rel="preconnect" href="https://cdn.example.com">
+<link rel="preload" as="script" href="/static/app.chunk.js">
+```
+
+---
+
 ## 3. Optimizing Loops and Algorithmic Performance (Big O Notation)
 
 Loops are a fundamental part of programming, but inefficient loops can cause performance issues. Optimizing your loops is crucial for performance.
@@ -58,6 +70,13 @@ Loops are a fundamental part of programming, but inefficient loops can cause per
 - Use **efficient algorithms** based on **Big O notation** to optimize performance.
 
 For example, an algorithm with a time complexity of **O(n^2)** will scale poorly as the input grows, whereas one with **O(n)** will scale much better.
+
+---
+
+## 3.1 Data Structures and Algorithm Choices
+
+- Choose appropriate structures: `Map/Set` over object/array scans; `TypedArray` for numeric data.
+- Avoid `O(n^2)` where possible; leverage binary search and indexes.
 
 ---
 
@@ -117,6 +136,96 @@ JavaScript that blocks the rendering of other page content can lead to delays. A
 ### 9. Profiling and Monitoring
 
 Use the browser’s developer tools to profile your JavaScript code and monitor performance. Look for performance bottlenecks, excessive CPU usage, and memory consumption to pinpoint areas for optimization.
+
+---
+
+## 10. Rendering Performance and RAIL
+
+- Follow RAIL: Response (<100ms), Animation (frame budget ~16ms), Idle, Load.
+- Use `requestAnimationFrame` for visual updates and `requestIdleCallback` for low-priority work.
+```javascript
+requestAnimationFrame(() => updateUI());
+requestIdleCallback((deadline) => { if (deadline.timeRemaining() > 10) doLowPriority(); });
+```
+
+---
+
+## 11. Main-thread Scheduling and Long Tasks
+
+- Break up long work into smaller chunks; yield back between chunks.
+- Detect long tasks with `PerformanceObserver`.
+```javascript
+// Chunking
+function chunked(items, fn) {
+  let i = 0;
+  function step() {
+    const start = performance.now();
+    while (i < items.length && performance.now() - start < 8) { fn(items[i++]); }
+    if (i < items.length) setTimeout(step, 0);
+  }
+  step();
+}
+
+// Long task observer
+new PerformanceObserver((list) => {
+  for (const e of list.getEntries()) console.warn('Long task', e.duration);
+}).observe({ type: 'longtask', buffered: true });
+```
+
+---
+
+## 12. Layout and Paint Optimization (Practical)
+
+- Avoid layout thrashing: read layout once, then write. Use CSS `will-change`, `transform`, `opacity` for animations.
+- Batch DOM updates with `DocumentFragment` or offscreen elements.
+```javascript
+const frag = document.createDocumentFragment();
+for (let i = 0; i < 1000; i++) { const li = document.createElement('li'); li.textContent = i; frag.appendChild(li); }
+list.appendChild(frag);
+```
+
+---
+
+## 13. Images, Fonts, and Media
+
+- Prefer modern formats (AVIF/WebP), responsive images (`srcset`, `sizes`), lazy-load offscreen (`loading="lazy"`).
+- Subset and preload critical fonts; use `font-display: swap` to reduce FOIT.
+```html
+<img src="img-640.webp" srcset="img-320.webp 320w, img-640.webp 640w, img-1280.webp 1280w" sizes="(max-width: 640px) 100vw, 640px" loading="lazy" alt="...">
+<link rel="preload" as="font" href="/fonts/Inter.woff2" type="font/woff2" crossorigin>
+<style>@font-face{font-family:Inter;src:url(/fonts/Inter.woff2) format('woff2');font-display:swap}</style>
+```
+
+---
+
+## 14. JavaScript Engine Tips
+
+- Avoid deopts: keep object shapes stable (create objects with fields in the same order), avoid polymorphic hot paths.
+- Minimize megamorphic property access; hoist repeated property reads.
+```javascript
+// Stable shapes
+function makeUser(name, age) { return { name, age, active: false }; }
+
+// Hoist property access
+function sumAges(users) { let total = 0; for (const u of users) { const age = u.age; total += age; } return total; }
+```
+
+---
+
+## 15. Network and Caching Strategies
+
+- Cache aggressively with HTTP headers (`Cache-Control`, `ETag`), use service workers for offline and pre-caching.
+- Prefer CDN for static assets; coalesce small requests or inline tiny critical payloads.
+
+---
+
+## 16. Measuring Web Vitals
+
+- Track Core Web Vitals: LCP, CLS, INP. Use `web-vitals` or `PerformanceObserver` to measure.
+```javascript
+import { onLCP, onCLS, onINP } from 'web-vitals';
+onLCP(console.log); onCLS(console.log); onINP(console.log);
+```
 
 ---
 

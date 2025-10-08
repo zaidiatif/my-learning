@@ -242,6 +242,170 @@ console.log(getValue.apply(obj, ["Value"])); // Output: Value: 42
 
 ---
 
+## **9. Iterators and Iterables**
+
+JavaScript supports the iterable protocol via `Symbol.iterator`. Custom iterables can be consumed by `for...of`, spread syntax, and `Array.from`.
+
+```javascript
+const range = (start, end) => ({
+  [Symbol.iterator]() {
+    let i = start;
+    return {
+      next() {
+        return i <= end ? { value: i++, done: false } : { done: true };
+      }
+    };
+  }
+});
+for (const n of range(3, 5)) console.log(n); // 3,4,5
+```
+
+---
+
+## **10. Advanced Generators and Async Generators**
+
+Generators can delegate with `yield*`, receive values, and signal completion via `return`. Async generators work with `for await...of`.
+
+```javascript
+function* child() { yield 2; return 3; }
+function* parent() {
+  const x = yield 1;        // receive value from next()
+  const y = yield* child(); // delegate to child generator
+  yield x + y;              // 10 + 3 => 13
+}
+const it = parent();
+console.log(it.next());      // { value: 1, done: false }
+console.log(it.next(10));    // { value: 2, done: false }
+console.log(it.next());      // { value: 13, done: false }
+console.log(it.next());      // { value: undefined, done: true }
+```
+
+```javascript
+// Async generator and for-await-of
+async function* stream(ids) {
+  for (const id of ids) {
+    const res = await fetch(`/api/${id}`);
+    yield res.json();
+  }
+}
+// for await (const item of stream([1, 2, 3])) {
+//   console.log(item);
+// }
+```
+
+---
+
+## **11. Promise Utilities and Concurrency Patterns**
+
+Use built-in combinators for parallelism and robust error handling. Limit concurrency to avoid resource spikes.
+
+```javascript
+// Built-ins
+await Promise.all([a(), b()]);
+await Promise.allSettled([a(), b()]);
+await Promise.race([a(), b()]);
+await Promise.any([a(), b()]); // first fulfillment
+
+// Concurrency pool
+async function runPool(fns, limit = 3) {
+  const results = [];
+  const executing = new Set();
+  for (const fn of fns) {
+    const p = Promise.resolve().then(fn).then(r => { executing.delete(p); return r; });
+    results.push(p);
+    executing.add(p);
+    if (executing.size >= limit) await Promise.race(executing);
+  }
+  return Promise.all(results);
+}
+```
+
+---
+
+## **12. Cancellation with AbortController**
+
+Use `AbortController` to cancel fetches and pass `AbortSignal` through your async APIs.
+
+```javascript
+const ac = new AbortController();
+setTimeout(() => ac.abort(), 200);
+try {
+  await fetch('/slow', { signal: ac.signal });
+} catch (e) {
+  if (e.name === 'AbortError') console.log('Cancelled');
+}
+```
+
+---
+
+## **13. Enhanced Memoization Strategies**
+
+Prefer `Map`/`WeakMap` for object keys and consider multi-arg keys and invalidation.
+
+```javascript
+function memoize(fn) {
+  const primitiveCache = new Map();
+  const objectCache = new WeakMap();
+  return function memoized(...args) {
+    if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+      if (objectCache.has(args[0])) return objectCache.get(args[0]);
+      const res = fn(...args); objectCache.set(args[0], res); return res;
+    }
+    const key = JSON.stringify(args);
+    if (primitiveCache.has(key)) return primitiveCache.get(key);
+    const res = fn(...args); primitiveCache.set(key, res); return res;
+  };
+}
+```
+
+---
+
+## **14. Recursion Safety (Iterative/Trampoline)**
+
+Tail-call optimization is not generally available; prefer iterative solutions or trampolines for deep recursion.
+
+```javascript
+function factorialIter(n) {
+  let res = 1;
+  for (let i = 2; i <= n; i++) res *= i;
+  return res;
+}
+```
+
+---
+
+## **15. Functional Utilities: Pipe/Compose and Partial Application**
+
+```javascript
+const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+
+const add = (a, b) => a + b;
+const add5 = add.bind(null, 5); // simple partial via bind
+console.log(pipe(x => x * 2, x => x + 1)(3)); // 7
+```
+
+---
+
+## **16. Debounce and Throttle**
+
+Control the rate of function execution for performance-sensitive events.
+
+```javascript
+const debounce = (fn, ms) => {
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+};
+const throttle = (fn, ms) => {
+  let last = 0, t; return (...args) => {
+    const now = Date.now();
+    if (now - last >= ms) { last = now; fn(...args); }
+    else { clearTimeout(t); t = setTimeout(() => { last = Date.now(); fn(...args); }, ms - (now - last)); }
+  };
+};
+```
+
+---
+
 ## **Conclusion**
 
 Understanding advanced function concepts like closures, recursion, currying, the `this` keyword, and function bindings is vital for writing dynamic and maintainable JavaScript code. These techniques enhance your ability to create complex, reusable functions that adapt to various contexts.
