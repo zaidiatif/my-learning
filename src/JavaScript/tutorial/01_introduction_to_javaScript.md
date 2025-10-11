@@ -1,11 +1,5 @@
 # Chapter 1: Introduction to JavaScript
 
-- What is JavaScript?
-- History and Evolution
-- Difference between JavaScript, Java, and other programming languages.
-- Ecosystem Overview
-- Use Cases (Web, server, mobile, game, ML)
-
 ---
 
 ## What is JavaScript?

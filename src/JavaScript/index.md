@@ -358,7 +358,7 @@
 - What are micro-frontends?
 - Benefits and challenges
 - Implementation strategies
-- Tools: Module Federation, Single-SPA
+- Tools: Module Federation, Single-SPA, etc
 
 ## [Chapter 40: Server-Side JavaScript](./tutorial/40_server_side_javaScript.md)
 
