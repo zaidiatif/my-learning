@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 46](./46_typeScript.md) | [Chapter 48 >>](./48_javaScript_in_machine_learning.md)
+
+---
+
 # Chapter 47: JavaScript and Mobile Development
 
 ## 1 Introduction to JavaScript in Mobile Development
@@ -37,6 +43,7 @@ With powerful frameworks like `React Native`, `Ionic`, and `NativeScript`, devel
 - Frameworks: Workbox, Next.js PWA plugins, Vite PWA.
 
 ## 4 Popular Frameworks for Mobile Development
+
 ### 4.1 React Native
 
 - **Developer:** Meta (Facebook)
@@ -92,6 +99,7 @@ Ionic lets you build `hybrid apps` using `HTML`, `CSS`, and `JavaScript`, with f
 - Easy web-to-mobile conversion.
 
 #### Example: Ionic + React
+
 ```javascript
 import { IonApp, IonHeader, IonTitle, IonContent } from "@ionic/react";
 
@@ -122,6 +130,7 @@ NativeScript gives `direct access to native APIs` from JavaScript (or TypeScript
 - Built-in CLI and Hot Module Replacement.
 
 #### Example: Navigation
+
 ```javascript
 import { Frame } from "@nativescript/core";
 
@@ -240,3 +249,9 @@ CustomModule.customMethod("Hello from JS!");
 JavaScript has firmly positioned itself as the cornerstone of cross-platform mobile development. With frameworks like React Native, Ionic, and NativeScript, and technologies like PWAs and Capacitor, developers can deliver native-like performance, web flexibility, and rapid scalability — all from a unified JavaScript codebase.
 
 **In essence:** JavaScript has evolved from powering web pages to powering the entire mobile ecosystem, bridging the gap between native performance and universal accessibility
+
+---
+
+[<< Chapter 46](./46_typeScript.md) | [Chapter 48 >>](./48_javaScript_in_machine_learning.md)
+
+---

@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 10](./10_working_with_objects_and_arrays.md) | [Chapter 12 >>](./12_asynchronous_javaScript.md)
+
+---
+
 # Chapter 11: Advanced JavaScript Concepts
 
 In this chapter, we dive deeper into advanced topics in JavaScript that enable developers to write more powerful and efficient code.
@@ -300,15 +306,15 @@ Proxies let you intercept operations on objects; `Reflect` provides the default 
 const target = { a: 1 };
 const proxy = new Proxy(target, {
   get(obj, key, receiver) {
-    console.log('get', key);
+    console.log("get", key);
     return Reflect.get(obj, key, receiver);
   },
   set(obj, key, value, receiver) {
-    console.log('set', key, value);
+    console.log("set", key, value);
     return Reflect.set(obj, key, value, receiver);
-  }
+  },
 });
-proxy.a;      // logs: get a
+proxy.a; // logs: get a
 proxy.b = 42; // logs: set b 42
 ```
 
@@ -320,13 +326,18 @@ Class fields simplify initialization; `#private` members enforce encapsulation; 
 
 ```javascript
 class Counter {
-  #count = 0;           // private field
+  #count = 0; // private field
   static registry = new Map();
-  static {               // static initialization
-    Counter.registry.set('default', new Counter());
+  static {
+    // static initialization
+    Counter.registry.set("default", new Counter());
   }
-  increment() { this.#count++; }
-  get value() { return this.#count; }
+  increment() {
+    this.#count++;
+  }
+  get value() {
+    return this.#count;
+  }
 }
 ```
 
@@ -340,11 +351,11 @@ class Counter {
 
 ```javascript
 // ESM
-import data from './data.json' assert { type: 'json' };
-export const value = (await import('./mod.js')).value;
+import data from "./data.json" assert { type: "json" };
+export const value = (await import("./mod.js")).value;
 
 // CJS
-const fs = require('fs');
+const fs = require("fs");
 module.exports = { read: fs.readFileSync };
 ```
 
@@ -355,11 +366,11 @@ module.exports = { read: fs.readFileSync };
 Microtasks (Promises, queueMicrotask) run before the next macrotask (setTimeout, setInterval, I/O).
 
 ```javascript
-console.log('A');
-setTimeout(() => console.log('timeout'), 0);     // macrotask
-Promise.resolve().then(() => console.log('then')); // microtask
-queueMicrotask(() => console.log('micro'));
-console.log('B');
+console.log("A");
+setTimeout(() => console.log("timeout"), 0); // macrotask
+Promise.resolve().then(() => console.log("then")); // microtask
+queueMicrotask(() => console.log("micro"));
+console.log("B");
 // Order: A, B, then, micro, timeout (microtask order may vary among microtasks)
 ```
 
@@ -370,16 +381,16 @@ console.log('B');
 Manage references without preventing garbage collection; use sparingly.
 
 ```javascript
-let obj = { big: 'data' };
+let obj = { big: "data" };
 const wr = new WeakRef(obj);
 const reg = new FinalizationRegistry((heldValue) => {
-  console.log('finalized', heldValue);
+  console.log("finalized", heldValue);
 });
-reg.register(obj, 'myObj');
+reg.register(obj, "myObj");
 obj = null; // eventually GC may collect and trigger registry callback
 
 const maybe = wr.deref();
-if (maybe) console.log('still alive');
+if (maybe) console.log("still alive");
 ```
 
 ---
@@ -391,8 +402,12 @@ Customize language behavior with symbols like `Symbol.iterator`, `Symbol.toStrin
 ```javascript
 const coll = {
   items: [1, 2, 3],
-  [Symbol.iterator]() { return this.items[Symbol.iterator](); },
-  get [Symbol.toStringTag]() { return 'Collection'; }
+  [Symbol.iterator]() {
+    return this.items[Symbol.iterator]();
+  },
+  get [Symbol.toStringTag]() {
+    return "Collection";
+  },
 };
 console.log(Object.prototype.toString.call(coll)); // [object Collection]
 ```
@@ -402,3 +417,9 @@ console.log(Object.prototype.toString.call(coll)); // [object Collection]
 ## **Conclusion**
 
 Understanding these advanced JavaScript concepts is crucial for developing complex applications and mastering the language. By incorporating these techniques, developers can write more efficient and maintainable code.
+
+---
+
+[<< Chapter 10](./10_working_with_objects_and_arrays.md) | [Chapter 12 >>](./12_asynchronous_javaScript.md)
+
+---

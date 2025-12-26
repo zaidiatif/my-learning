@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 31](./31_static_site_generation_jamstack.md) | [Chapter 33 >>](./33_security_supply_chain_attacks.md)
+
+---
+
 # Chapter 32: JavaScript Security
 
 JavaScript is a powerful and versatile programming language widely used for creating dynamic and interactive web applications. However, its flexibility also makes it a target for various security vulnerabilities. In this chapter, we will explore common security risks in JavaScript applications and best practices to mitigate them.
@@ -187,6 +193,7 @@ Mixed content occurs when a secure HTTPS page loads insecure HTTP resources, pot
 
 - Start with `Content-Security-Policy-Report-Only`, then enforce.
 - Prefer nonces over hashes for inline where needed; avoid `unsafe-inline`.
+
 ```http
 Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-<random>'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report
 ```
@@ -194,20 +201,30 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-<random>';
 ### 2. Trusted Types (XSS Mitigation)
 
 - Enforce Trusted Types to prevent DOM XSS sinks.
+
 ```html
-<meta http-equiv="Content-Security-Policy" content="trusted-types default; require-trusted-types-for 'script'">
+<meta
+  http-equiv="Content-Security-Policy"
+  content="trusted-types default; require-trusted-types-for 'script'"
+/>
 ```
 
 ### 3. Subresource Integrity (SRI)
 
 - Pin checksums for third-party scripts/styles.
+
 ```html
-<script src="https://cdn/js/lib.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<script
+  src="https://cdn/js/lib.min.js"
+  integrity="sha384-..."
+  crossorigin="anonymous"
+></script>
 ```
 
 ### 4. Cookie Settings and SameSite
 
 - Use `HttpOnly; Secure; SameSite=Strict` for session cookies; consider `Lax` for typical web apps.
+
 ```http
 Set-Cookie: sid=...; Path=/; HttpOnly; Secure; SameSite=Lax
 ```
@@ -215,6 +232,7 @@ Set-Cookie: sid=...; Path=/; HttpOnly; Secure; SameSite=Lax
 ### 5. CORS – Safe Defaults
 
 - Avoid `*`; reflect only known origins; restrict methods/headers; disallow credentials by default.
+
 ```http
 Access-Control-Allow-Origin: https://app.example.com
 Access-Control-Allow-Methods: GET, POST
@@ -236,25 +254,34 @@ Vary: Origin
 ### 8. postMessage and Cross-Window Messaging
 
 - Always validate `event.origin` and structure; set `targetOrigin` explicitly.
+
 ```javascript
-window.addEventListener('message', (e) => {
-  if (e.origin !== 'https://trusted.example') return;
+window.addEventListener("message", (e) => {
+  if (e.origin !== "https://trusted.example") return;
   const { type, payload } = e.data || {};
-  if (type === 'READY') {/* ... */}
+  if (type === "READY") {
+    /* ... */
+  }
 });
-iframe.contentWindow.postMessage({ type: 'INIT' }, 'https://trusted.example');
+iframe.contentWindow.postMessage({ type: "INIT" }, "https://trusted.example");
 ```
 
 ### 9. iframe Sandboxing and Isolation
 
 - Use `sandbox` with least privileges; combine with `allow` for specific APIs.
+
 ```html
-<iframe src="/embed" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+<iframe
+  src="/embed"
+  sandbox="allow-scripts allow-same-origin"
+  referrerpolicy="no-referrer"
+></iframe>
 ```
 
 ### 10. COOP/COEP/CORP (Cross-Origin Isolation)
 
 - Enable for SharedArrayBuffer, high-res timers, and stronger isolation.
+
 ```http
 Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
@@ -264,8 +291,13 @@ Cross-Origin-Resource-Policy: same-site
 ### 11. Web Crypto API – Safe Usage
 
 - Use `crypto.getRandomValues` for entropy; prefer authenticated encryption (AES-GCM); avoid custom crypto.
+
 ```javascript
-const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt','decrypt']);
+const key = await crypto.subtle.generateKey(
+  { name: "AES-GCM", length: 256 },
+  true,
+  ["encrypt", "decrypt"]
+);
 ```
 
 ### 12. Error Handling and Information Disclosure
@@ -285,3 +317,9 @@ const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, tr
 ## Conclusion
 
 JavaScript security is an ongoing process that requires awareness, proactive measures, and adherence to best practices. By understanding common risks and implementing robust security strategies, developers can significantly reduce the attack surface of their web applications and protect users' data and privacy.
+
+---
+
+[<< Chapter 31](./31_static_site_generation_jamstack.md) | [Chapter 33 >>](./33_security_supply_chain_attacks.md)
+
+---

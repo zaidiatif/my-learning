@@ -197,8 +197,8 @@ A comprehensive guide to mastering JavaScript from fundamentals to advanced conc
 ### [Chapter 25: Optimizing Large Data Sets](./tutorial/25_optimizing_large_data_sets.md)
 
 - **Data Structure Optimization** - Efficient algorithms for large datasets
-- **Memory Management** - Streaming, Chunking, lazy loading 
-- **Performance Patterns** - Virtual scrolling, Pagination, caching 
+- **Memory Management** - Streaming, Chunking, lazy loading
+- **Performance Patterns** - Virtual scrolling, Pagination, caching
 - **Big Data Techniques** - Web Workers, IndexedDB, streaming
 
 ### [Chapter 26: Web APIs](./tutorial/26_web_apis.md)
@@ -222,7 +222,8 @@ A comprehensive guide to mastering JavaScript from fundamentals to advanced conc
 - **WebXR API** - Device integration, hand tracking, spatioal audio
 - **3D development** - Three.js, A-Frame, Babylon.js
 - **Performance Considerations** - Frame rates, optimization techniques
-## [Chapter 29: WebAssembly](./tutorial/29_webAssembly.md)
+
+### [Chapter 29: WebAssembly](./tutorial/29_webAssembly.md)
 
 - **WASM Fundamentals** - High-performance web applications
 - **Language Integration** - C/C++, Rust, Go compilation
@@ -283,7 +284,7 @@ A comprehensive guide to mastering JavaScript from fundamentals to advanced conc
 ### [Chapter 37: JavaScript Frameworks](./tutorial/37_javaScript_frameworks.md)
 
 - **Frontend Frameworks** - React, Angular, Vue.js, Svelte comparison
-- **Full-stack Solution** - Next.js, Nuxt.js, ScelteKit comparison 
+- **Full-stack Solution** - Next.js, Nuxt.js, ScelteKit comparison
 - **Backend Frameworks** - NestJS, Espress.js, Fastify
 - **Rendering Strategies** - Client-Side Rendering (CSR), Server-Side Rendering (SSR), SSG, ISR patterns
 
@@ -368,6 +369,7 @@ A comprehensive guide to mastering JavaScript from fundamentals to advanced conc
 - **Real-world Applications** - Image recognition, natural language processing
 
 ### [Chapter 49: Build Tools and Bundlers](./tutorial/49_javaScript_build_tools_and_bundlers.md)
+
 - **Module Bundlers** - Webpack, Rollup, Parcel, Vite
 - **Task Runners** - Gulp, Grunt, npm scripts
 - **Transpilation** - Babel, TypeScript compilation
@@ -422,7 +424,7 @@ A comprehensive guide to mastering JavaScript from fundamentals to advanced conc
 - **Protocols** - MQTT, CoAP, WebSocket for IoT
 - **Real-world Applications** - Smart homes, industrial automation
 
---- 
+---
 
 ## **Learning Paths & Recommendations**
 
@@ -491,7 +493,7 @@ Choose your specialization based on career goals
 - Chapter 49, 50 (Build tools, Monorepos)
 - Chapters 32, 33 (Security, Supply chain)
 
---- 
+---
 
 ## **Cross-References & Dependencies**
 

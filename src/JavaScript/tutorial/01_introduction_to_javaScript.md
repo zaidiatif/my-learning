@@ -1,6 +1,10 @@
-# Chapter 1: Introduction to JavaScript
+---
+
+[<< Index](../index.md) | [Chapter 2 >>](./02_environment_setup.md)
 
 ---
+
+# Chapter 1: Introduction to JavaScript
 
 ## What is JavaScript?
 
@@ -231,6 +235,7 @@ JavaScript is central to building interactive and dynamic websites.
 #### Key Ecosystem Tools:
 
 - `Libraries:`
+
   - `jQuery:` Simplifies DOM manipulation and AJAX calls.
   - `React:` Builds reusable UI components for SPAs.
 
@@ -345,3 +350,9 @@ JavaScript boasts a thriving ecosystem with tools for every development phase:
 ## Conclusion
 
 JavaScript's adaptability makes it a powerhouse across diverse domains like web, mobile, server, games, and machine learning. Its ecosystem continuously evolves, offering tools and frameworks to simplify development while addressing performance and scalability challenges.
+
+---
+
+[<< Index](../index.md) | [Chapter 2 >>](./02_environment_setup.md)
+
+---

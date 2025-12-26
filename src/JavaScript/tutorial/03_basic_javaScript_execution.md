@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 2](./02_environment_setup.md) | [Chapter 4 >>](./04_core_javaScript_concepts.md)
+
+---
+
 # Chapter 3: Basic JavaScript Execution
 
 ## **1. Writing the First JavaScript Program**
@@ -54,6 +60,7 @@ Modern web browsers come equipped with powerful developer tools that are essenti
 - **Interactive Testing**: Test code snippets without creating files
 
 **Example**:
+
 ```javascript
 // Type this directly in the browser console
 let message = "Hello from the console!";
@@ -71,28 +78,31 @@ console.log(message);
 #### **Creating a Local Project**:
 
 1. **Create Project Folder**:
+
    ```bash
    mkdir my-javascript-project
    cd my-javascript-project
    ```
 
 2. **Create HTML File**:
+
    ```html
    <!DOCTYPE html>
    <html lang="en">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <head>
+       <meta charset="UTF-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
        <title>JavaScript Project</title>
-   </head>
-   <body>
+     </head>
+     <body>
        <h1>My JavaScript Project</h1>
        <script src="app.js"></script>
-   </body>
+     </body>
    </html>
    ```
 
 3. **Create JavaScript File** (`app.js`):
+
    ```javascript
    console.log("Project loaded successfully!");
    ```
@@ -142,40 +152,49 @@ The `console.log()` method is a developer's best friend for debugging and displa
 #### **Usage Examples**:
 
 **Basic Output**:
+
 ```javascript
 console.log("Hello, World!");
 ```
 
 **Variable Logging**:
+
 ```javascript
 let name = "Alice";
 console.log("Name:", name);
 ```
 
 **Debugging Objects**:
+
 ```javascript
 let user = { name: "Alice", age: 25 };
 console.log("User Info:", user);
 ```
 
 **String Interpolation**:
+
 ```javascript
 let age = 25;
 console.log(`User age is ${age}`);
 ```
 
 **Multiple Console Methods**:
+
 ```javascript
 console.log("Regular message");
 console.info("Informational message");
 console.warn("Warning message");
 console.error("Error message");
-console.table([{name: "Alice", age: 25}, {name: "Bob", age: 30}]);
+console.table([
+  { name: "Alice", age: 25 },
+  { name: "Bob", age: 30 },
+]);
 ```
 
 ### **Alert and Prompt**
 
 #### **alert()**:
+
 Displays a modal dialog with a message and an OK button.
 
 ```javascript
@@ -183,6 +202,7 @@ alert("This is an alert message!");
 ```
 
 #### **prompt()**:
+
 Displays a modal dialog with a message, input field, and OK/Cancel buttons.
 
 ```javascript
@@ -191,14 +211,15 @@ console.log("Hello, " + userName + "!");
 ```
 
 #### **confirm()**:
+
 Displays a modal dialog with a message and OK/Cancel buttons, returns true/false.
 
 ```javascript
 let userConfirmed = confirm("Do you want to continue?");
 if (userConfirmed) {
-    console.log("User clicked OK");
+  console.log("User clicked OK");
 } else {
-    console.log("User clicked Cancel");
+  console.log("User clicked Cancel");
 }
 ```
 
@@ -222,16 +243,18 @@ document.write("<p>This text was added by JavaScript.</p>");
 JavaScript runs in the browser using the browser's JavaScript engine (V8 in Chrome, SpiderMonkey in Firefox).
 
 #### **Features Available in Browser**:
+
 - DOM manipulation
 - Browser APIs (localStorage, fetch, etc.)
 - Window object
 - Document object
 
 **Example**:
+
 ```javascript
 // Browser-specific code
-document.getElementById("myButton").addEventListener("click", function() {
-    alert("Button clicked!");
+document.getElementById("myButton").addEventListener("click", function () {
+  alert("Button clicked!");
 });
 ```
 
@@ -242,12 +265,14 @@ Node.js allows JavaScript to run on the server-side using the V8 engine.
 #### **Running JavaScript with Node.js**:
 
 1. **Create a file** (`server.js`):
+
    ```javascript
    console.log("Hello from Node.js!");
    console.log("Current directory:", process.cwd());
    ```
 
 2. **Run the file**:
+
    ```bash
    node server.js
    ```
@@ -260,16 +285,17 @@ Node.js allows JavaScript to run on the server-side using the V8 engine.
 
 #### **Node.js vs Browser Differences**:
 
-| Feature | Browser | Node.js |
-|---------|---------|---------|
-| Global Object | `window` | `global` |
-| DOM Access | Yes | No |
-| File System | No | Yes (fs module) |
-| Process Info | Limited | Yes (process object) |
+| Feature       | Browser  | Node.js              |
+| ------------- | -------- | -------------------- |
+| Global Object | `window` | `global`             |
+| DOM Access    | Yes      | No                   |
+| File System   | No       | Yes (fs module)      |
+| Process Info  | Limited  | Yes (process object) |
 
 ### **Different Execution Contexts**
 
 #### **Global Context**:
+
 ```javascript
 // Variables declared here are global
 var globalVar = "I'm global";
@@ -277,19 +303,21 @@ let globalLet = "I'm also global";
 ```
 
 #### **Function Context**:
+
 ```javascript
 function myFunction() {
-    // Variables declared here are local to the function
-    var localVar = "I'm local";
-    console.log(globalVar); // Can access global variables
+  // Variables declared here are local to the function
+  var localVar = "I'm local";
+  console.log(globalVar); // Can access global variables
 }
 ```
 
 #### **Block Context**:
+
 ```javascript
 if (true) {
-    let blockVar = "I'm block-scoped";
-    const blockConst = "I'm also block-scoped";
+  let blockVar = "I'm block-scoped";
+  const blockConst = "I'm also block-scoped";
 }
 // blockVar and blockConst are not accessible here
 ```
@@ -301,18 +329,21 @@ if (true) {
 ### **Common JavaScript Errors**
 
 #### **Syntax Errors**:
+
 ```javascript
 // Missing semicolon or bracket
-let name = "Alice"
+let name = "Alice";
 console.log(name); // SyntaxError: Unexpected token
 ```
 
 #### **Reference Errors**:
+
 ```javascript
 console.log(undefinedVariable); // ReferenceError: undefinedVariable is not defined
 ```
 
 #### **Type Errors**:
+
 ```javascript
 let number = 42;
 number.toUpperCase(); // TypeError: number.toUpperCase is not a function
@@ -321,19 +352,21 @@ number.toUpperCase(); // TypeError: number.toUpperCase is not a function
 ### **Debugging Techniques**
 
 #### **Using console.log() for Debugging**:
+
 ```javascript
 function calculateTotal(price, tax) {
-    console.log("Price:", price);
-    console.log("Tax:", tax);
-    
-    let total = price + (price * tax);
-    console.log("Total:", total);
-    
-    return total;
+  console.log("Price:", price);
+  console.log("Tax:", tax);
+
+  let total = price + price * tax;
+  console.log("Total:", total);
+
+  return total;
 }
 ```
 
 #### **Using Breakpoints**:
+
 1. Open Developer Tools (F12)
 2. Go to Sources tab
 3. Click on line number to set breakpoint
@@ -341,12 +374,13 @@ function calculateTotal(price, tax) {
 5. Use Step Over (F10) and Step Into (F11) to debug
 
 #### **Error Handling**:
+
 ```javascript
 try {
-    let result = riskyOperation();
-    console.log("Success:", result);
+  let result = riskyOperation();
+  console.log("Success:", result);
 } catch (error) {
-    console.error("Error occurred:", error.message);
+  console.error("Error occurred:", error.message);
 }
 ```
 
@@ -355,54 +389,56 @@ try {
 ## **7. Enhanced Examples**
 
 ### **Interactive Example**:
+
 ```html
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Interactive JavaScript</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>JavaScript Calculator</h1>
-    <input type="number" id="num1" placeholder="First number">
-    <input type="number" id="num2" placeholder="Second number">
+    <input type="number" id="num1" placeholder="First number" />
+    <input type="number" id="num2" placeholder="Second number" />
     <button onclick="calculate()">Calculate Sum</button>
     <p id="result"></p>
 
     <script>
-        function calculate() {
-            let num1 = parseFloat(document.getElementById("num1").value);
-            let num2 = parseFloat(document.getElementById("num2").value);
-            
-            if (isNaN(num1) || isNaN(num2)) {
-                alert("Please enter valid numbers!");
-                return;
-            }
-            
-            let sum = num1 + num2;
-            document.getElementById("result").textContent = `Sum: ${sum}`;
-            console.log(`Calculated: ${num1} + ${num2} = ${sum}`);
+      function calculate() {
+        let num1 = parseFloat(document.getElementById("num1").value);
+        let num2 = parseFloat(document.getElementById("num2").value);
+
+        if (isNaN(num1) || isNaN(num2)) {
+          alert("Please enter valid numbers!");
+          return;
         }
+
+        let sum = num1 + num2;
+        document.getElementById("result").textContent = `Sum: ${sum}`;
+        console.log(`Calculated: ${num1} + ${num2} = ${sum}`);
+      }
     </script>
-</body>
+  </body>
 </html>
 ```
 
 ### **Node.js Example**:
+
 ```javascript
 // file: calculator.js
-const readline = require('readline');
+const readline = require("readline");
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout,
 });
 
-rl.question('Enter first number: ', (num1) => {
-    rl.question('Enter second number: ', (num2) => {
-        let sum = parseFloat(num1) + parseFloat(num2);
-        console.log(`Sum: ${sum}`);
-        rl.close();
-    });
+rl.question("Enter first number: ", (num1) => {
+  rl.question("Enter second number: ", (num2) => {
+    let sum = parseFloat(num1) + parseFloat(num2);
+    console.log(`Sum: ${sum}`);
+    rl.close();
+  });
 });
 ```
 
@@ -413,3 +449,9 @@ Run with: `node calculator.js`
 ## **Conclusion**
 
 This chapter has introduced foundational skills for writing and executing JavaScript code. You've learned multiple ways to run JavaScript (browser, Node.js, online playgrounds), different output methods (console.log, alert, prompt, document.write), and basic debugging techniques. Understanding execution contexts and error handling will help you write more robust JavaScript applications as you progress through the curriculum.
+
+---
+
+[<< Chapter 2](./02_environment_setup.md) | [Chapter 4 >>](./04_core_javaScript_concepts.md)
+
+---

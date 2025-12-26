@@ -1,4 +1,11 @@
+---
+
+[<< Chapter 22](./22_modern_javaScript_features.md) | [Chapter 24 >>](./24_reactive_programming.md)
+
+---
+
 # Chapter 23: Internationalization and Localization in JavaScript
+
 ## 1. Introduction
 
 Modern web applications serve users worldwide. Building an app that feels native to each user requires adapting:
@@ -14,42 +21,57 @@ This is the core of `Internationalization (i18n)` and `Localization (l10n)`.
 
 ## 2. Core Concepts
 
-| Concept	| Description |
-|:--- |:--- |
-| Locale	| Defines regional preferences — e.g., en-US, fr-FR, hi-IN. |
-| Translation keys	| Identifiers mapped to language-specific strings. |
-| Pluralization	| Handling different word forms based on count. |
-| Date/Number formatting	| Showing values based on locale rules. |
-| Directionality	| Supporting LTR (left-to-right) and RTL (right-to-left) layouts. |
+| Concept                | Description                                                     |
+| :--------------------- | :-------------------------------------------------------------- |
+| Locale                 | Defines regional preferences — e.g., en-US, fr-FR, hi-IN.       |
+| Translation keys       | Identifiers mapped to language-specific strings.                |
+| Pluralization          | Handling different word forms based on count.                   |
+| Date/Number formatting | Showing values based on locale rules.                           |
+| Directionality         | Supporting LTR (left-to-right) and RTL (right-to-left) layouts. |
 
 ## 3. Using JavaScript’s Built-in Internationalization API (`Intl`)
 
 The `Intl` API (ECMAScript Internationalization API) provides globalized formatting tools without needing external libraries.
 
 ### 3.1 Formatting Numbers
+
 ```js
 const number = 1234567.89;
 
-console.log(new Intl.NumberFormat('en-US').format(number)); // 1,234,567.89
-console.log(new Intl.NumberFormat('de-DE').format(number)); // 1.234.567,89
-console.log(new Intl.NumberFormat('hi-IN').format(number)); // 12,34,567.89
+console.log(new Intl.NumberFormat("en-US").format(number)); // 1,234,567.89
+console.log(new Intl.NumberFormat("de-DE").format(number)); // 1.234.567,89
+console.log(new Intl.NumberFormat("hi-IN").format(number)); // 12,34,567.89
 ```
 
 ### 3.2 Formatting Currencies
+
 ```js
 const price = 499.99;
 
-console.log(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)); // $499.99
-console.log(new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(price)); // ￥500
+console.log(
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
+    price
+  )
+); // $499.99
+console.log(
+  new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY" }).format(
+    price
+  )
+); // ￥500
 ```
 
 ### 3.3 Formatting Dates and Times
+
 ```js
 const date = new Date();
 
-console.log(new Intl.DateTimeFormat('en-US').format(date)); // 10/11/2025
-console.log(new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full' }).format(date)); // samedi 11 octobre 2025
-console.log(new Intl.DateTimeFormat('ar-EG', { timeStyle: 'short' }).format(date)); // ١٠:٣٢ م
+console.log(new Intl.DateTimeFormat("en-US").format(date)); // 10/11/2025
+console.log(
+  new Intl.DateTimeFormat("fr-FR", { dateStyle: "full" }).format(date)
+); // samedi 11 octobre 2025
+console.log(
+  new Intl.DateTimeFormat("ar-EG", { timeStyle: "short" }).format(date)
+); // ١٠:٣٢ م
 ```
 
 ## 4. Language Detection and Dynamic Locale Switching
@@ -57,14 +79,16 @@ console.log(new Intl.DateTimeFormat('ar-EG', { timeStyle: 'short' }).format(date
 You can automatically detect or allow users to switch their preferred language.
 
 ### 4.1 Detecting Browser Locale
+
 ```js
 const userLocale = navigator.language || navigator.userLanguage;
 console.log(userLocale); // e.g., "en-US"
 ```
 
 ### 4.2 Switching Locale Dynamically
+
 ```js
-let currentLocale = 'en';
+let currentLocale = "en";
 
 function setLocale(locale) {
   currentLocale = locale;
@@ -74,16 +98,16 @@ function setLocale(locale) {
 
 function loadTranslations(locale) {
   fetch(`/locales/${locale}.json`)
-    .then(res => res.json())
-    .then(data => {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
+    .then((res) => res.json())
+    .then((data) => {
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
         el.textContent = data[key] || key;
       });
     });
 }
 
-setLocale('en'); // Default
+setLocale("en"); // Default
 ```
 
 ## 5. Translation Management with JSON Files
@@ -91,6 +115,7 @@ setLocale('en'); // Default
 Use per-language JSON files for translation mapping.
 
 #### Example Directory:
+
 ```pgsql
 /locales
 ├── en.json
@@ -99,6 +124,7 @@ Use per-language JSON files for translation mapping.
 ```
 
 #### Sample en.json
+
 ```json
 {
   "app.title": "Welcome to Theme Builder",
@@ -108,6 +134,7 @@ Use per-language JSON files for translation mapping.
 ```
 
 #### Sample fr.json
+
 ```json
 {
   "app.title": "Bienvenue dans le Créateur de Thème",
@@ -117,14 +144,15 @@ Use per-language JSON files for translation mapping.
 ```
 
 ## 6. Using Intl.PluralRules for Grammar-Aware Translations
+
 ```js
-const pluralRules = new Intl.PluralRules('en-US');
+const pluralRules = new Intl.PluralRules("en-US");
 
 function pluralize(count, singular, plural) {
-  return pluralRules.select(count) === 'one' ? singular : plural;
+  return pluralRules.select(count) === "one" ? singular : plural;
 }
 
-console.log(`You have ${5} ${pluralize(5, 'item', 'items')}.`); // You have 5 items.
+console.log(`You have ${5} ${pluralize(5, "item", "items")}.`); // You have 5 items.
 ```
 
 For Hindi, Arabic, or Russian — rules differ, but Intl.PluralRules handles it automatically.
@@ -132,6 +160,7 @@ For Hindi, Arabic, or Russian — rules differ, but Intl.PluralRules handles it 
 ## 7. Right-to-Left (RTL) Language Support
 
 #### CSS Adaptation
+
 ```css
 :root[dir="rtl"] {
   direction: rtl;
@@ -145,23 +174,27 @@ For Hindi, Arabic, or Russian — rules differ, but Intl.PluralRules handles it 
 ```
 
 #### Dynamic Direction Setting
+
 ```js
 function setDirection(locale) {
-  const rtlLangs = ['ar', 'fa', 'he', 'ur'];
-  document.documentElement.dir = rtlLangs.includes(locale.split('-')[0]) ? 'rtl' : 'ltr';
+  const rtlLangs = ["ar", "fa", "he", "ur"];
+  document.documentElement.dir = rtlLangs.includes(locale.split("-")[0])
+    ? "rtl"
+    : "ltr";
 }
 ```
 
 ## 8. Popular i18n Libraries
 
-| Library	| Description	| Ecosystem |
-|:--- |:--- |:--- |
-| i18next	| Most popular JS i18n framework	| Works with React, Vue, Node |
-| FormatJS / react-intl	| Message formatting for React	| React ecosystem |
-| LinguiJS	| Lightweight message-based translation	| Framework-agnostic |
-| Vue I18n	| Official Vue translation plugin	| Vue-only |
+| Library               | Description                           | Ecosystem                   |
+| :-------------------- | :------------------------------------ | :-------------------------- |
+| i18next               | Most popular JS i18n framework        | Works with React, Vue, Node |
+| FormatJS / react-intl | Message formatting for React          | React ecosystem             |
+| LinguiJS              | Lightweight message-based translation | Framework-agnostic          |
+| Vue I18n              | Official Vue translation plugin       | Vue-only                    |
 
 ## 9. Example: React Integration with i18next
+
 ```bash
 npm install i18next react-i18next
 ```
@@ -173,8 +206,8 @@ import { initReactI18next } from "react-i18next";
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: { translation: { "hello": "Hello World" } },
-    fr: { translation: { "hello": "Bonjour le monde" } }
+    en: { translation: { hello: "Hello World" } },
+    fr: { translation: { hello: "Bonjour le monde" } },
   },
   lng: "en",
   fallbackLng: "en",
@@ -185,15 +218,15 @@ export default i18n;
 
 ```jsx
 // App.jsx
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 function App() {
   const { t, i18n } = useTranslation();
   return (
     <>
-      <h1>{t('hello')}</h1>
-      <button onClick={() => i18n.changeLanguage('fr')}>Français</button>
-      <button onClick={() => i18n.changeLanguage('en')}>English</button>
+      <h1>{t("hello")}</h1>
+      <button onClick={() => i18n.changeLanguage("fr")}>Français</button>
+      <button onClick={() => i18n.changeLanguage("en")}>English</button>
     </>
   );
 }
@@ -205,15 +238,15 @@ You can integrate i18n into Web Components or Theme Builders:
 
 ```ts
 // In Lit Component
-import { html, LitElement } from 'lit';
+import { html, LitElement } from "lit";
 
 const translations = {
-  en: { save: 'Save' },
-  hi: { save: 'सहेजें' }
+  en: { save: "Save" },
+  hi: { save: "सहेजें" },
 };
 
 export class SaveButton extends LitElement {
-  locale = 'en';
+  locale = "en";
 
   render() {
     return html`<button>${translations[this.locale].save}</button>`;
@@ -223,13 +256,13 @@ export class SaveButton extends LitElement {
 
 ## 11. Advanced Techniques
 
-| Feature	| Description |
-|:--- |:--- |
-| ICU Message Format	| Advanced plural, gender, and contextual expressions. |
-| Dynamic module loading	| Load translations only for active locale using `import()`. |
-| Locale-based routing	| e.g., `/en/dashboard` or `/fr/dashboard.` |
-| Currency exchange APIs	| Convert amounts dynamically per region. |
-| Date/time zones	| Adjust with `Intl.DateTimeFormat` + `timeZone` option. |
+| Feature                | Description                                                |
+| :--------------------- | :--------------------------------------------------------- |
+| ICU Message Format     | Advanced plural, gender, and contextual expressions.       |
+| Dynamic module loading | Load translations only for active locale using `import()`. |
+| Locale-based routing   | e.g., `/en/dashboard` or `/fr/dashboard.`                  |
+| Currency exchange APIs | Convert amounts dynamically per region.                    |
+| Date/time zones        | Adjust with `Intl.DateTimeFormat` + `timeZone` option.     |
 
 ## 12. Best Practices
 
@@ -390,7 +423,9 @@ export const LanguageSelector = () => {
   useEffect(() => {
     // Set RTL for Arabic
     const rtlLangs = ["ar"];
-    document.documentElement.dir = rtlLangs.includes(i18n.language) ? "rtl" : "ltr";
+    document.documentElement.dir = rtlLangs.includes(i18n.language)
+      ? "rtl"
+      : "ltr";
   }, [i18n.language]);
 
   return (
@@ -419,7 +454,11 @@ export const LanguageSelector = () => {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export const ThemeEditor = ({ onChange }: { onChange: (theme: any) => void }) => {
+export const ThemeEditor = ({
+  onChange,
+}: {
+  onChange: (theme: any) => void;
+}) => {
   const { t } = useTranslation();
   const [theme, setTheme] = useState({
     primaryColor: "#007bff",
@@ -465,8 +504,12 @@ export const ThemeEditor = ({ onChange }: { onChange: (theme: any) => void }) =>
         />
       </div>
 
-      <button className="bg-blue-600 text-white px-3 py-1 rounded">{t("button.save")}</button>
-      <button className="bg-green-600 text-white px-3 py-1 rounded ml-2">{t("button.export")}</button>
+      <button className="bg-blue-600 text-white px-3 py-1 rounded">
+        {t("button.save")}
+      </button>
+      <button className="bg-green-600 text-white px-3 py-1 rounded ml-2">
+        {t("button.export")}
+      </button>
     </div>
   );
 };
@@ -568,6 +611,7 @@ The `document.documentElement.dir` will switch automatically between `ltr` and `
 #### Result
 
 Your Localized Theme Builder UI can now:
+
 - Translate all interface text
 - Switch between LTR and RTL layouts
 - Format numbers, dates, and currencies per locale
@@ -581,3 +625,9 @@ Your Localized Theme Builder UI can now:
 - Support `pluralization`, `RTL`, and `locale routing`.
 - Adopt libraries like `i18next`, `LinguiJS`, or `FormatJS` for scalability.
 - Combine with `design systems` to produce globally adaptable UI frameworks.
+
+---
+
+[<< Chapter 22](./22_modern_javaScript_features.md) | [Chapter 24 >>](./24_reactive_programming.md)
+
+---

@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 18](./18_memory_management.md) | [Chapter 20 >>](./20_javaScript_engine_internals.md)
+
+---
+
 # Chapter 19: Performance Optimization
 
 As web applications and websites grow in complexity, optimizing performance becomes essential. Slow applications can frustrate users, hurt engagement, and impact overall user experience. JavaScript, while powerful, can be a bottleneck if not optimized properly. This chapter dives deep into various techniques and strategies for optimizing the performance of your JavaScript code and web applications.
@@ -49,9 +55,10 @@ Tree shaking is the process of eliminating unused code from your project. This e
 - Use `rel="preload"` for critical assets and `rel="preconnect"`/`dns-prefetch` for origins.
 - Prefer HTTP/2 or HTTP/3 to improve multiplexing; enable Brotli compression.
 - Example (HTML):
+
 ```html
-<link rel="preconnect" href="https://cdn.example.com">
-<link rel="preload" as="script" href="/static/app.chunk.js">
+<link rel="preconnect" href="https://cdn.example.com" />
+<link rel="preload" as="script" href="/static/app.chunk.js" />
 ```
 
 ---
@@ -143,9 +150,12 @@ Use the browser’s developer tools to profile your JavaScript code and monitor 
 
 - Follow RAIL: Response (<100ms), Animation (frame budget ~16ms), Idle, Load.
 - Use `requestAnimationFrame` for visual updates and `requestIdleCallback` for low-priority work.
+
 ```javascript
 requestAnimationFrame(() => updateUI());
-requestIdleCallback((deadline) => { if (deadline.timeRemaining() > 10) doLowPriority(); });
+requestIdleCallback((deadline) => {
+  if (deadline.timeRemaining() > 10) doLowPriority();
+});
 ```
 
 ---
@@ -154,13 +164,16 @@ requestIdleCallback((deadline) => { if (deadline.timeRemaining() > 10) doLowPrio
 
 - Break up long work into smaller chunks; yield back between chunks.
 - Detect long tasks with `PerformanceObserver`.
+
 ```javascript
 // Chunking
 function chunked(items, fn) {
   let i = 0;
   function step() {
     const start = performance.now();
-    while (i < items.length && performance.now() - start < 8) { fn(items[i++]); }
+    while (i < items.length && performance.now() - start < 8) {
+      fn(items[i++]);
+    }
     if (i < items.length) setTimeout(step, 0);
   }
   step();
@@ -168,8 +181,8 @@ function chunked(items, fn) {
 
 // Long task observer
 new PerformanceObserver((list) => {
-  for (const e of list.getEntries()) console.warn('Long task', e.duration);
-}).observe({ type: 'longtask', buffered: true });
+  for (const e of list.getEntries()) console.warn("Long task", e.duration);
+}).observe({ type: "longtask", buffered: true });
 ```
 
 ---
@@ -178,9 +191,14 @@ new PerformanceObserver((list) => {
 
 - Avoid layout thrashing: read layout once, then write. Use CSS `will-change`, `transform`, `opacity` for animations.
 - Batch DOM updates with `DocumentFragment` or offscreen elements.
+
 ```javascript
 const frag = document.createDocumentFragment();
-for (let i = 0; i < 1000; i++) { const li = document.createElement('li'); li.textContent = i; frag.appendChild(li); }
+for (let i = 0; i < 1000; i++) {
+  const li = document.createElement("li");
+  li.textContent = i;
+  frag.appendChild(li);
+}
 list.appendChild(frag);
 ```
 
@@ -190,10 +208,29 @@ list.appendChild(frag);
 
 - Prefer modern formats (AVIF/WebP), responsive images (`srcset`, `sizes`), lazy-load offscreen (`loading="lazy"`).
 - Subset and preload critical fonts; use `font-display: swap` to reduce FOIT.
+
 ```html
-<img src="img-640.webp" srcset="img-320.webp 320w, img-640.webp 640w, img-1280.webp 1280w" sizes="(max-width: 640px) 100vw, 640px" loading="lazy" alt="...">
-<link rel="preload" as="font" href="/fonts/Inter.woff2" type="font/woff2" crossorigin>
-<style>@font-face{font-family:Inter;src:url(/fonts/Inter.woff2) format('woff2');font-display:swap}</style>
+<img
+  src="img-640.webp"
+  srcset="img-320.webp 320w, img-640.webp 640w, img-1280.webp 1280w"
+  sizes="(max-width: 640px) 100vw, 640px"
+  loading="lazy"
+  alt="..."
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/Inter.woff2"
+  type="font/woff2"
+  crossorigin
+/>
+<style>
+  @font-face {
+    font-family: Inter;
+    src: url(/fonts/Inter.woff2) format("woff2");
+    font-display: swap;
+  }
+</style>
 ```
 
 ---
@@ -202,12 +239,22 @@ list.appendChild(frag);
 
 - Avoid deopts: keep object shapes stable (create objects with fields in the same order), avoid polymorphic hot paths.
 - Minimize megamorphic property access; hoist repeated property reads.
+
 ```javascript
 // Stable shapes
-function makeUser(name, age) { return { name, age, active: false }; }
+function makeUser(name, age) {
+  return { name, age, active: false };
+}
 
 // Hoist property access
-function sumAges(users) { let total = 0; for (const u of users) { const age = u.age; total += age; } return total; }
+function sumAges(users) {
+  let total = 0;
+  for (const u of users) {
+    const age = u.age;
+    total += age;
+  }
+  return total;
+}
 ```
 
 ---
@@ -222,11 +269,20 @@ function sumAges(users) { let total = 0; for (const u of users) { const age = u.
 ## 16. Measuring Web Vitals
 
 - Track Core Web Vitals: LCP, CLS, INP. Use `web-vitals` or `PerformanceObserver` to measure.
+
 ```javascript
-import { onLCP, onCLS, onINP } from 'web-vitals';
-onLCP(console.log); onCLS(console.log); onINP(console.log);
+import { onLCP, onCLS, onINP } from "web-vitals";
+onLCP(console.log);
+onCLS(console.log);
+onINP(console.log);
 ```
 
 ---
 
 By following these performance optimization techniques, you can ensure that your JavaScript code runs efficiently and your web applications provide the best possible user experience.
+
+---
+
+[<< Chapter 18](./18_memory_management.md) | [Chapter 20 >>](./20_javaScript_engine_internals.md)
+
+---

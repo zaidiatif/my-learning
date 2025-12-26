@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 48](./48_javaScript_in_machine_learning.md) | [Chapter 50 >>](./50_monorepos_multi_package_management.md)
+
+---
+
 # Chapter 49: JavaScript Build Tools and Bundlers
 
 ## 1 Introduction to Build Tools and Bundlers
@@ -10,14 +16,14 @@ In short, build tools form the `backbone of modern web application development`.
 
 ## 2 Why Use Build Tools and Bundlers?
 
-| Purpose	| Description |
-|:--- |:--- |
-| Modularity	| Combine multiple JS modules, CSS files, and assets into one or more optimized bundles. |
-| Transpilation	| Convert modern ES6+ or TypeScript code to backward-compatible JavaScript. |
-| Optimization	| Minify, compress, and tree-shake unused code for faster loading. |
-| Code Splitting	| Load only what’s necessary, improving performance and reducing initial load time. |
-| Automation & Debugging	| Automate linting, testing, hot reloading, and continuous integration workflows. |
-| Development Experience	| Provide live reloading, source maps, and better error diagnostics. |
+| Purpose                | Description                                                                            |
+| :--------------------- | :------------------------------------------------------------------------------------- |
+| Modularity             | Combine multiple JS modules, CSS files, and assets into one or more optimized bundles. |
+| Transpilation          | Convert modern ES6+ or TypeScript code to backward-compatible JavaScript.              |
+| Optimization           | Minify, compress, and tree-shake unused code for faster loading.                       |
+| Code Splitting         | Load only what’s necessary, improving performance and reducing initial load time.      |
+| Automation & Debugging | Automate linting, testing, hot reloading, and continuous integration workflows.        |
+| Development Experience | Provide live reloading, source maps, and better error diagnostics.                     |
 
 ## 3 The Modern JavaScript Build Pipeline
 
@@ -90,6 +96,7 @@ module.exports = {
 - Uses caching and parallel processing for faster builds.
 
 #### Example Usage
+
 ```bash
 parcel index.html
 ```
@@ -139,6 +146,7 @@ It generates smaller, cleaner bundles using `tree-shaking` to eliminate unused c
 - Plugin-driven ecosystem.
 
 #### Example Configuration
+
 ```javascript
 import { terser } from "rollup-plugin-terser";
 
@@ -232,6 +240,7 @@ module.exports = function (grunt) {
 ```
 
 ### Using Babel with Webpack
+
 ```javascript
 module.exports = {
   module: {
@@ -255,14 +264,14 @@ module.exports = {
 
 ## 7 Core Concepts in Build Tools
 
-| Concept	| Description |
-|:--- |:--- |
-| Entry & Output	| Define the entry point (main JS file) and where the bundled files should be output.|
-| Loaders	| Transform non-JS assets like CSS, images, and TypeScript into valid modules. |
-| Plugins	| Extend bundler functionality (e.g., optimize images, inject HTML, analyze bundles). |
-| Code Splitting	| Break your app into smaller chunks for faster loading. |
-| Hot Module Replacement (HMR)	| Update parts of the app in real time without reloading the page. |
-| Tree-Shaking	| Automatically remove unused or dead code to optimize bundles. |
+| Concept                      | Description                                                                         |
+| :--------------------------- | :---------------------------------------------------------------------------------- |
+| Entry & Output               | Define the entry point (main JS file) and where the bundled files should be output. |
+| Loaders                      | Transform non-JS assets like CSS, images, and TypeScript into valid modules.        |
+| Plugins                      | Extend bundler functionality (e.g., optimize images, inject HTML, analyze bundles). |
+| Code Splitting               | Break your app into smaller chunks for faster loading.                              |
+| Hot Module Replacement (HMR) | Update parts of the app in real time without reloading the page.                    |
+| Tree-Shaking                 | Automatically remove unused or dead code to optimize bundles.                       |
 
 ## 8 Best Practices for Build Tools and Bundlers
 
@@ -284,3 +293,9 @@ From powerful bundlers like `Webpack` and `Vite`, to zero-config tools like `Par
 Paired with `Babel`, they enable developers to use cutting-edge JavaScript syntax while maintaining full compatibility with legacy browsers.
 
 **In essence:** Build tools are not just about automation — they’re about empowering developers to build fast, optimized, and future-ready web applications.
+
+---
+
+[<< Chapter 48](./48_javaScript_in_machine_learning.md) | [Chapter 50 >>](./50_monorepos_multi_package_management.md)
+
+---

@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 34](./34_web_cryptography.md) | [Chapter 36 >>](./36_testing_mutation_testing.md)
+
+---
+
 # Chapter 35: Testing JavaScript Applications
 
 Testing is an essential practice in modern software engineering. For JavaScript—used across browsers, servers, and mobile frameworks—testing is even more critical because of the language’s dynamic nature. Well-designed tests improve code reliability, maintainability, developer confidence, and user satisfaction.
@@ -21,6 +27,7 @@ Well-tested code is easier to maintain, refactor, and extend without introducing
 By catching bugs early, testing contributes to a smoother user experience and higher satisfaction.
 
 ### 1.4 Faster Development
+
 Automated tests accelerate delivery by reducing manual verification.
 
 ---
@@ -171,12 +178,11 @@ Automated tests accelerate delivery by reducing manual verification.
 
 ### 5.9 MSW (Mock Service Worker)
 
-- **Features:** API mocking	Test network requests easily.
+- **Features:** API mocking Test network requests easily.
 
 ---
 
 ## 6 Testing Best Practices
-
 
 ### 6.1 Write Clear and Focused Tests
 
@@ -264,13 +270,14 @@ import Button from "./Button";
 test("Button calls onClick when pressed", () => {
   const handleClick = jest.fn();
   render(<Button onClick={handleClick}>Click</Button>);
-  
+
   fireEvent.click(screen.getByText(/Click/i));
   expect(handleClick).toHaveBeenCalledTimes(1);
 });
 ```
 
 ### 7.3 API Test with Supertest
+
 ````javascript
 import request from "supertest";
 import app from "../app";
@@ -300,15 +307,15 @@ describe("GET /users", () => {
 
 - Tests help isolate and identify issues during development and production.
 
-### 8.4 Cross-Browser Testing 
+### 8.4 Cross-Browser Testing
 
 – Validates compatibility across Chrome, Firefox, Safari.
 
-### 8.5 Performance & Load Testing 
+### 8.5 Performance & Load Testing
 
 – Ensures app remains stable under heavy usage.
 
-### 8.6 Security Testing 
+### 8.6 Security Testing
 
 – Detects vulnerabilities before production.
 
@@ -317,3 +324,10 @@ describe("GET /users", () => {
 ## Conclusion
 
 Testing is indispensable for delivering robust and reliable JavaScript applications. By leveraging the right tools, adhering to best practices, and adopting a comprehensive testing strategy, developers can enhance code quality, reduce maintenance costs, and improve user satisfaction.
+````
+
+---
+
+[<< Chapter 34](./34_web_cryptography.md) | [Chapter 36 >>](./36_testing_mutation_testing.md)
+
+---

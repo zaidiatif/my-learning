@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 36](./36_testing_mutation_testing.md) | [Chapter 38 >>](./38_state_management_patterns.md)
+
+---
+
 # Chapter 37: JavaScript Frameworks
 
 JavaScript frameworks are at the heart of modern web development. They simplify the process of building interactive, scalable, and maintainable applications by providing structured patterns, reusable components, and built-in tools for managing complexity.
@@ -38,7 +44,7 @@ Mature frameworks come with vast ecosystems—community libraries, plugins, docu
   - Strong ecosystem with tools like Next.js for server-side rendering (SSR).
   - React Hooks simplify state and side-effect management.
 - **Rich ecosystem:** Next.js, React Router, Redux, Zustand, Recoil.
-- **Use Cases:** 
+- **Use Cases:**
   - Single-page applications (SPAs), dynamic web interfaces, and scalable front-end projects.
   - dashboards, social networks, and e-commerce interfaces
 - **Example:** Netflix, Facebook, and Airbnb use React for rich, interactive UIs.
@@ -158,13 +164,13 @@ Mature frameworks come with vast ecosystems—community libraries, plugins, docu
 
 ## 4 Client-Side Rendering (CSR) vs. Server-Side Rendering (SSR)
 
-| Feature	| Client-Side Rendering (CSR)	| Server-Side Rendering (SSR) |
-| :-- | :-- | :-- |
-| Where Rendering Happens	| In the browser	| On the server |
-| Performance	| Slower first load, faster interactions	| Faster first load, slower subsequent updates |
-| SEO	| Limited (JS-dependent)	| Excellent (pre-rendered HTML) |
-| Example Frameworks	| React, Vue, Angular | Next.js, Nuxt.js, Remix |
-| Ideal Use Case	| Dashboards, SPAs	| Blogs, news sites, e-commerce |
+| Feature                 | Client-Side Rendering (CSR)            | Server-Side Rendering (SSR)                  |
+| :---------------------- | :------------------------------------- | :------------------------------------------- |
+| Where Rendering Happens | In the browser                         | On the server                                |
+| Performance             | Slower first load, faster interactions | Faster first load, slower subsequent updates |
+| SEO                     | Limited (JS-dependent)                 | Excellent (pre-rendered HTML)                |
+| Example Frameworks      | React, Vue, Angular                    | Next.js, Nuxt.js, Remix                      |
+| Ideal Use Case          | Dashboards, SPAs                       | Blogs, news sites, e-commerce                |
 
 🧠 Hybrid rendering (used in Next.js, Nuxt.js) offers the best of both worlds.
 
@@ -267,3 +273,9 @@ Mature frameworks come with vast ecosystems—community libraries, plugins, docu
 ## Conclusion
 
 JavaScript frameworks are indispensable in modern web development. By understanding their features, use cases, and best practices, developers can leverage these tools to build efficient, scalable, and maintainable applications. Choosing the right framework depends on project needs, team expertise, and long-term goals.
+
+---
+
+[<< Chapter 36](./36_testing_mutation_testing.md) | [Chapter 38 >>](./38_state_management_patterns.md)
+
+---

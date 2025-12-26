@@ -1,4 +1,11 @@
+---
+
+[<< Chapter 30](./30_building_progressive_web_apps.md) | [Chapter 32 >>](./32_javaScript_security.md)
+
+---
+
 # Chapter 31: Static Site Generation (SSG) and Jamstack in JavaScript
+
 ## 1. What is Jamstack?
 
 `Jamstack` stands for `JavaScript, APIs, and Markup` — a modern web architecture designed to make websites faster, more secure, and easier to scale.
@@ -25,11 +32,11 @@ Instead of relying on a traditional monolithic backend (like PHP, WordPress, or 
 
 ## 2. SSG vs SSR vs CSR
 
-| Approach	| Description	| Rendering Time	| Example Use Case |
-|:--- |:--- |:--- |:--- |
-| SSG (Static Site Generation)	| HTML pages generated at build time	| Build-time	| Blogs, Documentation, Marketing Sites |
-| SSR (Server-Side Rendering)	| HTML generated dynamically on each request	| Request-time	| Dashboards, User Profiles |
-| CSR (Client-Side Rendering)	| Empty HTML shell with JS rendering on client	| Runtime in Browser	| SPAs, Interactive Apps |
+| Approach                     | Description                                  | Rendering Time     | Example Use Case                      |
+| :--------------------------- | :------------------------------------------- | :----------------- | :------------------------------------ |
+| SSG (Static Site Generation) | HTML pages generated at build time           | Build-time         | Blogs, Documentation, Marketing Sites |
+| SSR (Server-Side Rendering)  | HTML generated dynamically on each request   | Request-time       | Dashboards, User Profiles             |
+| CSR (Client-Side Rendering)  | Empty HTML shell with JS rendering on client | Runtime in Browser | SPAs, Interactive Apps                |
 
 ### Comparison Overview
 
@@ -46,6 +53,7 @@ Modern frameworks like Next.js or Nuxt allow mixing these modes:
 - Hydrate client interactions (CSR)
 
 ## 3. Tools and Frameworks
+
 ### a. Next.js
 
 - Developed by Vercel, supports SSG, SSR, and ISR (Incremental Static Regeneration).
@@ -53,10 +61,11 @@ Modern frameworks like Next.js or Nuxt allow mixing these modes:
 - Integrates with headless CMSs (Contentful, Sanity, Strapi).
 
 #### Example:
+
 ```jsx
 // pages/index.js
 export async function getStaticProps() {
-  const res = await fetch('https://api.example.com/posts');
+  const res = await fetch("https://api.example.com/posts");
   const posts = await res.json();
   return { props: { posts } };
 }
@@ -65,7 +74,11 @@ export default function Home({ posts }) {
   return (
     <main>
       <h1>Blog Posts</h1>
-      <ul>{posts.map(p => <li key={p.id}>{p.title}</li>)}</ul>
+      <ul>
+        {posts.map((p) => (
+          <li key={p.id}>{p.title}</li>
+        ))}
+      </ul>
     </main>
   );
 }
@@ -80,19 +93,22 @@ export default function Home({ posts }) {
 #### Example:
 
 ```jsx
-import { graphql } from "gatsby"
+import { graphql } from "gatsby";
 
 export const query = graphql`
   {
     allMarkdownRemark {
       nodes {
-        frontmatter { title }
+        frontmatter {
+          title
+        }
         excerpt
       }
     }
   }
-`
+`;
 ```
+
 ### c. Eleventy (11ty)
 
 - Lightweight and flexible static site generator.
@@ -100,6 +116,7 @@ export const query = graphql`
 - Great for developers who prefer simplicity and minimal overhead.
 
 #### Example:
+
 ```sql
 .
 ├── _includes/
@@ -109,6 +126,7 @@ export const query = graphql`
 ```
 
 ## 4. Deploying Static Sites
+
 ### a. Netlify
 
 - Git-based workflow: push → build → deploy.
@@ -138,11 +156,13 @@ export const query = graphql`
 - SEO: Add meta tags and structured data at build time for better ranking.
 
 ## 6. Advanced Techniques
+
 ### Incremental Static Regeneration (ISR)
 
 - Used in Next.js, allows static pages to update after deployment.
 
 - Example:
+
 ```js
 export async function getStaticProps() {
   const data = await getData();
@@ -186,12 +206,18 @@ export async function getStaticProps() {
 
 ## Summary
 
-| Concept	| Description |
-|:--- |:--- |
-| Jamstack	| Modern architecture with JavaScript, APIs, and Markup |
-| SSG	| Build-time pre-rendering for performance |
-| SSR	| Request-time rendering for dynamic data |
-| CSR	| Browser-rendered UI for interactivity |
-| Tools	| Next.js, Gatsby, Eleventy |
-| Deployment	| Netlify, Vercel, GitHub Pages |
-| Trends	| ISR, Edge Computing, Headless CMS Integration |
+| Concept    | Description                                           |
+| :--------- | :---------------------------------------------------- |
+| Jamstack   | Modern architecture with JavaScript, APIs, and Markup |
+| SSG        | Build-time pre-rendering for performance              |
+| SSR        | Request-time rendering for dynamic data               |
+| CSR        | Browser-rendered UI for interactivity                 |
+| Tools      | Next.js, Gatsby, Eleventy                             |
+| Deployment | Netlify, Vercel, GitHub Pages                         |
+| Trends     | ISR, Edge Computing, Headless CMS Integration         |
+
+---
+
+[<< 30](./30_building_progressive_web_apps.md) | [Chapter 32 >>](./32_javaScript_security.md)
+
+---

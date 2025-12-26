@@ -1,4 +1,11 @@
+---
+
+[<< Chapter 35](./35_testing_javaScript_applications.md) | [Chapter 37 >>](./37_javaScript_frameworks.md)
+
+---
+
 # Chapter 36: Testing — Mutation Testing in JavaScript
+
 ## 1. What is Mutation Testing?
 
 `Mutation Testing` is an advanced software testing technique that evaluates the `quality and effectiveness of your test suite` by introducing small, controlled changes (called `mutations`) into your source code and checking whether your existing tests can detect them.
@@ -17,6 +24,7 @@ Think of mutation testing as a “crash test” for your test suite — it tests
 ### Example
 
 #### Original Code:
+
 ```js
 function isAdult(age) {
   return age >= 18;
@@ -24,12 +32,13 @@ function isAdult(age) {
 ```
 
 #### Test Code:
+
 ```js
-test('should return true for 18 or older', () => {
+test("should return true for 18 or older", () => {
   expect(isAdult(18)).toBe(true);
 });
 
-test('should return false for under 18', () => {
+test("should return false for under 18", () => {
   expect(isAdult(17)).toBe(false);
 });
 ```
@@ -45,14 +54,15 @@ Mutation testing exposes these weak spots.
 
 ## 2. Why Mutation Testing Matters
 
-| Benefit	| Description |
-|:--- |:--- |
-| Test Quality Indicator	| Goes beyond coverage — it measures how effective tests are at catching bugs. |
-| Finds Weak Tests	| Identifies where your tests are superficial or missing assertions. |
-| Encourages Robust Assertions	| Promotes stronger validation logic in tests. |
-| Ensures Maintainability	| Prevents overconfidence in high but shallow coverage numbers. |
+| Benefit                      | Description                                                                  |
+| :--------------------------- | :--------------------------------------------------------------------------- |
+| Test Quality Indicator       | Goes beyond coverage — it measures how effective tests are at catching bugs. |
+| Finds Weak Tests             | Identifies where your tests are superficial or missing assertions.           |
+| Encourages Robust Assertions | Promotes stronger validation logic in tests.                                 |
+| Ensures Maintainability      | Prevents overconfidence in high but shallow coverage numbers.                |
 
 ### `Code coverage ≠ test effectiveness.`
+
 Mutation testing ensures your tests truly validate your code’s behavior, not just execute it.
 
 ## 3. Mutation Testing Tools: Stryker
@@ -70,11 +80,13 @@ It integrates seamlessly with test runners like `Jest, Mocha`, and `Vitest`.
 - Generates a mutation score — a percentage of mutants killed.
 
 ### Installation
+
 ```bash
 npm install --save-dev @stryker-mutator/core
 ```
 
 If you’re using Jest:
+
 ```bash
 npm install --save-dev @stryker-mutator/jest-runner
 ```
@@ -82,6 +94,7 @@ npm install --save-dev @stryker-mutator/jest-runner
 ### Configuration
 
 Create a file named `stryker.conf.json`:
+
 ```json
 {
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
@@ -95,6 +108,7 @@ Create a file named `stryker.conf.json`:
 ```
 
 Then run:
+
 ```bash
 npx stryker run
 ```
@@ -102,12 +116,11 @@ npx stryker run
 ### Output Example
 
 -------------------|---------|----------|-----------|------------|----------|---------|
-File               | % score | # killed | # survived | # timeout | # no cov | # error |
+File | % score | # killed | # survived | # timeout | # no cov | # error |
 -------------------|---------|----------|-----------|------------|----------|---------|
-isAdult.js         |   75%   |    3     |     1      |     0      |    0     |    0   |
+isAdult.js | 75% | 3 | 1 | 0 | 0 | 0 |
 -------------------|---------|----------|-----------|------------|----------|---------|
-All files          |   75%   |          |            |            |          |         |
-
+All files | 75% | | | | | |
 
 ### Interpretation:
 
@@ -121,6 +134,7 @@ Mutation testing helps you pinpoint exactly where and why your tests are weak.
 ### a. Strengthen Assertions
 
 Make assertions more specific:
+
 ```js
 // Weak
 expect(result).toBeTruthy();
@@ -144,6 +158,7 @@ expect(user.age).toBeGreaterThanOrEqual(18);
 - Add mutation testing to your CI pipeline for ongoing quality tracking.
 
 - Configure thresholds:
+
 ```json
 "thresholds": {
   "high": 90,
@@ -155,23 +170,24 @@ expect(user.age).toBeGreaterThanOrEqual(18);
 ### e. Combine with Code Coverage
 
 - Use both coverage and mutation score together:
--   - Coverage = How much code is executed.
--   - Mutation = How well it’s verified.
+- - Coverage = How much code is executed.
+- - Mutation = How well it’s verified.
 
 ## 5. Mutation Operators (Examples)
 
-| Mutation Type	| Example Change	| Purpose |
-|:--- |:--- |:--- |
-| Arithmetic Operator Replacement	| `+` → `-`	| Detect weak numeric tests |
-| Logical Operator Replacement	| `&&` → "`" | |	
-| Relational Operator Replacement |	`>` → `<`	| Catch missed boundary tests |
-| Boolean Literal Replacement	| `true` → `false`	| Expose weak logical validation |
-| Conditional Boundary Change	| `>=` → `>`	| Test boundary assertions |
-| Return Statement Removal	| Remove return	| Check if output is verified |
+| Mutation Type                   | Example Change   | Purpose                        |
+| :------------------------------ | :--------------- | :----------------------------- |
+| Arithmetic Operator Replacement | `+` → `-`        | Detect weak numeric tests      |
+| Logical Operator Replacement    | `&&` → "`"       |                                |
+| Relational Operator Replacement | `>` → `<`        | Catch missed boundary tests    |
+| Boolean Literal Replacement     | `true` → `false` | Expose weak logical validation |
+| Conditional Boundary Change     | `>=` → `>`       | Test boundary assertions       |
+| Return Statement Removal        | Remove return    | Check if output is verified    |
 
 ## 6. Example Project Setup (React + Jest + Stryker)
 
 ### 6.1 Initialize project
+
 ```bash
 npx create-react-app mutation-demo
 cd mutation-demo
@@ -179,6 +195,7 @@ npm install --save-dev @stryker-mutator/core @stryker-mutator/jest-runner
 ```
 
 ### 6.2 Add config
+
 ```json
 {
   "mutator": "javascript",
@@ -189,6 +206,7 @@ npm install --save-dev @stryker-mutator/core @stryker-mutator/jest-runner
 ```
 
 ### 6.3 Run
+
 ```bash
 npx stryker run
 ```
@@ -208,14 +226,14 @@ npx stryker run
 
 ## 8. Summary
 
-| Concept	| Description |
-|:--- |:--- |
-| Mutation Testing	| Introduces artificial bugs to measure test effectiveness |
-| Mutants	| Modified versions of your code (potential bugs) |
-| Killed Mutants	| Detected by existing tests (good) |
-| Survived Mutants	| Not detected — indicates weak tests |
-| Tool	| Stryker — best for JS/TS mutation testing |
-| Goal	| Improve test suite robustness beyond coverage numbers |
+| Concept          | Description                                              |
+| :--------------- | :------------------------------------------------------- |
+| Mutation Testing | Introduces artificial bugs to measure test effectiveness |
+| Mutants          | Modified versions of your code (potential bugs)          |
+| Killed Mutants   | Detected by existing tests (good)                        |
+| Survived Mutants | Not detected — indicates weak tests                      |
+| Tool             | Stryker — best for JS/TS mutation testing                |
+| Goal             | Improve test suite robustness beyond coverage numbers    |
 
 ## Conclusion
 
@@ -223,3 +241,9 @@ Mutation testing provides a deeper insight into the quality of your tests, not j
 By simulating real-world bugs and ensuring your tests catch them, you build stronger, more reliable software.
 
 **In short:** Mutation testing doesn’t test your code — it tests your tests.
+
+---
+
+[<< Chapter 35](./35_testing_javaScript_applications.md) | [Chapter 37 >>](./37_javaScript_frameworks.md)
+
+---

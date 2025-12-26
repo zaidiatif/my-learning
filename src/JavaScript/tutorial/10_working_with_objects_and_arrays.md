@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 9](./09_error_handling_and_debugging.md) | [Chapter 11 >>](./11_advanced_javaScript_concepts.md)
+
+---
+
 # Chapter 10: Working with Objects and Arrays
 
 This chapter explores how to effectively work with objects and arrays in JavaScript, two fundamental data structures in the language.
@@ -196,12 +202,17 @@ console.log(jsonData); // {"name":"Alice","age":25}
 - Control property characteristics with `Object.defineProperty`.
 - Freeze or seal objects to prevent mutations.
 - Examples:
+
   ```javascript
   const user = {};
-  Object.defineProperty(user, 'id', { value: 1, writable: false, enumerable: true });
+  Object.defineProperty(user, "id", {
+    value: 1,
+    writable: false,
+    enumerable: true,
+  });
   // user.id = 2; // TypeError in strict mode
 
-  const cfg = Object.freeze({ mode: 'prod' }); // no adds/removes/changes
+  const cfg = Object.freeze({ mode: "prod" }); // no adds/removes/changes
   const semi = Object.seal({ a: 1 }); // no adds/removes, can change existing
   ```
 
@@ -213,11 +224,15 @@ console.log(jsonData); // {"name":"Alice","age":25}
 - Check own keys vs prototype keys with `Object.hasOwn`.
 - Examples:
   ```javascript
-  const proto = { greet() { return `hi ${this.name}`; } };
+  const proto = {
+    greet() {
+      return `hi ${this.name}`;
+    },
+  };
   const alice = Object.create(proto);
-  alice.name = 'Alice';
+  alice.name = "Alice";
   console.log(alice.greet()); // hi Alice
-  console.log(Object.hasOwn(alice, 'greet')); // false
+  console.log(Object.hasOwn(alice, "greet")); // false
   ```
 
 ---
@@ -230,7 +245,10 @@ console.log(jsonData); // {"name":"Alice","age":25}
   ```javascript
   const a = { x: { y: 1 } };
   const shallow = { ...a }; // shares nested refs
-  const deep = typeof structuredClone === 'function' ? structuredClone(a) : JSON.parse(JSON.stringify(a));
+  const deep =
+    typeof structuredClone === "function"
+      ? structuredClone(a)
+      : JSON.parse(JSON.stringify(a));
   ```
 
 ---
@@ -258,7 +276,7 @@ console.log(jsonData); // {"name":"Alice","age":25}
   ```javascript
   const unique = [...new Set([1, 2, 2, 3])]; // [1,2,3]
   const counts = new Map();
-  for (const n of [1,1,2]) counts.set(n, (counts.get(n) || 0) + 1);
+  for (const n of [1, 1, 2]) counts.set(n, (counts.get(n) || 0) + 1);
   ```
 
 ---
@@ -271,7 +289,9 @@ console.log(jsonData); // {"name":"Alice","age":25}
   ```javascript
   const obj = { a: 1, b: 2 };
   for (const [k, v] of Object.entries(obj)) console.log(k, v);
-  const mapped = Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, v * 2]));
+  const mapped = Object.fromEntries(
+    Object.entries(obj).map(([k, v]) => [k, v * 2])
+  );
   ```
 
 ---
@@ -282,7 +302,7 @@ console.log(jsonData); // {"name":"Alice","age":25}
 - Use replacer/reviver for custom handling.
 - Example:
   ```javascript
-  const reviver = (k, v) => (k === 'createdAt' ? new Date(v) : v);
+  const reviver = (k, v) => (k === "createdAt" ? new Date(v) : v);
   const user = { createdAt: new Date() };
   const s = JSON.stringify(user);
   const parsed = JSON.parse(s, reviver);
@@ -295,8 +315,8 @@ console.log(jsonData); // {"name":"Alice","age":25}
 - Safely access deep properties and set defaults only for `null`/`undefined`.
 - Examples:
   ```javascript
-  const city = person?.address?.city ?? 'Unknown';
-  const [head, ...tail] = (fruits ?? []);
+  const city = person?.address?.city ?? "Unknown";
+  const [head, ...tail] = fruits ?? [];
   ```
 
 ---
@@ -316,3 +336,9 @@ console.log(jsonData); // {"name":"Alice","age":25}
 ## **Conclusion**
 
 Understanding how to effectively use objects and arrays is crucial for working with JavaScript. These data structures provide the foundation for organizing and manipulating data in most JavaScript applications.
+
+---
+
+[<< Chapter 9](./09_error_handling_and_debugging.md) | [Chapter 11 >>](./11_advanced_javaScript_concepts.md)
+
+---

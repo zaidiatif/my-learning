@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 45](./45_graphQL.md) | [Chapter 47 >>](./47_javaScript_and_mobile_development.md)
+
+---
+
 # Chapter 46: TypeScript
 
 ## 1 **Introduction to TypeScript**
@@ -24,13 +30,13 @@ JavaScript’s flexibility is both a strength and a weakness. While it allows ra
 
 TypeScript and JavaScript share many similarities, but TypeScript introduces additional features to improve developer experience and code quality.
 
-| Feature | Javascript | Typescript |
-|:--- |:--- |:--- |
-| Typing	| Dynamic	 | Static (optional) |
-| Error Detection	| Runtime	| Compile-time |
-| Tooling Support	| Basic	| Advanced (IntelliSense, linting, etc.) |
-| Language Features	| ES6/ESNext	| Includes ESNext + Types, Enums, Generics, Decorators |
-| Execution	| Interpreted	| Compiled to JavaScript |
+| Feature           | Javascript  | Typescript                                           |
+| :---------------- | :---------- | :--------------------------------------------------- |
+| Typing            | Dynamic     | Static (optional)                                    |
+| Error Detection   | Runtime     | Compile-time                                         |
+| Tooling Support   | Basic       | Advanced (IntelliSense, linting, etc.)               |
+| Language Features | ES6/ESNext  | Includes ESNext + Types, Enums, Generics, Decorators |
+| Execution         | Interpreted | Compiled to JavaScript                               |
 
 ### 2.1 Example:
 
@@ -47,6 +53,7 @@ name = 42; // No error until runtime
 let name: string = "John";
 name = 42; // Compilation error: Type 'number' is not assignable to type 'string'.
 ```
+
 ### 2.2 Example: Safer Coding with TypeScript
 
 ```typescript
@@ -56,7 +63,6 @@ function calculateArea(radius: number): number {
 
 console.log(calculateArea(10)); // ✅ Works fine
 console.log(calculateArea("ten")); // ❌ Error at compile time
-
 ```
 
 In JavaScript, this would only fail during execution. In TypeScript, the compiler prevents it before the code runs.
@@ -82,6 +88,7 @@ greet(undefined); // Error: Argument of type 'undefined' is not assignable to pa
 ```
 
 ---
+
 ## 3 Setting Up TypeScript
 
 ### 3.1 Installation
@@ -105,6 +112,7 @@ tsc --init
 This creates a tsconfig.json file — the heart of every TypeScript project.
 
 #### Example tsconfig.json:
+
 ```json
 {
   "compilerOptions": {
@@ -249,16 +257,16 @@ const admin: AdminUser = {
   role: "admin",
   accessLevel: 10,
   name: "Atif",
-  email: "atif@example.com"
+  email: "atif@example.com",
 };
 ```
+
 ### 5.2 **Type Aliases and Literal Types**
 
 ```typescript
 type Status = "pending" | "approved" | "rejected";
 
 let orderStatus: Status = "approved";
-
 ```
 
 ### 5.3 **Enums**
@@ -290,7 +298,6 @@ function log(level: LogLevel, message: string) {
 }
 
 log(LogLevel.Error, "Something went wrong!");
-
 ```
 
 ### 5.4 **Decorators**
@@ -375,19 +382,20 @@ app.listen(3000, () => console.log("Server running on port 3000"));
 
 ## 7 Tooling and Ecosystem
 
-| Tool	| Purpose |
-|:--- |:--- |
-| ts-node	| Run TypeScript files without compiling manually |
-| ESLint + Prettier	| Code linting and formatting |
-| TypeORM/Prisma	| ORM libraries with TypeScript typings |
-| Jest/Vitest	| Testing frameworks with built-in TypeScript support |
-| SWC/esbuild	| High-performance TypeScript transpilers for modern builds |
+| Tool              | Purpose                                                   |
+| :---------------- | :-------------------------------------------------------- |
+| ts-node           | Run TypeScript files without compiling manually           |
+| ESLint + Prettier | Code linting and formatting                               |
+| TypeORM/Prisma    | ORM libraries with TypeScript typings                     |
+| Jest/Vitest       | Testing frameworks with built-in TypeScript support       |
+| SWC/esbuild       | High-performance TypeScript transpilers for modern builds |
 
 ---
 
 ### 8 Compiler Internals
 
 TypeScript’s compiler (`tsc`) performs three key stages:
+
 - **Parsing** — Converts code into an abstract syntax tree (AST).
 - **Type Checking** — Validates data types and identifies mismatches.
 - **Emission** — Generates JavaScript code targeting the specified ECMAScript version.
@@ -405,6 +413,7 @@ You can also use the TypeScript Compiler API to create custom transformers, code
 - Use isolatedModules in large monorepos to simplify incremental builds.
 
 ---
+
 ## 9 **Best Practices**
 
 1. **Use Strict Mode**: Enable `strict` in `tsconfig.json` to catch common errors early, Ensures maximum type safety.
@@ -426,3 +435,9 @@ TypeScript transforms JavaScript development into a `structured`, `predictable`,
 With seamless integration across `React`, `Node.js`, `Angular`, and `Next.js`, TypeScript is now an industry standard for modern, large-scale application development — bridging the gap between flexibility and reliability.
 
 **In short:** TypeScript empowers developers to write robust, scalable, and future-proof applications with confidence.
+
+---
+
+[<< Chapter 45](./45_graphQL.md) | [Chapter 47 >>](./47_javaScript_and_mobile_development.md)
+
+---

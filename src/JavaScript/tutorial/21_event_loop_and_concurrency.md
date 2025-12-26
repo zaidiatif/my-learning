@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 20](./20_javaScript_engine_internals.md) | [Chapter 22 >>](./22_modern_javaScript_features.md)
+
+---
+
 # Chapter 21: Event Loop and Concurrency
 
 JavaScript's event loop is the cornerstone of its concurrency model. By managing asynchronous operations and ensuring non-blocking behavior, the event loop enables JavaScript to handle multiple tasks efficiently. This chapter delves into the mechanics of the event loop, its role in concurrency, and strategies for managing asynchronous code.
@@ -45,10 +51,10 @@ A higher-priority queue for tasks like Promise resolutions and `MutationObserver
 
 ```javascript
 // Node ordering (typical): nextTick > Promise microtask > setImmediate (check) > setTimeout(0) (timers)
-setTimeout(() => console.log('timeout'), 0);
-setImmediate(() => console.log('immediate'));
-Promise.resolve().then(() => console.log('promise')); 
-process.nextTick?.(() => console.log('nextTick'));
+setTimeout(() => console.log("timeout"), 0);
+setImmediate(() => console.log("immediate"));
+Promise.resolve().then(() => console.log("promise"));
+process.nextTick?.(() => console.log("nextTick"));
 ```
 
 ---
@@ -107,10 +113,10 @@ Built on Promises, `async` and `await` provide a syntax resembling synchronous c
 - `MessageChannel`/`postMessage`: create a macrotask without minimum timer clamping.
 
 ```javascript
-queueMicrotask(() => console.log('microtask'));
+queueMicrotask(() => console.log("microtask"));
 
 const ch = new MessageChannel();
-ch.port1.onmessage = () => console.log('macrotask via MessageChannel');
+ch.port1.onmessage = () => console.log("macrotask via MessageChannel");
 ch.port2.postMessage(null);
 ```
 
@@ -177,7 +183,7 @@ console.log(Atomics.load(sharedArray, 0)); // 42
 // Main
 const buf = new SharedArrayBuffer(4);
 const ia = new Int32Array(buf);
-const w = new Worker('w.js');
+const w = new Worker("w.js");
 w.postMessage(buf);
 // signal work ready
 Atomics.store(ia, 0, 1);
@@ -187,7 +193,7 @@ Atomics.notify(ia, 0, 1);
 onmessage = ({ data: buf }) => {
   const ia = new Int32Array(buf);
   // wait until value != 0
-  while (Atomics.wait(ia, 0, 0) === 'ok') {
+  while (Atomics.wait(ia, 0, 0) === "ok") {
     // process...
     Atomics.store(ia, 0, 0);
   }
@@ -233,8 +239,8 @@ function chunk(items, fn) {
 
 ```javascript
 new PerformanceObserver((list) => {
-  for (const e of list.getEntries()) console.warn('Long task', e.duration);
-}).observe({ type: 'longtask', buffered: true });
+  for (const e of list.getEntries()) console.warn("Long task", e.duration);
+}).observe({ type: "longtask", buffered: true });
 ```
 
 ---
@@ -243,13 +249,20 @@ new PerformanceObserver((list) => {
 
 - Prioritize user input and rendering; defer low-priority work.
 - Simple cooperative scheduler:
+
 ```javascript
 const tasks = { high: [], normal: [], low: [] };
-function schedule(priority, fn) { tasks[priority].push(fn); }
+function schedule(priority, fn) {
+  tasks[priority].push(fn);
+}
 function run() {
-  const q = tasks.high.length ? tasks.high : tasks.normal.length ? tasks.normal : tasks.low;
+  const q = tasks.high.length
+    ? tasks.high
+    : tasks.normal.length
+    ? tasks.normal
+    : tasks.low;
   if (!q.length) return;
-  (q.shift())();
+  q.shift()();
   queueMicrotask(run);
 }
 run();
@@ -260,3 +273,9 @@ run();
 By mastering these concepts, you can write more efficient, responsive, and robust JavaScript applications while effectively managing concurrency and leveraging multithreading.
 
 The event loop is at the heart of JavaScript's ability to handle asynchronous operations. By mastering its mechanics, you can write more efficient and responsive applications, effectively managing concurrency and avoiding common pitfalls.
+
+---
+
+[<< Chapter 20](./20_javaScript_engine_internals.md) | [Chapter 22 >>](./22_modern_javaScript_features.md)
+
+---

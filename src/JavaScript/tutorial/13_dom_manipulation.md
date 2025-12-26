@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 12](./12_asynchronous_javaScript.md) | [Chapter 14 >>](./14_accessibility_in_javascript.md)
+
+---
+
 # Chapter 13: DOM Manipulation
 
 In this chapter, we delve into the Document Object Model (DOM), a programming interface for web documents, and learn how to manipulate it using JavaScript to create dynamic and interactive web pages.
@@ -238,10 +244,10 @@ list.addEventListener("click", (event) => {
 
 ```javascript
 // Batch DOM updates with a fragment
-const ul = document.querySelector('ul');
+const ul = document.querySelector("ul");
 const frag = document.createDocumentFragment();
 for (let i = 0; i < 1000; i++) {
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   li.textContent = `Item ${i}`;
   frag.appendChild(li);
 }
@@ -249,7 +255,7 @@ ul.appendChild(frag);
 
 // Defer heavy updates
 requestAnimationFrame(() => {
-  ul.classList.add('hydrated');
+  ul.classList.add("hydrated");
 });
 ```
 
@@ -262,23 +268,26 @@ requestAnimationFrame(() => {
 ```javascript
 // MutationObserver: watch subtree changes
 const mo = new MutationObserver((mutations) => {
-  for (const m of mutations) console.log('mutation', m.type);
+  for (const m of mutations) console.log("mutation", m.type);
 });
 mo.observe(document.body, { childList: true, subtree: true });
 
 // IntersectionObserver: lazy-load images
 const io = new IntersectionObserver((entries, obs) => {
-  for (const e of entries) if (e.isIntersecting) {
-    const img = e.target; img.src = img.dataset.src; obs.unobserve(img);
-  }
+  for (const e of entries)
+    if (e.isIntersecting) {
+      const img = e.target;
+      img.src = img.dataset.src;
+      obs.unobserve(img);
+    }
 });
-document.querySelectorAll('img[data-src]').forEach(img => io.observe(img));
+document.querySelectorAll("img[data-src]").forEach((img) => io.observe(img));
 
 // ResizeObserver: respond to element size changes
 const ro = new ResizeObserver((entries) => {
-  for (const e of entries) console.log('size', e.contentRect.width);
+  for (const e of entries) console.log("size", e.contentRect.width);
 });
-ro.observe(document.querySelector('#sidebar'));
+ro.observe(document.querySelector("#sidebar"));
 ```
 
 ---
@@ -289,14 +298,14 @@ ro.observe(document.querySelector('#sidebar'));
 - Use `{ once: true }` for one-time handlers; `{ capture: true }` for capture phase when needed.
 
 ```javascript
-window.addEventListener('scroll', onScroll, { passive: true });
-button.addEventListener('click', handle, { once: true });
+window.addEventListener("scroll", onScroll, { passive: true });
+button.addEventListener("click", handle, { once: true });
 
 // Robust delegation with closest()
-document.addEventListener('click', (e) => {
-  const item = e.target.closest('[data-item]');
+document.addEventListener("click", (e) => {
+  const item = e.target.closest("[data-item]");
   if (!item) return;
-  console.log('clicked item id', item.dataset.item);
+  console.log("clicked item id", item.dataset.item);
 });
 ```
 
@@ -325,14 +334,15 @@ title.textContent = userInput;
 
 ```javascript
 // Move focus to dialog
-const dialog = document.querySelector('#dialog');
-dialog.setAttribute('role', 'dialog');
-dialog.setAttribute('aria-modal', 'true');
-dialog.querySelector('[data-initial-focus]')?.focus();
+const dialog = document.querySelector("#dialog");
+dialog.setAttribute("role", "dialog");
+dialog.setAttribute("aria-modal", "true");
+dialog.querySelector("[data-initial-focus]")?.focus();
 
 // Keyboard activation
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && e.target.matches('[role="button"]')) e.target.click();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target.matches('[role="button"]'))
+    e.target.click();
 });
 ```
 
@@ -343,9 +353,9 @@ document.addEventListener('keydown', (e) => {
 - Use `dataset` for custom data attributes and `classList` for state.
 
 ```javascript
-const card = document.querySelector('.card');
-card.dataset.id = '42';
-card.classList.toggle('selected', true);
+const card = document.querySelector(".card");
+card.dataset.id = "42";
+card.classList.toggle("selected", true);
 ```
 
 ---
@@ -353,3 +363,9 @@ card.classList.toggle('selected', true);
 ## **Conclusion**
 
 DOM manipulation is a powerful feature of JavaScript that allows developers to create dynamic and interactive web applications. By mastering the techniques of traversing, modifying, and interacting with the DOM, you can enhance the functionality and user experience of your websites.
+
+---
+
+[<< Chapter 12](./12_asynchronous_javaScript.md) | [Chapter 14 >>](./14_accessibility_in_javascript.md)
+
+---

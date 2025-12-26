@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 24](./24_reactive_programming.md) | [Chapter 26 >>](./26_web_apis.md)
+
+---
+
 # Chapter 25: Optimizing Large Data Sets
 
 Working with large data sets efficiently is a critical skill in modern software development. This chapter explores strategies and techniques to process, analyze, and manipulate large data sets without compromising performance. From leveraging efficient algorithms to utilizing advanced JavaScript features, this chapter provides practical guidance to handle large-scale data effectively.
@@ -141,17 +147,18 @@ Efficient memory usage prevents crashes and improves performance when handling l
 
 ```javascript
 // Fetch streaming NDJSON
-const res = await fetch('/data.ndjson');
+const res = await fetch("/data.ndjson");
 const reader = res.body.getReader();
 const decoder = new TextDecoder();
-let buf = '';
+let buf = "";
 for (;;) {
   const { value, done } = await reader.read();
   if (done) break;
   buf += decoder.decode(value, { stream: true });
   let idx;
-  while ((idx = buf.indexOf('\n')) >= 0) {
-    const line = buf.slice(0, idx); buf = buf.slice(idx + 1);
+  while ((idx = buf.indexOf("\n")) >= 0) {
+    const line = buf.slice(0, idx);
+    buf = buf.slice(idx + 1);
     if (line) handle(JSON.parse(line));
   }
 }
@@ -192,7 +199,7 @@ const n = view.getUint32(0, true);
 ```javascript
 // Node writable backpressure
 let ok = stream.write(chunk);
-if (!ok) await once(stream, 'drain');
+if (!ok) await once(stream, "drain");
 ```
 
 ---
@@ -203,7 +210,8 @@ if (!ok) await once(stream, 'drain');
 
 ```javascript
 function* windows(arr, size, step = size) {
-  for (let i = 0; i + size <= arr.length; i += step) yield arr.slice(i, i + size);
+  for (let i = 0; i + size <= arr.length; i += step)
+    yield arr.slice(i, i + size);
 }
 ```
 
@@ -222,9 +230,23 @@ function* windows(arr, size, step = size) {
 
 ```javascript
 class LRU {
-  constructor(limit = 1000) { this.limit = limit; this.map = new Map(); }
-  get(k) { if (!this.map.has(k)) return; const v = this.map.get(k); this.map.delete(k); this.map.set(k, v); return v; }
-  set(k, v) { if (this.map.has(k)) this.map.delete(k); this.map.set(k, v); if (this.map.size > this.limit) this.map.delete(this.map.keys().next().value); }
+  constructor(limit = 1000) {
+    this.limit = limit;
+    this.map = new Map();
+  }
+  get(k) {
+    if (!this.map.has(k)) return;
+    const v = this.map.get(k);
+    this.map.delete(k);
+    this.map.set(k, v);
+    return v;
+  }
+  set(k, v) {
+    if (this.map.has(k)) this.map.delete(k);
+    this.map.set(k, v);
+    if (this.map.size > this.limit)
+      this.map.delete(this.map.keys().next().value);
+  }
 }
 ```
 
@@ -276,3 +298,9 @@ Use IndexedDB to store large data sets for offline access.
 ---
 
 By applying these techniques, you can handle large data sets efficiently, ensuring your applications remain fast and responsive even under heavy data loads. Whether you're building dashboards, processing logs, or managing user data, these strategies will help you optimize performance.
+
+---
+
+[<< Chapter 24](./24_reactive_programming.md) | [Chapter 26 >>](./26_web_apis.md)
+
+---

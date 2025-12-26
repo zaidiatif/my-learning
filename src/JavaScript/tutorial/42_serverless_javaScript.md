@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 41](./41_real_time_collaboration.md) | [Chapter 43 >>](./43_edge_computing_javascript.md)
+
+---
+
 # Chapter 42: Serverless JavaScript
 
 Serverless computing represents a paradigm shift in how developers build and deploy applications. Instead of provisioning and managing servers, developers simply write and deploy functions — and the cloud provider handles scaling, availability, and infrastructure.
@@ -25,7 +31,7 @@ Serverless JavaScript is the practice of running JavaScript (typically Node.js) 
 2. **Cost Efficiency**: You pay only for the time your code executes.
 3. **Quick Iteration**: Rapid deployment and updates enable faster iterations.
 4. **Scalability**: Built-in scaling handles traffic spikes seamlessly.
-5. **Integration** Friendly	Easily connects with cloud storage, databases, APIs, and queues.
+5. **Integration** Friendly Easily connects with cloud storage, databases, APIs, and queues.
 
 ---
 
@@ -35,7 +41,7 @@ Serverless JavaScript is the practice of running JavaScript (typically Node.js) 
 - **Scheduled tasks**: Cron jobs for data cleanup, report generation, etc.
 - **Event-driven workflows**: Trigger-based actions, such as image processing or notifications.
 - **Prototyping and MVPs**: Speedy deployments for testing ideas.
-- **Data Pipelines**  — ETL jobs using event streams.
+- **Data Pipelines** — ETL jobs using event streams.
 - **Chatbots and Notifications** — Triggered by messaging events.
 - **IoT Data Handling** — Device data ingestion.
 
@@ -43,7 +49,7 @@ Serverless JavaScript is the practice of running JavaScript (typically Node.js) 
 
 ## 2 **Key Platforms for Serverless JavaScript**
 
-### 2.1  **AWS Lambda**
+### 2.1 **AWS Lambda**
 
 - Popular serverless platform by Amazon Web Services.
 - Supports JavaScript (Node.js) natively.
@@ -117,6 +123,7 @@ An API Gateway acts as a front door for serverless applications, providing HTTP 
 - **Azure API Management**: Provides secure access and scaling for Azure Functions.
 
 **Example Flow:**
+
 - Client → API Gateway → Lambda → Database → Response
 
 ### 4.2 **Creating an API Endpoint with AWS API Gateway**
@@ -132,9 +139,9 @@ Serverless JavaScript works seamlessly with cloud-native databases designed for 
 - **Amazon DynamoDB**: NoSQL database optimized for serverless use cases. Automatically scales with demand.
 - **Firebase Realtime Database / Firestore**: Managed databases for real-time updates.
 - **Azure Cosmos DB**: Globally distributed database for NoSQL and relational workloads.
-- **Firestore**	NoSQL	Real-time sync for web/mobile apps.
-- **PlanetScale**	MySQL-compatible	Built for serverless workloads.
-- **Neon/Supabase**	Postgres-compatible	Excellent developer tooling.
+- **Firestore** NoSQL Real-time sync for web/mobile apps.
+- **PlanetScale** MySQL-compatible Built for serverless workloads.
+- **Neon/Supabase** Postgres-compatible Excellent developer tooling.
 
 ### 5.1 Example – Lambda + DynamoDB:
 
@@ -143,17 +150,18 @@ const AWS = require("aws-sdk");
 const db = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-  const item = await db.get({
-    TableName: "Users",
-    Key: { id: event.pathParameters.id },
-  }).promise();
+  const item = await db
+    .get({
+      TableName: "Users",
+      Key: { id: event.pathParameters.id },
+    })
+    .promise();
 
   return {
     statusCode: 200,
     body: JSON.stringify(item.Item),
   };
 };
-
 ```
 
 ### 5.2 **Install Necessary Tools**
@@ -232,13 +240,12 @@ exports.handler = async (event) => {
 
 ## 8 Challenges and Limitations
 
-| Challenge	| Description	| Mitigation |
-|:--- |:--- |:--- |
-| Cold Starts	| Delay on first invocation	| Keep functions warm / use provisioned concurrency |
-| Execution Limits	| Timeouts (e.g., 15 min on AWS)	| Break into smaller tasks |
-| Vendor Lock-In	| Platform-specific APIs	| Use frameworks like Serverless Framework or OpenFaaS |
-| Complex Debugging	| Distributed logs	| Centralized logging tools (e.g., CloudWatch Insights) |
-
+| Challenge         | Description                    | Mitigation                                            |
+| :---------------- | :----------------------------- | :---------------------------------------------------- |
+| Cold Starts       | Delay on first invocation      | Keep functions warm / use provisioned concurrency     |
+| Execution Limits  | Timeouts (e.g., 15 min on AWS) | Break into smaller tasks                              |
+| Vendor Lock-In    | Platform-specific APIs         | Use frameworks like Serverless Framework or OpenFaaS  |
+| Complex Debugging | Distributed logs               | Centralized logging tools (e.g., CloudWatch Insights) |
 
 ## 9 Advanced Topics
 
@@ -269,7 +276,7 @@ Combine traditional servers (for persistent connections) with serverless functio
 
 ### 9.7 Observability and Monitoring
 
-- Use: 
+- Use:
 - AWS X-Ray
 - Datadog / New Relic
 - OpenTelemetry
@@ -283,9 +290,14 @@ Combine traditional servers (for persistent connections) with serverless functio
 
 The line between frontend and backend continues to blur — JavaScript now powers everything from edge rendering to real-time analytics, all without managing a single server.
 
-
 ## Conclusion
 
 Serverless JavaScript is revolutionizing the way developers build and scale applications. By leveraging platforms like AWS Lambda, Google Cloud Functions, and Azure Functions, along with event-driven services such as SQS and SNS, developers can create robust, cost-effective solutions. Combined with serverless databases and API gateways, the potential of this paradigm is immense.
 
 Mastering these tools and architectures unlocks a world of possibilities, empowering developers to focus on innovation without the burden of infrastructure management.
+
+---
+
+[<< Chapter 41](./41_real_time_collaboration.md) | [Chapter 43 >>](./43_edge_computing_javascript.md)
+
+---

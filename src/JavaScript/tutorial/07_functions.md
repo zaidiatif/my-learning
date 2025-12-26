@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 6](./06_control_flow_structures.md) | [Chapter 8 >>](./08_advanced_functions.md)
+
+---
+
 # Chapter 7: Functions
 
 Functions are one of the most important building blocks in JavaScript. They allow developers to write reusable, modular, and efficient code.
@@ -269,6 +275,7 @@ Higher-order functions take other functions as arguments or return them as resul
 - Closures in loops: prefer `let` over `var` to capture per-iteration values.
 - Prefer early returns to reduce nesting and improve readability.
 - Example (closure in loops):
+
   ```javascript
   const fns = [];
   for (var i = 0; i < 3; i++) {
@@ -289,10 +296,16 @@ Higher-order functions take other functions as arguments or return them as resul
 - Example:
   ```javascript
   function sample(a, b, c) {}
-  console.log(sample.name);   // 'sample'
+  console.log(sample.name); // 'sample'
   console.log(sample.length); // 3
   ```
 
 ## **Conclusion**
 
 Functions are a cornerstone of JavaScript programming, enabling code reusability, modularity, and cleaner design. Understanding the various types of functions, scopes, closures, and higher-order functions is essential for writing efficient and effective JavaScript code.
+
+---
+
+[<< Chapter 6](./06_control_flow_structures.md) | [Chapter 8 >>](./08_advanced_functions.md)
+
+---

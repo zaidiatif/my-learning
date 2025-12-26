@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 44](./44_javaScript_and_cloud_databases.md) | [Chapter 46 >>](./46_typeScript.md)
+
+---
+
 # Chapter 45: GraphQL — The Modern API Paradigm
 
 ## 1 **Introduction to GraphQL**
@@ -99,7 +105,9 @@ mutation {
   }
 }
 ```
+
 #### Example response:
+
 ```graphql
 {
   "data": {
@@ -169,7 +177,9 @@ app.listen(4000, () =>
   console.log("Server running at http://localhost:4000/graphql")
 );
 ```
+
 ### 4.2 Using Apollo Server (Modern Setup)
+
 Apollo Server provides more flexibility, better integration with subscriptions, and enhanced developer experience.
 
 ```javascript
@@ -192,7 +202,6 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
-
 ```
 
 ### 4.3 **GraphQL Client with Apollo**
@@ -464,7 +473,7 @@ const server = new ApolloServer({
 });
 ```
 
-***Tip:*** Use fine-grained role-based or attribute-based access control for multi-tenant systems.
+**_Tip:_** Use fine-grained role-based or attribute-based access control for multi-tenant systems.
 
 ### 8.2 Schema Stitching and Federation
 
@@ -511,7 +520,7 @@ type Author @key(fields: "id") {
 
 Each service runs independently but integrates seamlessly via the Apollo Gateway.
 
-***Use Case:*** Large organizations (Netflix, Shopify, Airbnb) adopt federation to let teams develop APIs autonomously while maintaining a unified data graph.
+**_Use Case:_** Large organizations (Netflix, Shopify, Airbnb) adopt federation to let teams develop APIs autonomously while maintaining a unified data graph.
 
 ### 8.3 Performance Optimization
 
@@ -536,7 +545,11 @@ Prevent malicious or heavy queries from overloading servers.
 ```js
 import { createComplexityLimitRule } from "graphql-validation-complexity";
 const complexityRule = createComplexityLimitRule(1000);
-const server = new ApolloServer({ typeDefs, resolvers, validationRules: [complexityRule] });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  validationRules: [complexityRule],
+});
 ```
 
 #### 8.3.3 Persistent Queries
@@ -545,7 +558,7 @@ Store pre-validated queries on the server and reference them by ID — reducing 
 
 #### 8.3.4 DataLoader for Batching and Caching
 
-Solves the ***N + 1 query problem*** by batching identical requests.
+Solves the **_N + 1 query problem_** by batching identical requests.
 
 ```js
 const bookLoader = new DataLoader((keys) => fetchBooksByIds(keys));
@@ -575,7 +588,7 @@ GraphQL provides a standardized error structure.
 }
 ```
 
-***Best Practice:*** Include custom extensions.code values for easier debugging on the client side.
+**_Best Practice:_** Include custom extensions.code values for easier debugging on the client side.
 
 ### 8.5 Monitoring, Logging, and Analytics
 
@@ -594,6 +607,7 @@ server.willSendResponse = ({ context, response }) => {
 ```
 
 ### 8.6 Deployment Strategies
+
 #### 8.6.1 Containerization
 
 Use Docker for consistent deployment across environments.
@@ -615,6 +629,7 @@ GraphQL can work with any database. Common patterns include:
 - Serverless DBs (FaunaDB, Supabase): Built-in GraphQL APIs for instant data access.
 
 #### Example with Prisma:
+
 ```js
 const resolvers = {
   Query: {
@@ -628,22 +643,22 @@ const resolvers = {
 
 ### 8.8 GraphQL in the Enterprise
 
-| Use Case	| Benefit |
-| :--- | :--- |
-| Unified Data Access Layer	| Combines REST, SQL, and third-party APIs into one GraphQL endpoint. |
-| Front-End Agility	| Allows frontend teams to request exactly the data they need. |
-| Rapid Prototyping	| Schema-first development accelerates design-to-code cycles. |
-| Backward Compatibility	| Evolving schemas safely without breaking existing clients. |
+| Use Case                  | Benefit                                                             |
+| :------------------------ | :------------------------------------------------------------------ |
+| Unified Data Access Layer | Combines REST, SQL, and third-party APIs into one GraphQL endpoint. |
+| Front-End Agility         | Allows frontend teams to request exactly the data they need.        |
+| Rapid Prototyping         | Schema-first development accelerates design-to-code cycles.         |
+| Backward Compatibility    | Evolving schemas safely without breaking existing clients.          |
 
 ## 9. GraphQL Ecosystem Overview
 
-| Category	| Popular Tools |
-| :--- | :--- |
-| Server Frameworks	| Apollo Server, GraphQL-Yoga, Mercurius (Fastify), Hot Chocolate (.NET) |
-| Clients	| Apollo Client, Relay, Urql, GraphQL-Request |
-| ORM/Integrations	| Prisma, Hasura, PostGraphile |
-| Monitoring	| Apollo Studio, Hive, GraphQL Inspector |
-| Testing	| GraphQL-Tester, Jest + ApolloMockedProvider |
+| Category          | Popular Tools                                                          |
+| :---------------- | :--------------------------------------------------------------------- |
+| Server Frameworks | Apollo Server, GraphQL-Yoga, Mercurius (Fastify), Hot Chocolate (.NET) |
+| Clients           | Apollo Client, Relay, Urql, GraphQL-Request                            |
+| ORM/Integrations  | Prisma, Hasura, PostGraphile                                           |
+| Monitoring        | Apollo Studio, Hive, GraphQL Inspector                                 |
+| Testing           | GraphQL-Tester, Jest + ApolloMockedProvider                            |
 
 ## 10. Best Practices Summary
 
@@ -656,20 +671,22 @@ const resolvers = {
 - 10.7 Document with Introspection: Use GraphiQL, Playground, or Swagger-like docs.
 
 ## 11 Practical Project: GraphQL-Powered Bookstore App
-***Goal:*** Build a full-stack Bookstore application using Node.js + Apollo Server + Prisma + React + Apollo Client, implementing queries, mutations, subscriptions, authentication, and pagination.
+
+**_Goal:_** Build a full-stack Bookstore application using Node.js + Apollo Server + Prisma + React + Apollo Client, implementing queries, mutations, subscriptions, authentication, and pagination.
 
 ### Project Overview
 
-| Feature	| Description |
-|:--- |:--- |
-| Backend	| Node.js + Apollo Server + Prisma + PostgreSQL |
-| Frontend	| React + Apollo Client + GraphQL Subscriptions |
-| Authentication	| JWT-based login and role-based access control |
-| Real-Time Updates	| Subscriptions for book additions |
-| Optimization	| Pagination, caching with Apollo Client, DataLoader for batching |
-| Deployment	| Docker + optional serverless deployment (Vercel/Lambda) |
+| Feature           | Description                                                     |
+| :---------------- | :-------------------------------------------------------------- |
+| Backend           | Node.js + Apollo Server + Prisma + PostgreSQL                   |
+| Frontend          | React + Apollo Client + GraphQL Subscriptions                   |
+| Authentication    | JWT-based login and role-based access control                   |
+| Real-Time Updates | Subscriptions for book additions                                |
+| Optimization      | Pagination, caching with Apollo Client, DataLoader for batching |
+| Deployment        | Docker + optional serverless deployment (Vercel/Lambda)         |
 
 ### 11.1 Step 1: Initialize Backend
+
 #### 11.1.1 Create Node.js project:
 
 ```bash
@@ -780,13 +797,17 @@ const resolvers = {
       if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new Error("Invalid credentials");
       }
-      return jwt.sign({ userId: user.id, role: user.role }, "SECRET_KEY", { expiresIn: "1d" });
+      return jwt.sign({ userId: user.id, role: user.role }, "SECRET_KEY", {
+        expiresIn: "1d",
+      });
     },
     addBook: async (_, { title, author, publishedYear }, context) => {
       if (!context.user || context.user.role !== "ADMIN") {
         throw new Error("Unauthorized");
       }
-      const newBook = await prisma.book.create({ data: { title, author, publishedYear } });
+      const newBook = await prisma.book.create({
+        data: { title, author, publishedYear },
+      });
       pubsub.publish(BOOK_ADDED, { bookAdded: newBook });
       return newBook;
     },
@@ -833,18 +854,27 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 
 const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
-const wsLink = new WebSocketLink({ uri: "ws://localhost:4000/graphql", options: { reconnect: true } });
+const wsLink = new WebSocketLink({
+  uri: "ws://localhost:4000/graphql",
+  options: { reconnect: true },
+});
 
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    return definition.kind === "OperationDefinition" && definition.operation === "subscription";
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
   },
   wsLink,
   httpLink
 );
 
-export const client = new ApolloClient({ link: splitLink, cache: new InMemoryCache() });
+export const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
+});
 ```
 
 ### 11.5 Step 5: Implement Core Features in React
@@ -874,7 +904,11 @@ const Books = () => {
   return (
     <div>
       <h2>New Books:</h2>
-      {data && <p>{data.bookAdded.title} by {data.bookAdded.author}</p>}
+      {data && (
+        <p>
+          {data.bookAdded.title} by {data.bookAdded.author}
+        </p>
+      )}
     </div>
   );
 };
@@ -919,3 +953,9 @@ GraphQL represents a fundamental shift in how applications interact with data. I
 By combining schema-driven design, real-time subscriptions, federation, and robust security, developers can create future-ready APIs that scale with evolving business and technical needs.
 
 In essence: GraphQL isn’t just a query language — it’s a new architecture for connecting people, data, and services in a unified way.
+
+---
+
+[<< Chapter 44](./44_javaScript_and_cloud_databases.md) | [Chapter 46 >>](./46_typeScript.md)
+
+---

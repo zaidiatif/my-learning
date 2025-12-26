@@ -1,4 +1,11 @@
+---
+
+[<< Chapter 42](./42_serverless_javaScript.md) | [Chapter 44 >>](./44_javaScript_and_cloud_databases.md)
+
+---
+
 # Chapter 43: Edge Computing and JavaScript
+
 ## 1. What is Edge Computing?
 
 Edge computing is a modern architectural approach that brings computation and data storage closer to the location where it is needed — typically at or near the end user’s device. Instead of relying solely on centralized cloud servers, edge computing distributes compute workloads across multiple geographically dispersed “edge” locations.
@@ -11,6 +18,7 @@ Edge computing is a modern architectural approach that brings computation and da
 - Data Sovereignty: Data can be processed locally, respecting geographic data regulations.
 
 ### Example Scenario:
+
 A global e-commerce app uses edge computing to personalize homepage content for users in India, the US, and Japan directly at edge nodes, reducing latency and server load.
 
 ## 2. Running JavaScript at the Edge
@@ -18,15 +26,16 @@ A global e-commerce app uses edge computing to personalize homepage content for 
 JavaScript is increasingly becoming the language of the edge due to its lightweight event-driven model and ecosystem. Several platforms allow developers to deploy JS code directly on edge servers, enabling near-instant processing and response times.
 
 ### Popular Platforms:
+
 ### a. Cloudflare Workers
 
 - Concept: Runs lightweight JavaScript, TypeScript, or WebAssembly at Cloudflare’s edge locations across the globe.
 - Environment: Based on the V8 engine (like Chrome), without Node.js APIs — uses Web Standard APIs instead.
 - Use Cases:
--   - URL rewriting
--   - Authentication checks
--   - A/B testing
--   - Response caching
+- - URL rewriting
+- - Authentication checks
+- - A/B testing
+- - Response caching
 - Example:
 
 ```js
@@ -46,6 +55,7 @@ export default {
 - Concept: Runs serverless JavaScript at the network edge, closer to the user.
 - Integration: Deeply integrated with Next.js for dynamic rendering at the edge.
 - Example:
+
 ```js
 export const config = { runtime: "edge" };
 
@@ -60,10 +70,11 @@ export default function handler(req) {
 
 - Concept: Deno’s globally distributed system for running TypeScript/JavaScript securely.
 - Features:
--   - Secure sandbox
--   - Built-in TypeScript
--   - No package.json — uses URL imports
+- - Secure sandbox
+- - Built-in TypeScript
+- - No package.json — uses URL imports
 - Example:
+
 ```js
 import { serve } from "https://deno.land/std@0.184.0/http/server.ts";
 
@@ -72,14 +83,14 @@ serve((_req) => new Response("Running on Deno Edge!"));
 
 ## 3. Use Cases of Edge Computing with JavaScript
 
-| Use Case	| Description	| Example Technology |
-|:--- |:--- |:--- |
-| Personalization	| Delivering customized content or ads close to users	| Cloudflare Workers KV |
-| Authentication	| JWT or token validation before forwarding requests	| Vercel Edge Middleware |
-| A/B Testing	| Running experiments at the edge for instant feedback	| Cloudflare Workers |
-| Analytics	| Capturing user interactions in real-time	| Deno Deploy, Cloudflare Workers |
-| Data Caching	| Smart caching and revalidation	| Cloudflare Cache API |
-| API Gateways	| Lightweight API handling near users	| Fastly Compute@Edge |
+| Use Case        | Description                                          | Example Technology              |
+| :-------------- | :--------------------------------------------------- | :------------------------------ |
+| Personalization | Delivering customized content or ads close to users  | Cloudflare Workers KV           |
+| Authentication  | JWT or token validation before forwarding requests   | Vercel Edge Middleware          |
+| A/B Testing     | Running experiments at the edge for instant feedback | Cloudflare Workers              |
+| Analytics       | Capturing user interactions in real-time             | Deno Deploy, Cloudflare Workers |
+| Data Caching    | Smart caching and revalidation                       | Cloudflare Cache API            |
+| API Gateways    | Lightweight API handling near users                  | Fastly Compute@Edge             |
 
 ## 4. Limitations of Edge JavaScript
 
@@ -103,6 +114,7 @@ The boundary between frontend and backend is blurring, and JavaScript is at the 
 - Edge-native databases: Services like Cloudflare D1, Turso, and Neon providing SQL at the edge.
 
 ## 6. Practical Example: Edge Middleware for Authentication
+
 ```js
 // _middleware.js in Next.js
 import { NextResponse } from "next/server";
@@ -135,3 +147,9 @@ This simple middleware authenticates requests at the edge before they reach your
 
 Edge computing transforms how JavaScript applications are deployed and delivered.
 By executing logic close to users, developers can create ultra-fast, secure, and scalable web applications. With platforms like Cloudflare Workers, Vercel Edge, and Deno Deploy, JavaScript is redefining the boundaries of cloud computing.
+
+---
+
+[<< Chapter 42](./42_serverless_javaScript.md) | [Chapter 44 >>](./44_javaScript_and_cloud_databases.md)
+
+---

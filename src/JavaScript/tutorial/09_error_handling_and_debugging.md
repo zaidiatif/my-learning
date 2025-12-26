@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 8](./08_advanced_functions.md) | [Chapter 10 >>](./10_working_with_objects_and_arrays.md)
+
+---
+
 # Chapter 9: Error Handling and Debugging
 
 In this chapter, we explore techniques for managing errors and debugging JavaScript code effectively.
@@ -176,10 +182,10 @@ Use linting tools like ESLint to catch syntax and logical errors early.
     return res.json();
   }
   try {
-    const data = await fetchJson('/api/users');
+    const data = await fetchJson("/api/users");
     console.log(data);
   } catch (e) {
-    console.error('Request failed:', e.message);
+    console.error("Request failed:", e.message);
   }
   ```
 
@@ -191,13 +197,13 @@ Use linting tools like ESLint to catch syntax and logical errors early.
   class ValidationError extends Error {
     constructor(message, field) {
       super(message);
-      this.name = 'ValidationError';
+      this.name = "ValidationError";
       this.field = field;
     }
   }
   function createUser(input) {
-    if (typeof input.name !== 'string') {
-      throw new ValidationError('Name must be a string', 'name');
+    if (typeof input.name !== "string") {
+      throw new ValidationError("Name must be a string", "name");
     }
     return { id: 1, ...input };
   }
@@ -211,13 +217,21 @@ Use linting tools like ESLint to catch syntax and logical errors early.
   async function withRetry(fn, { retries = 3, baseMs = 200, signal } = {}) {
     let attempt = 0;
     for (;;) {
-      try { return await fn({ signal }); }
-      catch (e) {
+      try {
+        return await fn({ signal });
+      } catch (e) {
         if (attempt++ >= retries || (signal && signal.aborted)) throw e;
         const delay = baseMs * 2 ** (attempt - 1);
         await new Promise((r, rej) => {
           const t = setTimeout(r, delay);
-          signal?.addEventListener('abort', () => { clearTimeout(t); rej(new DOMException('Aborted','AbortError')); }, { once: true });
+          signal?.addEventListener(
+            "abort",
+            () => {
+              clearTimeout(t);
+              rej(new DOMException("Aborted", "AbortError"));
+            },
+            { once: true }
+          );
         });
       }
     }
@@ -237,11 +251,11 @@ Use linting tools like ESLint to catch syntax and logical errors early.
 
 - Handle uncaught exceptions and unhandled promise rejections for telemetry.
   ```javascript
-  window.addEventListener('error', (e) => {
-    console.error('Uncaught error:', e.message, e.filename, e.lineno);
+  window.addEventListener("error", (e) => {
+    console.error("Uncaught error:", e.message, e.filename, e.lineno);
   });
-  window.addEventListener('unhandledrejection', (e) => {
-    console.error('Unhandled rejection:', e.reason);
+  window.addEventListener("unhandledrejection", (e) => {
+    console.error("Unhandled rejection:", e.reason);
   });
   ```
 
@@ -249,12 +263,12 @@ Use linting tools like ESLint to catch syntax and logical errors early.
 
 - Log and fail fast for uncaught exceptions; decide policy for unhandled rejections.
   ```javascript
-  process.on('uncaughtException', (err) => {
-    console.error('Uncaught exception', err);
+  process.on("uncaughtException", (err) => {
+    console.error("Uncaught exception", err);
     process.exit(1);
   });
-  process.on('unhandledRejection', (reason) => {
-    console.error('Unhandled rejection', reason);
+  process.on("unhandledRejection", (reason) => {
+    console.error("Unhandled rejection", reason);
   });
   ```
 
@@ -267,13 +281,13 @@ Use linting tools like ESLint to catch syntax and logical errors early.
 - Add performance markers for timing critical paths.
 - Example:
   ```javascript
-  console.group('User fetch');
-  console.time('fetch-users');
+  console.group("User fetch");
+  console.time("fetch-users");
   try {
-    const users = await fetchJson('/api/users');
+    const users = await fetchJson("/api/users");
     console.table(users.slice(0, 3));
   } finally {
-    console.timeEnd('fetch-users');
+    console.timeEnd("fetch-users");
     console.groupEnd();
   }
   ```
@@ -283,3 +297,9 @@ Use linting tools like ESLint to catch syntax and logical errors early.
 ## **Conclusion**
 
 Mastering error handling and debugging techniques is essential for building robust and reliable JavaScript applications. By understanding error types, using debugging tools, and following best practices, developers can identify and fix issues efficiently.
+
+---
+
+[<< Chapter 8](./08_advanced_functions.md) | [Chapter 10 >>](./10_working_with_objects_and_arrays.md)
+
+---

@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 5](./05_data_types_in_javaScript.md) | [Chapter 7 >>](./07_functions.md)
+
+---
+
 # Chapter 6: Control Flow Structures
 
 Control flow structures in JavaScript allow developers to determine the flow of program execution based on conditions and loops. These structures are fundamental to building dynamic and interactive applications.
@@ -201,7 +207,7 @@ Control flow structures in JavaScript allow developers to determine the flow of 
 - Example:
   ```javascript
   if ("0") console.log("truthy"); // strings are truthy
-  console.log(0 == false);  // true (coercion)
+  console.log(0 == false); // true (coercion)
   console.log(0 === false); // false (no coercion)
   ```
 
@@ -230,7 +236,7 @@ Control flow structures in JavaScript allow developers to determine the flow of 
 - Example:
   ```javascript
   const count = 0;
-  const withOr = count || 10;      // 10 (0 is falsy)
+  const withOr = count || 10; // 10 (0 is falsy)
   const withNullish = count ?? 10; // 0 (only null/undefined trigger fallback)
   ```
 
@@ -240,6 +246,7 @@ Control flow structures in JavaScript allow developers to determine the flow of 
 - When using `for...in`, guard with `Object.prototype.hasOwnProperty.call` to skip inherited keys.
 - Utilities: `Object.keys`, `Object.values`, `Object.entries`.
 - Examples:
+
   ```javascript
   const arr = [1, 2, 3];
   for (const n of arr) console.log(n); // good for arrays
@@ -307,3 +314,9 @@ Control flow structures in JavaScript allow developers to determine the flow of 
 ## **Conclusion**
 
 Control flow structures form the backbone of decision-making and repetitive operations in JavaScript. By mastering conditional statements, loops, and control flow interruptions, you can create dynamic, efficient, and logical code.
+
+---
+
+[<< Chapter 5](./05_data_types_in_javaScript.md) | [Chapter 7 >>](./07_functions.md)
+
+---

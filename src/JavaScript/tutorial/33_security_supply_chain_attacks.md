@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 32](./32_javaScript_security.md) | [Chapter 34 >>](./34_web_cryptography.md)
+
+---
+
 # Chapter 33: Security — Supply Chain Attacks in JavaScript
 
 ## 1. What Are Supply Chain Attacks?
@@ -34,11 +40,13 @@ A supply chain attack occurs when a trusted component in your development or dep
 ### Example Scenario
 
 You install a dependency:
+
 ```bash
 npm install lodash
 ```
 
 But accidentally type:
+
 ```bash
 npm install lodas
 ```
@@ -58,6 +66,7 @@ Both npm and Yarn provide mechanisms to help mitigate supply chain risks.
 - Two-Factor Authentication (2FA) — Protects maintainer accounts.
 
 #### Example:
+
 ```bash
 npm audit
 # Run security audit
@@ -72,6 +81,7 @@ npm audit fix
 - Lockfiles (yarn.lock) — Ensures consistent dependency trees across environments.
 
 #### Example:
+
 ```bash
 yarn audit --level high
 ```
@@ -85,15 +95,16 @@ yarn audit --level high
 
 ### b. Third-Party Tools
 
-| Tool	| Description	| Highlights |
-|:--- |:--- |:--- |
-| Snyk	| Scans open source dependencies and container images	| Monitors repos continuously |
-| Dependabot (GitHub)	| Auto-updates dependencies with security patches	| Integrates directly with GitHub |
-| OWASP Dependency-Check	| Cross-language tool for CVE scanning	| Supports JavaScript, Python, Java, etc. |
-| Socket.dev	| Analyzes package behavior (network, file access, etc.)	| Detects suspicious patterns |
-| npm Graph Analyzer	| Maps full dependency tree	| Identifies outdated or risky packages |
+| Tool                   | Description                                            | Highlights                              |
+| :--------------------- | :----------------------------------------------------- | :-------------------------------------- |
+| Snyk                   | Scans open source dependencies and container images    | Monitors repos continuously             |
+| Dependabot (GitHub)    | Auto-updates dependencies with security patches        | Integrates directly with GitHub         |
+| OWASP Dependency-Check | Cross-language tool for CVE scanning                   | Supports JavaScript, Python, Java, etc. |
+| Socket.dev             | Analyzes package behavior (network, file access, etc.) | Detects suspicious patterns             |
+| npm Graph Analyzer     | Maps full dependency tree                              | Identifies outdated or risky packages   |
 
 #### Example: Using Snyk
+
 ```bash
 npm install -g snyk
 snyk test
@@ -102,6 +113,7 @@ snyk monitor
 ```
 
 ## 4. Best Practices for Supply Chain Security
+
 ### a. Dependency Hygiene
 
 - Keep dependencies updated using Dependabot or Renovate.
@@ -126,6 +138,7 @@ always-auth=true
 ### d. Verify Maintainers and Integrity
 
 - Check package maintainers before installation:
+
 ```bash
 npm info <package-name>
 ```
@@ -146,12 +159,15 @@ npm info <package-name>
 - Review changelogs before updating major versions.
 
 ## 5. Example Workflow: Securing a Node.js Project
+
 ### Step 1: Run audits
+
 ```bash
 npm audit --json > audit-report.json
 ```
 
 ### Step 2: Use Snyk for deeper insights
+
 ```bash
 snyk test
 snyk monitor
@@ -160,6 +176,7 @@ snyk monitor
 ### Step 3: Enable GitHub Dependabot
 
 Add `.github/dependabot.yml`:
+
 ```yaml
 version: 2
 updates:
@@ -170,12 +187,14 @@ updates:
 ```
 
 ### Step 4: Harden your npm configuration
+
 ```bash
 npm config set ignore-scripts true
 npm config set strict-ssl true
 ```
 
 ### Step 5: Enable 2FA
+
 ```bash
 npm profile enable-2fa auth-and-writes
 ```
@@ -194,27 +213,30 @@ npm profile enable-2fa auth-and-writes
 ## 7. Advanced Defenses
 
 - Package Signing:
-npm is introducing package signing with digital signatures (using sigstore).
+  npm is introducing package signing with digital signatures (using sigstore).
 
 ### Runtime Security Monitoring:
+
 Detect malicious network or file I/O at runtime.
 
 ### Immutable Infrastructure:
+
 Use container images with known, verified dependencies.
 
 ### Provenance Tracking (SLSA Framework):
+
 Establish supply chain levels for secure artifacts.
 
 ## 8. Summary
 
-| Topic	| Key Takeaway |
-|:--- |:--- |
-| Supply Chain Attacks	| Target your dependencies, not just your code |
-| npm / Yarn Security	| Use audit tools and lockfiles |
-| Auditing Tools	| Automate vulnerability scanning (Snyk, Dependabot) |
-| Best Practices	| Least privilege, lock versions, enable 2FA |
-| Build Security	| Protect CI/CD, secrets, and dependency sources |
-| Future Trends	| Package signing, provenance tracking, AI-based risk detection |
+| Topic                | Key Takeaway                                                  |
+| :------------------- | :------------------------------------------------------------ |
+| Supply Chain Attacks | Target your dependencies, not just your code                  |
+| npm / Yarn Security  | Use audit tools and lockfiles                                 |
+| Auditing Tools       | Automate vulnerability scanning (Snyk, Dependabot)            |
+| Best Practices       | Least privilege, lock versions, enable 2FA                    |
+| Build Security       | Protect CI/CD, secrets, and dependency sources                |
+| Future Trends        | Package signing, provenance tracking, AI-based risk detection |
 
 ## Conclusion
 
@@ -222,3 +244,9 @@ Supply chain attacks are among the most significant threats in modern JavaScript
 By maintaining strict dependency hygiene, leveraging audit tools, and securing your build pipelines, you can drastically reduce your project’s exposure.
 
 **Golden Rule:** Trust is earned, not assumed — even in your package.json.
+
+---
+
+[<< Chapter 32](./32_javaScript_security.md) | [Chapter 34 >>](./34_web_cryptography.md)
+
+---

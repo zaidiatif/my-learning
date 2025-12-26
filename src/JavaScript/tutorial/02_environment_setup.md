@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 1](./01_introduction_to_javaScript.md) | [Chapter 3 >>](./03_basic_javaScript_execution.md)
+
+---
+
 # Chapter 2: Setting Up Your JavaScript Development Environment
 
 ## **1. Installing Node.js and npm**
@@ -21,12 +27,13 @@ Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allow
    - Open a terminal or command prompt and run the following commands:
      - `node -v` (Displays the installed Node.js version)
      - `npm -v` (Displays the installed npm version)
-   
+
    **Expected Output Examples**:
+
    ```bash
    $ node -v
    v18.17.0
-   
+
    $ npm -v
    9.6.7
    ```
@@ -55,15 +62,18 @@ A good code editor enhances productivity by providing syntax highlighting, debug
 #### **Visual Studio Code (VS Code)**
 
 - **Why Use VS Code?**
+
   - Lightweight and free.
   - Excellent JavaScript support with IntelliSense and debugging features.
   - A vast ecosystem of extensions.
 
 - **Installation**:
+
   1. Download VS Code from the [official website](https://code.visualstudio.com/).
   2. Install the application and launch it.
 
 - **Useful Extensions for JavaScript**:
+
   - **ESLint**: Enforces code quality.
   - **Prettier**: Automatically formats code.
   - **Debugger for Chrome**: Debug JavaScript directly in the browser.
@@ -76,10 +86,12 @@ A good code editor enhances productivity by providing syntax highlighting, debug
 #### **Sublime Text**
 
 - **Why Use Sublime Text?**
+
   - Extremely fast and lightweight.
   - Powerful multi-selection editing features.
 
 - **Installation**:
+
   1. Download Sublime Text from the [official website](https://www.sublimetext.com/).
   2. Install the application and configure plugins for JavaScript support (e.g., JavaScript Enhancements).
 
@@ -90,10 +102,12 @@ A good code editor enhances productivity by providing syntax highlighting, debug
 #### **WebStorm**
 
 - **Why Use WebStorm?**
+
   - Comprehensive IDE designed specifically for JavaScript development.
   - Built-in support for frameworks like React, Angular, and Node.js.
 
 - **Installation**:
+
   1. Download WebStorm from the [JetBrains website](https://www.jetbrains.com/webstorm/).
   2. Install the application and activate a license or trial.
 
@@ -104,17 +118,20 @@ A good code editor enhances productivity by providing syntax highlighting, debug
 #### **Cursor**
 
 - **Why Use Cursor?**
+
   - AI-powered code editor built on VS Code's foundation.
   - Built-in AI assistance for coding, debugging, and documentation.
   - Excellent JavaScript support with IntelliSense and debugging features.
   - Free for individual developers with premium features available.
 
 - **Installation**:
+
   1. Download Cursor from the [official website](https://cursor.sh/).
   2. Install the application and launch it.
   3. Sign in with your account to access AI features.
 
 - **Useful Extensions for JavaScript**:
+
   - **ESLint**: Enforces code quality and coding standards.
   - **Prettier**: Automatically formats code for consistency.
   - **JavaScript (ES6) code snippets**: Provides shortcuts for common JavaScript patterns.
@@ -122,6 +139,7 @@ A good code editor enhances productivity by providing syntax highlighting, debug
   - **Bracket Pair Colorizer**: Makes code structure easier to read.
 
 - **AI Features for JavaScript Development**:
+
   - **Code Completion**: AI-powered suggestions for JavaScript functions and methods.
   - **Bug Detection**: Automatic identification of common JavaScript errors.
   - **Code Explanation**: Get explanations of complex JavaScript code snippets.
@@ -159,6 +177,7 @@ Modern web browsers come equipped with powerful developer tools that help debug 
 #### **1. Console**:
 
 - Use the **Console** tab to:
+
   - Execute JavaScript directly.
   - View errors and log output using `console.log()`, `console.error()`, and other methods.
 
@@ -225,16 +244,19 @@ Modern web browsers come equipped with powerful developer tools that help debug 
 ## **5. Cross-Platform Considerations**
 
 ### **Windows**:
+
 - Ensure Node.js installer adds to PATH automatically.
 - Use PowerShell or Command Prompt for terminal operations.
 - Consider using WSL for a Linux-like development environment.
 
 ### **macOS**:
+
 - Use Homebrew for package management: `brew install node`.
 - Terminal comes pre-installed, or use iTerm2 for enhanced features.
 - Ensure proper permissions for global npm installations.
 
 ### **Linux**:
+
 - Use package managers like `apt` (Ubuntu/Debian) or `yum` (CentOS/RHEL).
 - Terminal is typically pre-configured for development.
 - Consider using `nvm` for managing multiple Node.js versions.
@@ -246,3 +268,9 @@ Modern web browsers come equipped with powerful developer tools that help debug 
 Setting up a robust JavaScript development environment is crucial for efficiency and productivity. By installing Node.js and npm, choosing the right code editor, mastering browser developer tools, and configuring additional development tools, you'll have all the essential components to start building powerful and interactive JavaScript applications.
 
 Remember to regularly update your tools and explore new extensions and plugins to enhance your development workflow.
+
+---
+
+[<< Chapter 1](./01_introduction_to_javaScript.md) | [Chapter 3 >>](./03_basic_javaScript_execution.md)
+
+---

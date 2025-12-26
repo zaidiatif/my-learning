@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 50](./50_monorepos_multi_package_management.md) | [Chapter 52 >>](./52_cross_browser_compatibility.md)
+
+---
+
 # Chapter 51: Becoming a JavaScript Expert (Enhanced Edition)
 
 ## Introduction
@@ -21,6 +27,7 @@ Every JavaScript program runs within a layered model called the Execution Contex
 Each function call creates a new execution context, which is pushed onto the `Call Stack`. When a function finishes, it’s popped off.
 
 #### Visualization:
+
 ```scss
 Global Context
  ├── foo()
@@ -54,7 +61,7 @@ Closures are the foundation of private data and modular programming in JavaScrip
 ```javascript
 function counter() {
   let count = 0;
-  return function() {
+  return function () {
     count++;
     console.log(count);
   };
@@ -97,9 +104,12 @@ Functional programming makes JavaScript code predictable, testable, and composab
 #### Example:
 
 ```javascript
-const compose = (...fns) => (x) => fns.reduceRight((v, f) => f(v), x);
-const double = x => x * 2;
-const square = x => x * x;
+const compose =
+  (...fns) =>
+  (x) =>
+    fns.reduceRight((v, f) => f(v), x);
+const double = (x) => x * 2;
+const square = (x) => x * x;
 console.log(compose(square, double)(3)); // (3*2)^2 = 36
 ```
 
@@ -113,11 +123,17 @@ JavaScript supports both classical and prototypal inheritance.
 
 ```javascript
 class Vehicle {
-  constructor(name) { this.name = name; }
-  move() { console.log(`${this.name} is moving.`); }
+  constructor(name) {
+    this.name = name;
+  }
+  move() {
+    console.log(`${this.name} is moving.`);
+  }
 }
 class Car extends Vehicle {
-  drive() { console.log(`${this.name} is driving fast!`); }
+  drive() {
+    console.log(`${this.name} is driving fast!`);
+  }
 }
 ```
 
@@ -128,6 +144,7 @@ Experts use composition over inheritance to reduce complexity.
 Frameworks like React, Vue, and Svelte rely on reactive programming — where changes in state automatically update the UI.
 
 #### Conceptual Example:
+
 ```javascript
 state.count++;
 render();
@@ -141,19 +158,26 @@ Understanding reactivity helps in optimizing DOM diffing and virtual DOM perform
 
 #### Key Patterns:
 
-| Pattern	| Purpose	| Example |
-|:--- |:--- |:--- |
-| Module	| Encapsulate code and avoid globals	| `import/export` |
-| Factory	| Simplify object creation	| `React.createElement()` |
-| Observer	| Event-driven communication | 	`EventEmitter`, `RxJS` |
-| Singleton	| Shared instance across app	| `Redux store` |
+| Pattern   | Purpose                            | Example                 |
+| :-------- | :--------------------------------- | :---------------------- |
+| Module    | Encapsulate code and avoid globals | `import/export`         |
+| Factory   | Simplify object creation           | `React.createElement()` |
+| Observer  | Event-driven communication         | `EventEmitter`, `RxJS`  |
+| Singleton | Shared instance across app         | `Redux store`           |
 
 #### Example (Observer Pattern):
+
 ```javascript
 class Observable {
-  constructor() { this.subscribers = []; }
-  subscribe(fn) { this.subscribers.push(fn); }
-  notify(data) { this.subscribers.forEach(fn => fn(data)); }
+  constructor() {
+    this.subscribers = [];
+  }
+  subscribe(fn) {
+    this.subscribers.push(fn);
+  }
+  notify(data) {
+    this.subscribers.forEach((fn) => fn(data));
+  }
 }
 ```
 
@@ -218,9 +242,9 @@ An expert knows how to build full-stack systems using Node.js.
 #### Example:
 
 ```javascript
-import express from 'express';
+import express from "express";
 const app = express();
-app.get('/', (req, res) => res.send('Hello Expert!'));
+app.get("/", (req, res) => res.send("Hello Expert!"));
 app.listen(3000);
 ```
 
@@ -230,12 +254,12 @@ Experts automate quality control.
 
 #### Tools:
 
-| Category	| Tools |
-|:--- |:--- |
-| Bundlers	| Webpack, Vite, Rollup |
-| Testing	| Jest, Mocha, Cypress |
-| Automation	| Husky, npm scripts, Gulp |
-| Linting	| ESLint, Prettier |
+| Category   | Tools                    |
+| :--------- | :----------------------- |
+| Bundlers   | Webpack, Vite, Rollup    |
+| Testing    | Jest, Mocha, Cypress     |
+| Automation | Husky, npm scripts, Gulp |
+| Linting    | ESLint, Prettier         |
 
 Use Git hooks for automatic linting and formatting on commit.
 
@@ -279,3 +303,9 @@ Experts are lifelong learners — blending computer science fundamentals, real-w
 They write elegant, secure, and efficient solutions that scale — and most importantly, they inspire others to do the same.
 
 “The true mark of expertise is not mastery of code, but mastery of thought.”
+
+---
+
+[<< Chapter 50](./50_monorepos_multi_package_management.md) | [Chapter 52 >>](./52_cross_browser_compatibility.md)
+
+---

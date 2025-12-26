@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 3](./03_basic_javaScript_execution.md) | [Chapter 5 >>](./05_data_types_in_javaScript.md)
+
+---
+
 # Chapter 4: Core JavaScript Concepts
 
 ## **1. Syntax, Expressions, and Statements**
@@ -16,15 +22,17 @@ JavaScript syntax refers to the set of rules for writing code that the JavaScrip
 Identifiers are names used for variables, functions, and other elements in JavaScript.
 
 #### **Valid Identifiers**:
+
 ```javascript
-let userName = "Alice";        // camelCase (recommended)
-let user_age = 25;            // snake_case (valid but not recommended)
-let $special = "valid";        // starts with $ (valid)
-let _private = "also valid";   // starts with _ (valid)
-let name123 = "valid";        // contains numbers (valid)
+let userName = "Alice"; // camelCase (recommended)
+let user_age = 25; // snake_case (valid but not recommended)
+let $special = "valid"; // starts with $ (valid)
+let _private = "also valid"; // starts with _ (valid)
+let name123 = "valid"; // contains numbers (valid)
 ```
 
 #### **Invalid Identifiers**:
+
 ```javascript
 // let 2name = "invalid";     // starts with number
 // let user-name = "invalid";  // contains hyphen
@@ -33,6 +41,7 @@ let name123 = "valid";        // contains numbers (valid)
 ```
 
 #### **Naming Conventions**:
+
 - **camelCase**: `firstName`, `userAge`, `isLoggedIn` (recommended for variables and functions)
 - **PascalCase**: `UserProfile`, `CarModel` (recommended for constructors and classes)
 - **UPPER_SNAKE_CASE**: `MAX_SIZE`, `API_URL` (recommended for constants)
@@ -54,17 +63,19 @@ JavaScript has reserved words that cannot be used as identifiers:
 Expressions produce values and can be used wherever a value is expected.
 
 #### **Simple Expressions**:
+
 ```javascript
-let sum = 5 + 3;              // Arithmetic expression
-let message = "Hello";        // String literal
-let isTrue = true;            // Boolean literal
+let sum = 5 + 3; // Arithmetic expression
+let message = "Hello"; // String literal
+let isTrue = true; // Boolean literal
 ```
 
 #### **Complex Expressions**:
+
 ```javascript
-let result = (5 + 3) * 2;     // Parentheses for precedence
-let fullName = firstName + " " + lastName;  // String concatenation
-let isValid = age >= 18 && hasLicense;      // Logical expression
+let result = (5 + 3) * 2; // Parentheses for precedence
+let fullName = firstName + " " + lastName; // String concatenation
+let isValid = age >= 18 && hasLicense; // Logical expression
 let status = age >= 18 ? "adult" : "minor"; // Ternary expression
 ```
 
@@ -73,22 +84,26 @@ let status = age >= 18 ? "adult" : "minor"; // Ternary expression
 Statements perform actions and typically end with a semicolon (`;`).
 
 #### **Simple Statements**:
+
 ```javascript
 console.log("Hello, World!"); // Expression statement
-let name = "Alice";          // Declaration statement
-name = "Bob";                 // Assignment statement
+let name = "Alice"; // Declaration statement
+name = "Bob"; // Assignment statement
 ```
 
 #### **Complex Statements**:
+
 ```javascript
-if (age >= 18) {              // Conditional statement
-    console.log("You are an adult");
+if (age >= 18) {
+  // Conditional statement
+  console.log("You are an adult");
 } else {
-    console.log("You are a minor");
+  console.log("You are a minor");
 }
 
-for (let i = 0; i < 5; i++) { // Loop statement
-    console.log(i);
+for (let i = 0; i < 5; i++) {
+  // Loop statement
+  console.log(i);
 }
 ```
 
@@ -105,6 +120,7 @@ Variables store data values and allow them to be reused throughout a program.
 - Hoisted with `undefined` value.
 
 **Example**:
+
 ```javascript
 var name = "Alice";
 name = "Bob";
@@ -112,12 +128,13 @@ var name = "Charlie"; // Redeclaration allowed
 ```
 
 **Scope Example**:
+
 ```javascript
 function example() {
-    if (true) {
-        var blockVar = "I'm function-scoped";
-    }
-    console.log(blockVar); // "I'm function-scoped" (accessible)
+  if (true) {
+    var blockVar = "I'm function-scoped";
+  }
+  console.log(blockVar); // "I'm function-scoped" (accessible)
 }
 ```
 
@@ -128,6 +145,7 @@ function example() {
 - Hoisted but in temporal dead zone.
 
 **Example**:
+
 ```javascript
 let age = 25;
 age = 30;
@@ -135,12 +153,13 @@ age = 30;
 ```
 
 **Scope Example**:
+
 ```javascript
 function example() {
-    if (true) {
-        let blockVar = "I'm block-scoped";
-    }
-    // console.log(blockVar); // Error: blockVar is not defined
+  if (true) {
+    let blockVar = "I'm block-scoped";
+  }
+  // console.log(blockVar); // Error: blockVar is not defined
 }
 ```
 
@@ -152,6 +171,7 @@ function example() {
 - Hoisted but in temporal dead zone.
 
 **Example**:
+
 ```javascript
 const PI = 3.14159;
 // PI = 3.14; // Error: Assignment to constant variable
@@ -159,6 +179,7 @@ const PI = 3.14159;
 ```
 
 **Object and Array Constants**:
+
 ```javascript
 const user = { name: "Alice", age: 25 };
 user.name = "Bob"; // Allowed - modifying object property
@@ -174,6 +195,7 @@ numbers[0] = 10; // Allowed - modifying array element
 ### **Hoisting and Temporal Dead Zone**:
 
 #### **Hoisting with `var`**:
+
 ```javascript
 console.log(hoistedVar); // undefined (not an error)
 var hoistedVar = "I'm hoisted";
@@ -185,6 +207,7 @@ hoistedVar = "I'm hoisted"; // Assignment stays in place
 ```
 
 #### **Temporal Dead Zone with `let` and `const`**:
+
 ```javascript
 // console.log(hoistedLet); // ReferenceError: Cannot access 'hoistedLet' before initialization
 let hoistedLet = "I'm in temporal dead zone";
@@ -197,11 +220,11 @@ const hoistedConst = "I'm also in temporal dead zone";
 
 | Feature           | `var`               | `let`                        | `const`                      |
 | ----------------- | ------------------- | ---------------------------- | ---------------------------- |
-| Scope             | Function            | Block                       | Block                        |
-| Redeclaration     | Allowed             | Not Allowed                 | Not Allowed                  |
-| Reassignment      | Allowed             | Allowed                     | Not Allowed                  |
-| Hoisting Behavior | Hoisted (undefined) | Hoisted (temporal dead zone)| Hoisted (temporal dead zone) |
-| Initialization    | Optional             | Optional                    | Required                     |
+| Scope             | Function            | Block                        | Block                        |
+| Redeclaration     | Allowed             | Not Allowed                  | Not Allowed                  |
+| Reassignment      | Allowed             | Allowed                      | Not Allowed                  |
+| Hoisting Behavior | Hoisted (undefined) | Hoisted (temporal dead zone) | Hoisted (temporal dead zone) |
+| Initialization    | Optional            | Optional                     | Required                     |
 
 ### **Best Practices**:
 
@@ -211,6 +234,7 @@ const hoistedConst = "I'm also in temporal dead zone";
 4. **Use descriptive names** - Choose meaningful variable names
 
 **Example**:
+
 ```javascript
 // Good practices
 const userName = "Alice";
@@ -259,13 +283,13 @@ JavaScript provides a variety of operators to perform operations on data.
 Assign values to variables and perform operations simultaneously.
 
 ```javascript
-let x = 10;        // Simple assignment
-x += 5;           // x = x + 5 (addition assignment)
-x -= 3;           // x = x - 3 (subtraction assignment)
-x *= 2;           // x = x * 2 (multiplication assignment)
-x /= 4;           // x = x / 4 (division assignment)
-x %= 3;           // x = x % 3 (modulus assignment)
-x **= 2;          // x = x ** 2 (exponentiation assignment)
+let x = 10; // Simple assignment
+x += 5; // x = x + 5 (addition assignment)
+x -= 3; // x = x - 3 (subtraction assignment)
+x *= 2; // x = x * 2 (multiplication assignment)
+x /= 4; // x = x / 4 (division assignment)
+x %= 3; // x = x % 3 (modulus assignment)
+x **= 2; // x = x ** 2 (exponentiation assignment)
 ```
 
 ### **Arithmetic Operators**:
@@ -273,14 +297,16 @@ x **= 2;          // x = x ** 2 (exponentiation assignment)
 Perform mathematical calculations.
 
 ```javascript
-let sum = 5 + 3;        // Addition: 8
-let diff = 10 - 2;      // Subtraction: 8
-let prod = 4 * 3;       // Multiplication: 12
-let div = 12 / 3;       // Division: 4
-let mod = 10 % 3;       // Modulus (remainder): 1
-let exp = 2 ** 3;       // Exponentiation: 8
-let inc = 5; inc++;     // Post-increment: 6
-let dec = 5; dec--;     // Post-decrement: 4
+let sum = 5 + 3; // Addition: 8
+let diff = 10 - 2; // Subtraction: 8
+let prod = 4 * 3; // Multiplication: 12
+let div = 12 / 3; // Division: 4
+let mod = 10 % 3; // Modulus (remainder): 1
+let exp = 2 ** 3; // Exponentiation: 8
+let inc = 5;
+inc++; // Post-increment: 6
+let dec = 5;
+dec--; // Post-decrement: 4
 ```
 
 ### **Comparison Operators**:
@@ -289,16 +315,16 @@ Compare values and return boolean results.
 
 ```javascript
 // Equality operators
-let looseEqual = 5 == "5";      // true (loose equality with type coercion)
-let strictEqual = 5 === "5";     // false (strict equality, no type coercion)
-let looseNotEqual = 5 != "5";    // false
-let strictNotEqual = 5 !== "5";  // true
+let looseEqual = 5 == "5"; // true (loose equality with type coercion)
+let strictEqual = 5 === "5"; // false (strict equality, no type coercion)
+let looseNotEqual = 5 != "5"; // false
+let strictNotEqual = 5 !== "5"; // true
 
 // Relational operators
-let greater = 10 > 5;            // true
-let less = 3 < 7;               // true
-let greaterEqual = 5 >= 5;       // true
-let lessEqual = 4 <= 6;          // true
+let greater = 10 > 5; // true
+let less = 3 < 7; // true
+let greaterEqual = 5 >= 5; // true
+let lessEqual = 4 <= 6; // true
 ```
 
 ### **Logical Operators**:
@@ -307,19 +333,19 @@ Combine boolean values and expressions.
 
 ```javascript
 // Logical AND (&&) - returns first falsy value or last value
-let andResult = true && false;           // false
-let andChain = "hello" && "world";        // "world"
+let andResult = true && false; // false
+let andChain = "hello" && "world"; // "world"
 let andShort = false && "never reached"; // false
 
 // Logical OR (||) - returns first truthy value or last value
-let orResult = true || false;            // true
-let orChain = "" || "default";           // "default"
+let orResult = true || false; // true
+let orChain = "" || "default"; // "default"
 let orShort = "hello" || "never reached"; // "hello"
 
 // Logical NOT (!) - inverts boolean value
-let notTrue = !true;                     // false
-let notFalse = !false;                    // true
-let notTruthy = !"hello";                // false
+let notTrue = !true; // false
+let notFalse = !false; // true
+let notTruthy = !"hello"; // false
 ```
 
 ### **Ternary Operator**:
@@ -331,9 +357,7 @@ let age = 18;
 let status = age >= 18 ? "adult" : "minor"; // "adult"
 
 // Nested ternary (use sparingly)
-let grade = score >= 90 ? "A" : 
-           score >= 80 ? "B" : 
-           score >= 70 ? "C" : "F";
+let grade = score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : "F";
 ```
 
 ### **Type Operators**:
@@ -342,23 +366,23 @@ Check types and object relationships.
 
 ```javascript
 // typeof operator - returns the type of a value
-console.log(typeof "hello");     // "string"
-console.log(typeof 42);          // "number"
-console.log(typeof true);        // "boolean"
-console.log(typeof undefined);   // "undefined"
-console.log(typeof null);        // "object" (known quirk)
-console.log(typeof []);          // "object"
-console.log(typeof {});          // "object"
-console.log(typeof function(){}); // "function"
+console.log(typeof "hello"); // "string"
+console.log(typeof 42); // "number"
+console.log(typeof true); // "boolean"
+console.log(typeof undefined); // "undefined"
+console.log(typeof null); // "object" (known quirk)
+console.log(typeof []); // "object"
+console.log(typeof {}); // "object"
+console.log(typeof function () {}); // "function"
 
 // instanceof operator - checks if object is instance of constructor
 let arr = [1, 2, 3];
-console.log(arr instanceof Array);    // true
-console.log(arr instanceof Object);   // true
+console.log(arr instanceof Array); // true
+console.log(arr instanceof Object); // true
 
 let date = new Date();
-console.log(date instanceof Date);    // true
-console.log(date instanceof Object);  // true
+console.log(date instanceof Date); // true
+console.log(date instanceof Object); // true
 ```
 
 ### **Operator Precedence**:
@@ -367,11 +391,11 @@ Operators are evaluated in a specific order. Use parentheses to control preceden
 
 ```javascript
 // Without parentheses (follows precedence rules)
-let result1 = 2 + 3 * 4;        // 14 (not 20)
-let result2 = 10 > 5 && 3 < 7;  // true
+let result1 = 2 + 3 * 4; // 14 (not 20)
+let result2 = 10 > 5 && 3 < 7; // true
 
 // With parentheses (explicit precedence)
-let result3 = (2 + 3) * 4;      // 20
+let result3 = (2 + 3) * 4; // 20
 let result4 = 10 > (5 && 3) < 7; // true
 
 // Precedence order (highest to lowest):
@@ -393,24 +417,24 @@ JavaScript automatically converts types in certain contexts.
 
 ```javascript
 // String concatenation
-let str = "Hello " + 42;        // "Hello 42"
+let str = "Hello " + 42; // "Hello 42"
 let str2 = 42 + " is the answer"; // "42 is the answer"
 
 // Numeric operations
-let num = "10" - 5;             // 5 (string converted to number)
-let num2 = "10" * 2;             // 20
-let num3 = "10" / 2;             // 5
+let num = "10" - 5; // 5 (string converted to number)
+let num2 = "10" * 2; // 20
+let num3 = "10" / 2; // 5
 
 // Boolean conversion
-let bool1 = !!"hello";          // true (truthy string)
-let bool2 = !!"";               // false (falsy empty string)
-let bool3 = !!0;                // false (falsy zero)
+let bool1 = !!"hello"; // true (truthy string)
+let bool2 = !!""; // false (falsy empty string)
+let bool3 = !!0; // false (falsy zero)
 
 // Loose equality with type coercion
-console.log(5 == "5");          // true (string converted to number)
-console.log(true == 1);         // true (boolean converted to number)
+console.log(5 == "5"); // true (string converted to number)
+console.log(true == 1); // true (boolean converted to number)
 console.log(null == undefined); // true (special case)
-console.log("" == 0);           // true (empty string converted to 0)
+console.log("" == 0); // true (empty string converted to 0)
 ```
 
 ### **Bitwise Operators**:
@@ -418,14 +442,14 @@ console.log("" == 0);           // true (empty string converted to 0)
 Perform operations at the binary level (advanced topic).
 
 ```javascript
-let a = 5;  // 101 in binary
-let b = 3;  // 011 in binary
+let a = 5; // 101 in binary
+let b = 3; // 011 in binary
 
-let andResult = a & b;   // 001 = 1 (AND)
-let orResult = a | b;    // 111 = 7 (OR)
-let xorResult = a ^ b;   // 110 = 6 (XOR)
-let notResult = ~a;      // -6 (NOT)
-let leftShift = a << 1;  // 1010 = 10 (left shift)
+let andResult = a & b; // 001 = 1 (AND)
+let orResult = a | b; // 111 = 7 (OR)
+let xorResult = a ^ b; // 110 = 6 (XOR)
+let notResult = ~a; // -6 (NOT)
+let leftShift = a << 1; // 1010 = 10 (left shift)
 let rightShift = a >> 1; // 010 = 2 (right shift)
 ```
 
@@ -470,15 +494,16 @@ Comments improve code readability and help explain what the code does.
 ### **Common Mistakes**:
 
 #### **Variable Declaration Mistakes**:
+
 ```javascript
 // Mistake 1: Using var in loops (creates closure issues)
 for (var i = 0; i < 3; i++) {
-    setTimeout(() => console.log(i), 100); // Prints 3, 3, 3
+  setTimeout(() => console.log(i), 100); // Prints 3, 3, 3
 }
 
 // Solution: Use let for block scoping
 for (let i = 0; i < 3; i++) {
-    setTimeout(() => console.log(i), 100); // Prints 0, 1, 2
+  setTimeout(() => console.log(i), 100); // Prints 0, 1, 2
 }
 
 // Mistake 2: Not initializing variables
@@ -490,27 +515,30 @@ let name = "Alice";
 console.log(name.toUpperCase()); // "ALICE"
 
 // Mistake 3: Using == instead of ===
-if (age == "18") { // Type coercion can cause bugs
-    console.log("Adult");
+if (age == "18") {
+  // Type coercion can cause bugs
+  console.log("Adult");
 }
 
 // Solution: Use strict equality
 if (age === 18) {
-    console.log("Adult");
+  console.log("Adult");
 }
 ```
 
 #### **Operator Mistakes**:
+
 ```javascript
 // Mistake 1: Confusing assignment (=) with equality (==)
 let x = 5;
-if (x = 10) { // Assignment, not comparison!
-    console.log("This always runs");
+if ((x = 10)) {
+  // Assignment, not comparison!
+  console.log("This always runs");
 }
 
 // Solution: Use comparison operator
 if (x === 10) {
-    console.log("This runs when x equals 10");
+  console.log("This runs when x equals 10");
 }
 
 // Mistake 2: Not understanding operator precedence
@@ -525,6 +553,7 @@ console.log(result);
 ### **Best Practices**:
 
 #### **Variable Naming**:
+
 ```javascript
 // Good: Descriptive, camelCase
 const userName = "Alice";
@@ -538,19 +567,21 @@ const loggedIn = false;
 ```
 
 #### **Use Strict Equality**:
+
 ```javascript
 // Good: Always use === and !==
 if (age === 18) {
-    console.log("Exactly 18");
+  console.log("Exactly 18");
 }
 
 // Bad: Loose equality can cause bugs
 if (age == 18) {
-    console.log("Might be string '18' or number 18");
+  console.log("Might be string '18' or number 18");
 }
 ```
 
 #### **Initialize Variables**:
+
 ```javascript
 // Good: Initialize when declaring
 const userName = "Alice";
@@ -562,6 +593,7 @@ let userAge; // undefined
 ```
 
 #### **Use const by Default**:
+
 ```javascript
 // Good: Use const unless you need to reassign
 const userName = "Alice";
@@ -578,6 +610,7 @@ let userAge = 25;
 ## **7. Practice Exercises**
 
 ### **Exercise 1: Variable Declaration**
+
 Create variables for a user profile using appropriate declaration keywords:
 
 ```javascript
@@ -595,6 +628,7 @@ let isLoggedIn = false;
 ```
 
 ### **Exercise 2: Operator Practice**
+
 Write expressions to calculate the following:
 
 ```javascript
@@ -616,6 +650,7 @@ const canVote = age >= 18; // true
 ```
 
 ### **Exercise 3: Type Checking**
+
 Write code to check the types of different values:
 
 ```javascript
@@ -628,31 +663,32 @@ Write code to check the types of different values:
 // - null
 
 // Solution:
-console.log(typeof "hello");     // "string"
-console.log(typeof 42);          // "number"
-console.log(typeof true);        // "boolean"
-console.log(typeof []);          // "object"
-console.log(typeof {});          // "object"
-console.log(typeof null);        // "object"
+console.log(typeof "hello"); // "string"
+console.log(typeof 42); // "number"
+console.log(typeof true); // "boolean"
+console.log(typeof []); // "object"
+console.log(typeof {}); // "object"
+console.log(typeof null); // "object"
 ```
 
 ### **Exercise 4: Operator Precedence**
+
 Predict the results of these expressions:
 
 ```javascript
 // Your task: What will these print?
-console.log(2 + 3 * 4);        // ?
-console.log((2 + 3) * 4);       // ?
-console.log(10 > 5 && 3 < 7);   // ?
-console.log(5 === "5");         // ?
-console.log(5 == "5");          // ?
+console.log(2 + 3 * 4); // ?
+console.log((2 + 3) * 4); // ?
+console.log(10 > 5 && 3 < 7); // ?
+console.log(5 === "5"); // ?
+console.log(5 == "5"); // ?
 
 // Solution:
-console.log(2 + 3 * 4);        // 14
-console.log((2 + 3) * 4);       // 20
-console.log(10 > 5 && 3 < 7);   // true
-console.log(5 === "5");         // false
-console.log(5 == "5");          // true
+console.log(2 + 3 * 4); // 14
+console.log((2 + 3) * 4); // 20
+console.log(10 > 5 && 3 < 7); // true
+console.log(5 === "5"); // false
+console.log(5 == "5"); // true
 ```
 
 ---
@@ -662,6 +698,7 @@ console.log(5 == "5");          // true
 Understanding JavaScript syntax, variables, constants, operators, and commenting practices is fundamental for writing clean and efficient code. Mastering these core concepts provides a strong foundation for tackling more advanced topics in JavaScript programming.
 
 Key takeaways:
+
 - Use `const` by default, `let` when reassignment is needed, and avoid `var`
 - Always use strict equality (`===`) instead of loose equality (`==`)
 - Understand operator precedence and use parentheses for clarity
@@ -670,3 +707,9 @@ Key takeaways:
 - Be aware of type coercion and its effects
 
 Practice these concepts regularly, and you'll build a solid foundation for more advanced JavaScript development!
+
+---
+
+[<< Chapter 3](./03_basic_javaScript_execution.md) | [Chapter 5 >>](./05_data_types_in_javaScript.md)
+
+---

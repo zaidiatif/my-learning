@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 13](./13_dom_manipulation.md) | [Chapter 15 >>](./15_web_components.md)
+
+---
+
 # Chapter 14: Accessibility in JavaScript (React + TypeScript & NPM Toolkit)
 
 ## Introduction
@@ -15,6 +21,7 @@ This chapter consolidates both theory and practice:
 Accessibility is not a feature — it’s a fundamental quality of professional software.
 
 ## 1. Core Accessibility Concepts
+
 ### 1.1 What Accessibility Means
 
 Accessibility means designing apps that everyone can use — regardless of ability, device, or context. It follows standards like:
@@ -41,18 +48,19 @@ Accessibility means designing apps that everyone can use — regardless of abili
 
 ### 2.2 JavaScript Solutions
 
-| Concern	| Technique |
-|:--- |:--- |
-| Keyboard navigation	| Use `keydown` events and logical focus order |
-| Announce updates	| Use `aria-live="polite"` or `assertive` |
-| Manage focus	| Call `element.focus()` after updates |
-| Polyfills	| Use `focus-visible`, `aria-utils` for consistent behavior |
+| Concern             | Technique                                                 |
+| :------------------ | :-------------------------------------------------------- |
+| Keyboard navigation | Use `keydown` events and logical focus order              |
+| Announce updates    | Use `aria-live="polite"` or `assertive`                   |
+| Manage focus        | Call `element.focus()` after updates                      |
+| Polyfills           | Use `focus-visible`, `aria-utils` for consistent behavior |
 
 ## 3. Accessibility in React + TypeScript
 
 React components can encapsulate accessibility logic. TypeScript enforces type-safe props for ARIA attributes and event handling.
 
 ### 3.1 Accessible Button
+
 ```js
 import React from "react";
 
@@ -61,7 +69,10 @@ interface AccessibleButtonProps {
   onClick: () => void;
 }
 
-export const AccessibleButton: React.FC<AccessibleButtonProps> = ({ label, onClick }) => (
+export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
+  label,
+  onClick,
+}) => (
   <button
     onClick={onClick}
     aria-label={label}
@@ -73,6 +84,7 @@ export const AccessibleButton: React.FC<AccessibleButtonProps> = ({ label, onCli
 ```
 
 ### 3.2 Accessible Input
+
 ```js
 interface AccessibleInputProps {
   id: string;
@@ -83,7 +95,11 @@ interface AccessibleInputProps {
 }
 
 export const AccessibleInput: React.FC<AccessibleInputProps> = ({
-  id, label, value, onChange, type = "text"
+  id,
+  label,
+  value,
+  onChange,
+  type = "text",
 }) => (
   <div className="flex flex-col gap-1">
     <label htmlFor={id}>{label}</label>
@@ -100,6 +116,7 @@ export const AccessibleInput: React.FC<AccessibleInputProps> = ({
 ```
 
 ### 3.3 Visually Hidden Text
+
 ```js
 export const ScreenReaderText: React.FC<{ text: string }> = ({ text }) => (
   <span className="sr-only">{text}</span>
@@ -107,22 +124,25 @@ export const ScreenReaderText: React.FC<{ text: string }> = ({ text }) => (
 ```
 
 Add the following CSS in your toolkit:
+
 ```css
 .sr-only {
-  position:absolute;
-  width:1px;
-  height:1px;
-  margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  border:0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 ```
 
 ## 4. Mini Accessibility Toolkit for Developers
 
 ### 4.1 Hooks
+
 #### useKeyboardNavigation
+
 ```js
 import { useEffect } from "react";
 
@@ -134,7 +154,9 @@ export const useKeyboardNavigation = (handler: (key: string) => void) => {
   }, [handler]);
 };
 ```
+
 #### useFocusTrap
+
 ```js
 import { useEffect } from "react";
 
@@ -163,6 +185,7 @@ export const useFocusTrap = (containerRef: React.RefObject<HTMLElement>) => {
 ## 5. Practical Project: Accessible Modal Dialog
 
 ### 5.1 Component
+
 ```js
 import React, { useRef, useEffect } from "react";
 import { useFocusTrap } from "./hooks/useFocusTrap";
@@ -174,8 +197,13 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-export const AccessibleModal: React.FC<ModalProps> = ({ isOpen, title, onClose, children }) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const AccessibleModal: React.FC<ModalProps> = ({
+  isOpen,
+  title,
+  onClose,
+  children,
+}) => {
+  const ref = useRef < HTMLDivElement > null;
   useFocusTrap(ref);
 
   useEffect(() => {
@@ -194,9 +222,14 @@ export const AccessibleModal: React.FC<ModalProps> = ({ isOpen, title, onClose, 
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
     >
       <div ref={ref} className="bg-white rounded p-6 shadow-lg w-[400px]">
-        <h2 id="modal-title" className="text-lg font-semibold mb-4">{title}</h2>
+        <h2 id="modal-title" className="text-lg font-semibold mb-4">
+          {title}
+        </h2>
         {children}
-        <button onClick={onClose} className="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+        <button
+          onClick={onClose}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+        >
           Close
         </button>
       </div>
@@ -206,8 +239,13 @@ export const AccessibleModal: React.FC<ModalProps> = ({ isOpen, title, onClose, 
 ```
 
 ### 5.2 Usage
+
 ```tsx
-<AccessibleModal isOpen={show} onClose={() => setShow(false)} title="Accessible Modal">
+<AccessibleModal
+  isOpen={show}
+  onClose={() => setShow(false)}
+  title="Accessible Modal"
+>
   <p>This modal is fully keyboard accessible and screen-reader friendly.</p>
 </AccessibleModal>
 ```
@@ -224,6 +262,7 @@ export const AccessibleModal: React.FC<ModalProps> = ({ isOpen, title, onClose, 
 ## 7. Packaging as an NPM Library
 
 ### 7.1 File Structure
+
 ```pgsql
 accessibility-toolkit/
 ├── src/
@@ -241,6 +280,7 @@ accessibility-toolkit/
 ```
 
 ### 7.2 index.ts
+
 ```ts
 export * from "./components/AccessibleButton";
 export * from "./components/AccessibleInput";
@@ -250,6 +290,7 @@ export * from "./hooks/useFocusTrap";
 ```
 
 ### 7.3 package.json (example)
+
 ```json
 {
   "name": "@yourorg/accessibility-toolkit",
@@ -271,6 +312,7 @@ export * from "./hooks/useFocusTrap";
 ```
 
 ### 7.4 Build & Publish
+
 ```bash
 npm run build
 npm publish --access public
@@ -309,3 +351,9 @@ By integrating accessible practices into your React + TypeScript development wor
 
 **Accessible design is universal design.**
 Making the web inclusive benefits every user — everywhere.
+
+---
+
+[<< Chapter 13](./13_dom_manipulation.md) | [Chapter 15 >>](./15_web_components.md)
+
+---

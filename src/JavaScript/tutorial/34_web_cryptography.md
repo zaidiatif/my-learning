@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 33](./33_security_supply_chain_attacks.md) | [Chapter 35 >>](./35_testing_javaScript_applications.md)
+
+---
+
 # Chapter 34: Web Cryptography
 
 Cryptography is the foundation of secure web applications. It ensures confidentiality, integrity, and authentication in a world where sensitive data constantly moves across untrusted networks. Web cryptography refers to the application of cryptographic techniques within browsers, APIs, and servers to secure communication, protect user data, and preserve privacy.
@@ -396,3 +402,9 @@ The `crypto` module in Node.js provides cryptographic functionality for server-s
 ## Conclusion
 
 Web cryptography plays a vital role in ensuring the security and privacy of modern web applications. By understanding core concepts, leveraging robust algorithms, and adhering to best practices, developers can build applications that protect sensitive data and maintain user trust.
+
+---
+
+[<< Chapter 33](./33_security_supply_chain_attacks.md) | [Chapter 35 >>](./35_testing_javaScript_applications.md)
+
+---

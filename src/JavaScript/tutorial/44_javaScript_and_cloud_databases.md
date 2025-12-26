@@ -1,4 +1,10 @@
-# Chapter 32: JavaScript and Cloud Databases
+---
+
+[<< Chapter 43](./43_edge_computing_javascript.md) | [Chapter 45 >>](./45_graphQL.md)
+
+---
+
+# Chapter 44: JavaScript and Cloud Databases
 
 ## 1. Understanding Cloud Databases
 
@@ -8,17 +14,17 @@ Instead of setting up servers manually, developers use APIs, SDKs, and dashboard
 
 ### 1.1 Key Concepts
 
-| Feature	| Description |
-|:-- |:--- |
-| Managed Service	| Cloud providers handle hardware, backups, scaling, and security.|
-| API Access	| Data is accessible via REST, GraphQL, or WebSocket APIs. |
-| Global Distribution	| Data is replicated across regions for low-latency access. |
-| Serverless Operation	| You only pay for usage, not uptime. |
-| SDKs | JavaScript libraries for faster development and easier integration. |
+| Feature              | Description                                                         |
+| :------------------- | :------------------------------------------------------------------ |
+| Managed Service      | Cloud providers handle hardware, backups, scaling, and security.    |
+| API Access           | Data is accessible via REST, GraphQL, or WebSocket APIs.            |
+| Global Distribution  | Data is replicated across regions for low-latency access.           |
+| Serverless Operation | You only pay for usage, not uptime.                                 |
+| SDKs                 | JavaScript libraries for faster development and easier integration. |
 
 ### 1.2 Benefits of Cloud Databases
 
-- High availability and reliability -  Automatic failover ensures continuous uptime.
+- High availability and reliability - Automatic failover ensures continuous uptime.
 - Scalability to handle dynamic workloads - Dynamically scales with traffic and data volume.
 - Pay-as-you-go pricing models - Optimized cost structure based on usage.
 - Simplified development with ready-to-use APIs.
@@ -45,6 +51,7 @@ fetchData("https://example-database.com/api/resource");
 ### 1.3 How JavaScript Connects with Cloud Databases
 
 - JavaScript can interact with cloud databases through:
+
   - REST or GraphQL APIs
     - Example: Firestore REST API or Hasura GraphQL endpoint.
   - SDKs and Drivers
@@ -128,7 +135,6 @@ get(userRef).then((snapshot) => {
 const { Firestore } = require("@google-cloud/firestore");
 const firestore = new Firestore();
 await firestore.collection("users").add({ name: "Aman", age: 22 });
-
 ```
 
 ### 3.3 **Amazon DynamoDB**
@@ -205,7 +211,8 @@ const client = new CosmosClient(process.env.COSMOS_URI);
 const results = await client
   .database("school")
   .container("students")
-  .items.query("SELECT * FROM c").fetchAll();
+  .items.query("SELECT * FROM c")
+  .fetchAll();
 ```
 
 ---
@@ -298,13 +305,14 @@ exports.addUser = async (req, res) => {
 
 Modern JavaScript frameworks (like Next.js, Remix, and Astro) integrate deeply with serverless and edge databases, enabling real-time apps without traditional backends.
 
-| Type	| Examples	| Ideal For |
-|:--- |:--- |:--- |
-| Serverless SQL	| Neon, PlanetScale	| SaaS, dashboards |
-| Edge Databases	| Turso, Deno KV, Cloudflare D1 |	Ultra-low-latency global apps |
-| Vector Databases	| Pinecone, Weaviate	| AI search, embeddings, chatbots |
+| Type             | Examples                      | Ideal For                       |
+| :--------------- | :---------------------------- | :------------------------------ |
+| Serverless SQL   | Neon, PlanetScale             | SaaS, dashboards                |
+| Edge Databases   | Turso, Deno KV, Cloudflare D1 | Ultra-low-latency global apps   |
+| Vector Databases | Pinecone, Weaviate            | AI search, embeddings, chatbots |
 
 #### Example – Using Neon with Node.js
+
 ```javascript
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.NEON_DATABASE_URL);
@@ -312,6 +320,7 @@ const rows = await sql`SELECT * FROM users LIMIT 5`;
 ```
 
 ---
+
 ## 8 **Best Practices**
 
 1. Connection Management:
@@ -324,14 +333,14 @@ const rows = await sql`SELECT * FROM users LIMIT 5`;
    Store database credentials in environment variables or secret managers to enhance security.
 5. Monitor and Log:
    Use monitoring tools to track performance and troubleshoot issues.
-6. Secure Access: 
-  Use environment variables, IAM roles, or secrets managers.
-7. Efficient Queries: 
-  Fetch minimal fields, index frequently queried attributes.
+6. Secure Access:
+   Use environment variables, IAM roles, or secrets managers.
+7. Efficient Queries:
+   Fetch minimal fields, index frequently queried attributes.
 8. Data Caching:
-  Use Redis or Cloudflare KV for hot data.
-9. Error Handling: 
-  Always wrap database calls in try-catch.
+   Use Redis or Cloudflare KV for hot data.
+9. Error Handling:
+   Always wrap database calls in try-catch.
 
 ---
 
@@ -360,3 +369,9 @@ Cloud databases combined with JavaScript form the backbone of modern web archite
 By integrating NoSQL, SQL, and serverless storage systems, developers can build applications that are scalable, resilient, and real-time — with minimal operational overhead.
 
 Whether through Firebase for collaboration apps, DynamoDB for enterprise APIs, or Neon for edge-ready SQL, the cloud empowers JavaScript developers to treat data as a global, living layer — always available, instantly synchronized, and endlessly scalable.
+
+---
+
+[<< Chapter 43](./43_edge_computing_javascript.md) | [Chapter 45 >>](./45_graphQL.md)
+
+---

@@ -1,4 +1,10 @@
-# Chapter 14: JavaScript Design Patterns
+---
+
+[<< Chapter 15](./15_web_components.md) | [Chapter 17 >>](./17_functional_programming.md)
+
+---
+
+# Chapter 16: JavaScript Design Patterns
 
 In this chapter, we explore common design patterns in JavaScript. Design patterns are reusable solutions to common problems in software design, helping to write cleaner, more efficient, and maintainable code.
 
@@ -396,102 +402,209 @@ Many patterns can work together to create robust applications. For instance, the
 ## **5. Additional Patterns (Concise Guide + Examples)**
 
 ### **5.1 Adapter (Structural)**
+
 Converts one interface to another expected by clients.
+
 ```javascript
-class OldApi { getUser(id) { return { id, name: 'Alice' }; } }
-class NewApi { fetchUser(id) { return Promise.resolve({ id, fullName: 'Alice' }); } }
+class OldApi {
+  getUser(id) {
+    return { id, name: "Alice" };
+  }
+}
+class NewApi {
+  fetchUser(id) {
+    return Promise.resolve({ id, fullName: "Alice" });
+  }
+}
 class Adapter {
-  constructor(newApi) { this.newApi = newApi; }
-  async getUser(id) { const u = await this.newApi.fetchUser(id); return { id: u.id, name: u.fullName }; }
+  constructor(newApi) {
+    this.newApi = newApi;
+  }
+  async getUser(id) {
+    const u = await this.newApi.fetchUser(id);
+    return { id: u.id, name: u.fullName };
+  }
 }
 ```
 
 ### **5.2 Facade (Structural)**
+
 Simplifies a complex subsystem with a unified API.
+
 ```javascript
 function buildReport({ fetchData, transform, render }) {
-  return async function run() { const raw = await fetchData(); const view = transform(raw); return render(view); };
+  return async function run() {
+    const raw = await fetchData();
+    const view = transform(raw);
+    return render(view);
+  };
 }
 ```
 
 ### **5.3 Bridge (Structural)**
+
 Decouple abstraction from implementation to vary independently.
+
 ```javascript
-class Shape { constructor(renderer) { this.renderer = renderer; } draw() { this.renderer.draw(this); } }
-class Circle extends Shape { constructor(renderer, r) { super(renderer); this.r = r; } }
-class CanvasRenderer { draw(shape) { /* draw on <canvas> */ } }
-class SvgRenderer { draw(shape) { /* draw as <svg> */ } }
+class Shape {
+  constructor(renderer) {
+    this.renderer = renderer;
+  }
+  draw() {
+    this.renderer.draw(this);
+  }
+}
+class Circle extends Shape {
+  constructor(renderer, r) {
+    super(renderer);
+    this.r = r;
+  }
+}
+class CanvasRenderer {
+  draw(shape) {
+    /* draw on <canvas> */
+  }
+}
+class SvgRenderer {
+  draw(shape) {
+    /* draw as <svg> */
+  }
+}
 ```
 
 ### **5.4 Flyweight (Structural)**
+
 Share intrinsic state to reduce memory.
+
 ```javascript
 class IconFactory {
-  constructor() { this.cache = new Map(); }
-  get(name) { if (!this.cache.has(name)) this.cache.set(name, loadIcon(name)); return this.cache.get(name); }
+  constructor() {
+    this.cache = new Map();
+  }
+  get(name) {
+    if (!this.cache.has(name)) this.cache.set(name, loadIcon(name));
+    return this.cache.get(name);
+  }
 }
 ```
 
 ### **5.5 Builder (Creational)**
+
 Step-by-step construction for complex objects.
+
 ```javascript
-class Query { constructor({ select = [], where = [] } = {}) { Object.assign(this, { select, where }); } }
+class Query {
+  constructor({ select = [], where = [] } = {}) {
+    Object.assign(this, { select, where });
+  }
+}
 class QueryBuilder {
-  constructor() { this.state = { select: [], where: [] }; }
-  select(...fields) { this.state.select.push(...fields); return this; }
-  where(clause) { this.state.where.push(clause); return this; }
-  build() { return new Query(this.state); }
+  constructor() {
+    this.state = { select: [], where: [] };
+  }
+  select(...fields) {
+    this.state.select.push(...fields);
+    return this;
+  }
+  where(clause) {
+    this.state.where.push(clause);
+    return this;
+  }
+  build() {
+    return new Query(this.state);
+  }
 }
 ```
 
 ### **5.6 Prototype (Creational)**
+
 Clone existing objects to create new ones.
+
 ```javascript
-const proto = { greet() { return `hi ${this.name}`; } };
-const user = Object.assign(Object.create(proto), { name: 'Alice' });
+const proto = {
+  greet() {
+    return `hi ${this.name}`;
+  },
+};
+const user = Object.assign(Object.create(proto), { name: "Alice" });
 ```
 
 ### **5.7 Mediator (Behavioral)**
+
 Centralize complex communications between objects.
+
 ```javascript
-class Mediator { constructor() { this.handlers = {}; }
-  on(evt, fn) { (this.handlers[evt] ||= []).push(fn); }
-  emit(evt, payload) { (this.handlers[evt] || []).forEach(fn => fn(payload)); }
+class Mediator {
+  constructor() {
+    this.handlers = {};
+  }
+  on(evt, fn) {
+    (this.handlers[evt] ||= []).push(fn);
+  }
+  emit(evt, payload) {
+    (this.handlers[evt] || []).forEach((fn) => fn(payload));
+  }
 }
 ```
 
 ### **5.8 Memento (Behavioral)**
+
 Capture and restore object state (undo).
+
 ```javascript
-class Caretaker { constructor() { this.stack = []; }
-  save(state) { this.stack.push(JSON.stringify(state)); }
-  restore() { return JSON.parse(this.stack.pop()); }
+class Caretaker {
+  constructor() {
+    this.stack = [];
+  }
+  save(state) {
+    this.stack.push(JSON.stringify(state));
+  }
+  restore() {
+    return JSON.parse(this.stack.pop());
+  }
 }
 ```
 
 ### **5.9 Visitor (Behavioral)**
+
 Separate operations from object structure.
+
 ```javascript
 function visit(node, visitor) {
-  if (Array.isArray(node.children)) node.children.forEach(c => visit(c, visitor));
+  if (Array.isArray(node.children))
+    node.children.forEach((c) => visit(c, visitor));
   visitor(node);
 }
 ```
 
 ### **5.10 Chain of Responsibility (Behavioral)**
+
 Pass a request along a chain until handled.
+
 ```javascript
-const withAuth = next => ctx => ctx.user ? next(ctx) : { status: 401 };
-const withLogging = next => ctx => (console.log('req'), next(ctx));
-const handler = ctx => ({ status: 200 });
+const withAuth = (next) => (ctx) => ctx.user ? next(ctx) : { status: 401 };
+const withLogging = (next) => (ctx) => (console.log("req"), next(ctx));
+const handler = (ctx) => ({ status: 200 });
 const pipeline = withAuth(withLogging(handler));
 ```
 
 ### **5.11 Template Method (Behavioral)**
+
 Define a skeleton algorithm, letting subclasses override steps.
+
 ```javascript
-class Task { run() { this.before(); this.execute(); this.after(); }
-  before() {} execute() { throw new Error('implement'); } after() {} }
+class Task {
+  run() {
+    this.before();
+    this.execute();
+    this.after();
+  }
+  before() {}
+  execute() {
+    throw new Error("implement");
+  }
+  after() {}
+}
 ```
 
 ---
@@ -517,3 +630,9 @@ class Task { run() { this.before(); this.execute(); this.after(); }
 ## **Conclusion**
 
 Understanding design patterns in JavaScript equips developers to tackle complex problems with efficient, reusable solutions. By mastering these patterns, you can write scalable and maintainable code, ensuring a better development experience.
+
+---
+
+[<< Chapter 15](./15_web_components.md) | [Chapter 17 >>](./17_functional_programming.md)
+
+---

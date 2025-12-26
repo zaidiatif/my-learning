@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 23](./23_internationalization_localization.md) | [Chapter 25 >>](./25_optimizing_large_data_sets.md)
+
+---
+
 # Chapter 24: Reactive Programming
 
 Reactive programming is a programming paradigm focused on asynchronous data streams and the propagation of change. It is particularly useful for managing complex, event-driven systems such as user interfaces, data synchronization, and real-time applications. This chapter explores the principles of reactive programming, key libraries, and how to implement reactive patterns in JavaScript.
@@ -168,15 +174,16 @@ throwError("Error!")
 - Subjects bridge push sources to Observables.
 
 ```javascript
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 const subject = new Subject();
-subject.subscribe(v => console.log('A', v));
+subject.subscribe((v) => console.log("A", v));
 subject.next(1);
-subject.subscribe(v => console.log('B', v));
+subject.subscribe((v) => console.log("B", v));
 subject.next(2); // A 2, B 2
 ```
 
 Common Subject variants:
+
 - `BehaviorSubject(initial)`: caches last value; new subscribers get it immediately.
 - `ReplaySubject(n)`: replays last n values to new subscribers.
 - `AsyncSubject`: emits last value upon completion.
@@ -189,10 +196,13 @@ Common Subject variants:
 - `shareReplay({ bufferSize, refCount })`: cache last N values; careful with memory.
 
 ```javascript
-import { interval, take, shareReplay } from 'rxjs';
-const shared = interval(1000).pipe(take(3), shareReplay({ bufferSize: 1, refCount: true }));
-shared.subscribe(v => console.log('a', v));
-setTimeout(() => shared.subscribe(v => console.log('b', v)), 1500);
+import { interval, take, shareReplay } from "rxjs";
+const shared = interval(1000).pipe(
+  take(3),
+  shareReplay({ bufferSize: 1, refCount: true })
+);
+shared.subscribe((v) => console.log("a", v));
+setTimeout(() => shared.subscribe((v) => console.log("b", v)), 1500);
 ```
 
 ---
@@ -205,9 +215,9 @@ setTimeout(() => shared.subscribe(v => console.log('b', v)), 1500);
 - `exhaustMap`: ignore new until current completes.
 
 ```javascript
-fromEvent(btn, 'click').pipe(
-  switchMap(() => ajax('/api/data'))
-).subscribe();
+fromEvent(btn, "click")
+  .pipe(switchMap(() => ajax("/api/data")))
+  .subscribe();
 ```
 
 ---
@@ -217,7 +227,7 @@ fromEvent(btn, 'click').pipe(
 - Use `throttleTime`, `auditTime`, `sampleTime`, or `bufferTime`/`windowTime` to control rate.
 
 ```javascript
-fromEvent(window, 'scroll').pipe(throttleTime(200)).subscribe(handleScroll);
+fromEvent(window, "scroll").pipe(throttleTime(200)).subscribe(handleScroll);
 ```
 
 ---
@@ -226,7 +236,7 @@ fromEvent(window, 'scroll').pipe(throttleTime(200)).subscribe(handleScroll);
 
 - Control when/where work runs: `asyncScheduler` (macrotask), `queueScheduler` (sync), `animationFrameScheduler`.
 
-```javascript
+````javascript
 of(1,2,3, asyncScheduler).subscribe(console.log); // async delivery
 ``;
 
@@ -241,17 +251,19 @@ const destroy$ = new Subject();
 fromEvent(window, 'resize').pipe(takeUntil(destroy$)).subscribe();
 // later
 destroy$.next(); destroy$.complete();
-```
+````
 
 ---
 
 ## 15. Error Strategies: retry, retryWhen, onErrorResumeNext
 
 ```javascript
-ajax('/api').pipe(
-  retry(2),
-  catchError(() => of({ fallback: true }))
-).subscribe();
+ajax("/api")
+  .pipe(
+    retry(2),
+    catchError(() => of({ fallback: true }))
+  )
+  .subscribe();
 ```
 
 ---
@@ -261,9 +273,9 @@ ajax('/api').pipe(
 - `webSocket` from RxJS; `fromEvent`/`fromEventPattern` for DOM/Node events.
 
 ```javascript
-import { webSocket } from 'rxjs/webSocket';
-const socket$ = webSocket('wss://example');
-socket$.subscribe(msg => console.log(msg));
+import { webSocket } from "rxjs/webSocket";
+const socket$ = webSocket("wss://example");
+socket$.subscribe((msg) => console.log(msg));
 ```
 
 ---
@@ -273,8 +285,11 @@ socket$.subscribe(msg => console.log(msg));
 - Convert async iterables to Observables and vice versa.
 
 ```javascript
-import { from } from 'rxjs';
-async function* gen(){ yield 1; yield 2; }
+import { from } from "rxjs";
+async function* gen() {
+  yield 1;
+  yield 2;
+}
 from(gen()).subscribe(console.log);
 ```
 
@@ -314,3 +329,9 @@ fromEvent(searchInput, "input")
 ---
 
 Reactive programming offers a powerful paradigm for managing asynchronous data and event streams. By leveraging tools like RxJS and understanding core concepts, you can build scalable, efficient, and responsive applications.
+
+---
+
+[<< Chapter 23](./23_internationalization_localization.md) | [Chapter 25 >>](./25_optimizing_large_data_sets.md)
+
+---

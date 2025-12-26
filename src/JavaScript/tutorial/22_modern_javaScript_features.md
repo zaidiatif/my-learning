@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 21](./21_event_loop_and_concurrency.md) | [Chapter 23 >>](./23_internationalization_localization.md)
+
+---
+
 # Chapter 22: Modern JavaScript Features
 
 Modern JavaScript (ECMAScript) introduces a wide range of features that simplify development, enhance performance, and improve code readability. Staying up-to-date with these features is essential for writing efficient and maintainable code. This chapter explores the most important additions to JavaScript in recent versions.
@@ -117,9 +123,10 @@ for (const num of generateNumbers()) {
 ## 5.1 Top-level await (ESM)
 
 - In ES modules, `await` is allowed at the top level.
+
 ```javascript
 // module.mjs
-const data = await fetch('/data.json').then(r => r.json());
+const data = await fetch("/data.json").then((r) => r.json());
 export { data };
 ```
 
@@ -145,13 +152,20 @@ Store objects with weak references, allowing garbage collection.
 ## 7. Class Fields, Private Members, and Static Blocks
 
 - Public fields, `#private` fields/methods, and `static {}` initialization.
+
 ```javascript
 class Counter {
   #count = 0;
   static registry = new Map();
-  static { Counter.registry.set('default', new Counter()); }
-  inc() { this.#count++; }
-  get value() { return this.#count; }
+  static {
+    Counter.registry.set("default", new Counter());
+  }
+  inc() {
+    this.#count++;
+  }
+  get value() {
+    return this.#count;
+  }
 }
 ```
 
@@ -185,9 +199,10 @@ function sum(...nums) {
 ## 8. Logical Assignment Operators and Nullish Coalescing
 
 - `&&=` assign if truthy, `||=` assign if falsy, `??=` assign if nullish.
+
 ```javascript
-obj.enabled ||= true;       // set if falsy
-opts.timeout ??= 500;       // set only if null/undefined
+obj.enabled ||= true; // set if falsy
+opts.timeout ??= 500; // set only if null/undefined
 state.ready &&= checkReady();
 ```
 
@@ -263,8 +278,9 @@ Promise.allSettled([fetch("/api1"), fetch("/api2")]).then((results) =>
 ### Promise.any():
 
 Resolves with the first fulfillment; rejects with `AggregateError` if all reject.
+
 ```javascript
-Promise.any([fetch('/fast'), fetch('/slow')])
+Promise.any([fetch("/fast"), fetch("/slow")])
   .then(console.log)
   .catch((e) => console.error(e instanceof AggregateError));
 ```
@@ -274,9 +290,13 @@ Promise.any([fetch('/fast'), fetch('/slow')])
 ## 12. Error Cause
 
 - Attach a cause to errors for better debugging.
+
 ```javascript
-try { doThing(); }
-catch (e) { throw new Error('Failed to doThing', { cause: e }); }
+try {
+  doThing();
+} catch (e) {
+  throw new Error("Failed to doThing", { cause: e });
+}
 ```
 
 ---
@@ -332,32 +352,37 @@ Reflect.set(obj, "prop", value);
 ## 16. Useful Additions and APIs
 
 ### Numeric Separators:
+
 ```javascript
 const million = 1_000_000;
 ```
 
 ### `globalThis`:
+
 ```javascript
 console.log(globalThis === window || globalThis === global); // true in respective envs
 ```
 
 ### Array and Object Helpers:
+
 ```javascript
-arr.at(-1);                 // last element
-arr.flatMap(x => [x, x]);   // flat + map
-Object.fromEntries([['a',1]]);
-Object.hasOwn(obj, 'prop');
+arr.at(-1); // last element
+arr.flatMap((x) => [x, x]); // flat + map
+Object.fromEntries([["a", 1]]);
+Object.hasOwn(obj, "prop");
 ```
 
 ### String Helpers:
+
 ```javascript
-'a-b-c'.replaceAll('-', '_');
-for (const m of 'a1b2'.matchAll(/(\w)(\d)/g)) console.log(m[0]);
+"a-b-c".replaceAll("-", "_");
+for (const m of "a1b2".matchAll(/(\w)(\d)/g)) console.log(m[0]);
 ```
 
 ### Import Assertions and JSON Modules (ESM):
+
 ```javascript
-import data from './data.json' assert { type: 'json' };
+import data from "./data.json" assert { type: "json" };
 ```
 
 ---
@@ -388,13 +413,24 @@ console.log(numberFormatter.format(number)); // 1.234.567,89 €
 ```
 
 ### RelativeTimeFormat, ListFormat, Segmenter:
+
 ```javascript
-new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(-1, 'day'); // yesterday
-new Intl.ListFormat('en', { style: 'short', type: 'conjunction' }).format(['a','b','c']);
-const seg = new Intl.Segmenter('en', { granularity: 'word' });
-for (const s of seg.segment('Hello world')) console.log(s.segment);
+new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(-1, "day"); // yesterday
+new Intl.ListFormat("en", { style: "short", type: "conjunction" }).format([
+  "a",
+  "b",
+  "c",
+]);
+const seg = new Intl.Segmenter("en", { granularity: "word" });
+for (const s of seg.segment("Hello world")) console.log(s.segment);
 ```
 
 ---
 
 Modern JavaScript features enhance productivity, reduce boilerplate, and provide powerful new tools for development. By mastering these features, you can write cleaner, more efficient, and future-proof code.
+
+---
+
+[<< Chapter 21](./21_event_loop_and_concurrency.md) | [Chapter 23 >>](./23_internationalization_localization.md)
+
+---

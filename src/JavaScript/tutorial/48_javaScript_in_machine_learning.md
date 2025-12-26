@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 47](./47_javaScript_and_mobile_development.md) | [Chapter 49 >>](./49_javaScript_build_tools_and_bundlers.md)
+
+---
+
 # Chapter 48: JavaScript in Machine Learning
 
 ## 1 Introduction to JavaScript in Machine Learning
@@ -13,10 +19,10 @@ This chapter explores how JavaScript bridges the gap between data science and we
 JavaScript’s ubiquity and flexibility make it uniquely positioned to democratize ML. Here’s why it matters:
 
 - **Accessibility** — ML models can run directly in the browser with no installation or configuration.
-**Real-Time Interactivity** — Enables responsive, on-the-fly visualizations and predictions in web apps.
-**Cross-Platform Compatibility** — Works seamlessly on browsers, Node.js servers, and mobile devices.
-**Integration** — Easily connects front-end interfaces with backend APIs, sensors, and visualization tools.
-**Community Support** — A growing ecosystem of libraries makes ML more approachable to JS developers.
+  **Real-Time Interactivity** — Enables responsive, on-the-fly visualizations and predictions in web apps.
+  **Cross-Platform Compatibility** — Works seamlessly on browsers, Node.js servers, and mobile devices.
+  **Integration** — Easily connects front-end interfaces with backend APIs, sensors, and visualization tools.
+  **Community Support** — A growing ecosystem of libraries makes ML more approachable to JS developers.
 
 ## 3 TensorFlow.js: The Backbone of ML in JavaScript
 
@@ -141,7 +147,9 @@ const xs = tf.tensor2d([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [10, 1]);
 const ys = tf.tensor2d([0, 1, 0, 1, 0, 1, 0, 1, 0, 1], [10, 1]);
 
 const model = tf.sequential();
-model.add(tf.layers.dense({ units: 1, inputShape: [1], activation: "sigmoid" }));
+model.add(
+  tf.layers.dense({ units: 1, inputShape: [1], activation: "sigmoid" })
+);
 model.compile({ optimizer: "adam", loss: "binaryCrossentropy" });
 
 await model.fit(xs, ys, { epochs: 10 });
@@ -245,3 +253,9 @@ JavaScript has transformed from a simple scripting language to a `powerful ML en
 This democratization of machine learning empowers both developers and non-specialists to create `interactive`, `intelligent`, and `user-friendly applications` that learn, adapt, and respond in real time.
 
 `JavaScript + Machine Learning = Accessible AI for Everyone`.
+
+---
+
+[<< Chapter 47](./47_javaScript_and_mobile_development.md) | [Chapter 49 >>](./49_javaScript_build_tools_and_bundlers.md)
+
+---

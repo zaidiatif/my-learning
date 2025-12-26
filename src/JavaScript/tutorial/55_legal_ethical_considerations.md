@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 54](./54_progressive_enhancement.md) | [Chapter 56 >>](./56_javascript_for_iot.md)
+
+---
+
 # Chapter 55: Legal and Ethical Considerations in JavaScript Development
 
 This chapter explores the legal and ethical responsibilities of developers when building web applications and software. Topics include licensing and open source compliance, privacy regulations like GDPR, and ethical coding practices for creating responsible, secure, and fair software.
@@ -8,20 +14,20 @@ Open source software (OSS) powers much of modern JavaScript development. Underst
 
 ### Common Open Source Licenses
 
-| License	| Key Points |
-|:--- |:--- |
-| MIT	| Permissive, allows reuse, modification, and distribution with attribution. |
-| Apache 2.0	| Similar to MIT but includes patent grants. |
-| GPL (v3)	| Copyleft — any derivative work must be open-sourced under the same license. |
-| LGPL	| Lesser copyleft — libraries can be used in proprietary software with restrictions. |
-| BSD	| Permissive like MIT, minimal restrictions. |
+| License    | Key Points                                                                         |
+| :--------- | :--------------------------------------------------------------------------------- |
+| MIT        | Permissive, allows reuse, modification, and distribution with attribution.         |
+| Apache 2.0 | Similar to MIT but includes patent grants.                                         |
+| GPL (v3)   | Copyleft — any derivative work must be open-sourced under the same license.        |
+| LGPL       | Lesser copyleft — libraries can be used in proprietary software with restrictions. |
+| BSD        | Permissive like MIT, minimal restrictions.                                         |
 
 ### Best Practices
 
 - Always read the license before using a library.
 - Use dependency check tools like:
--   - npm audit (security and license checks)
--   - FOSSA or WhiteSource (license compliance)
+- - npm audit (security and license checks)
+- - FOSSA or WhiteSource (license compliance)
 - Avoid mixing incompatible licenses in your project.
 - Include LICENSE files in your projects when distributing code.
 
@@ -69,21 +75,21 @@ Ethical development ensures that your software is responsible, inclusive, and sa
 
 ## 4. Compliance Tools and Practices
 
-| Area	| Tools / Practices |
-|:--- |:--- |
-| Licensing	| license-checker, FOSSA, WhiteSource, SPDX identifiers |
-| Privacy / GDPR	| Cookie consent libraries, js-cookie, Privacy dashboards, Data encryption |
-| Security	| npm audit, Snyk, OWASP guidelines |
-| Accessibility / Ethics	| Axe, Lighthouse audits, WCAG checklists |
+| Area                   | Tools / Practices                                                        |
+| :--------------------- | :----------------------------------------------------------------------- |
+| Licensing              | license-checker, FOSSA, WhiteSource, SPDX identifiers                    |
+| Privacy / GDPR         | Cookie consent libraries, js-cookie, Privacy dashboards, Data encryption |
+| Security               | npm audit, Snyk, OWASP guidelines                                        |
+| Accessibility / Ethics | Axe, Lighthouse audits, WCAG checklists                                  |
 
 ## 5. Summary Table
 
-| Concept	| Description |
-|:--- |:--- |
-| Open Source Licensing	| Legal rules for using, modifying, and distributing software |
-| GDPR / Privacy	| Legal regulations for personal data protection |
-| Ethical Coding	| Practices that ensure fairness, security, accessibility, and transparency |
-| Best Practices	| License audits, secure coding, transparency, user consent, accessibility compliance |
+| Concept               | Description                                                                         |
+| :-------------------- | :---------------------------------------------------------------------------------- |
+| Open Source Licensing | Legal rules for using, modifying, and distributing software                         |
+| GDPR / Privacy        | Legal regulations for personal data protection                                      |
+| Ethical Coding        | Practices that ensure fairness, security, accessibility, and transparency           |
+| Best Practices        | License audits, secure coding, transparency, user consent, accessibility compliance |
 
 ## 6. Conclusion
 
@@ -94,3 +100,9 @@ JavaScript developers have both legal and ethical responsibilities.
 - Use available tools and practices to audit, secure, and monitor your code continuously.
 
 **Key takeaway:** Responsible coding is not just about writing functional software — it’s about creating safe, fair, and sustainable digital experiences.
+
+---
+
+[<< Chapter 54](./54_progressive_enhancement.md) | [Chapter 56 >>](./56_javascript_for_iot.md)
+
+---

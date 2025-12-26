@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 52](./52_cross_browser_compatibility.md) | [Chapter 54 >>](./54_progressive_enhancement.md)
+
+---
+
 # Chapter 53: Conclusion
 
 ## **Introduction**
@@ -108,3 +114,9 @@ As we conclude this journey through JavaScript, it’s important to reflect on w
 ## **Conclusion**
 
 JavaScript is a dynamic and versatile language that offers endless possibilities for developers. By mastering its fundamentals, adopting best practices, and continuously learning, you can carve out a rewarding career in technology. The journey doesn’t end here—embrace the challenges, contribute to the community, and keep building amazing things!
+
+---
+
+[<< Chapter 52](./52_cross_browser_compatibility.md) | [Chapter 54 >>](./54_progressive_enhancement.md)
+
+---

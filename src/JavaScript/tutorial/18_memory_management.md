@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 17](./17_functional_programming.md) | [Chapter 19 >>](./19_performance_optimization.md)
+
+---
+
 # Chapter 18: Memory Management
 
 Memory management is a crucial aspect of programming, ensuring efficient use of system resources while preventing memory leaks and performance bottlenecks. JavaScript, being a high-level language, provides automatic memory management through its garbage collector. However, understanding how memory management works can help developers write more efficient and robust code.
@@ -179,11 +185,13 @@ function demo() {
 ```javascript
 // Leak via lingering listener
 function attach() {
-  const big = new Array(1e5).fill('x');
-  function handler() { /* uses big */ }
-  window.addEventListener('resize', handler);
+  const big = new Array(1e5).fill("x");
+  function handler() {
+    /* uses big */
+  }
+  window.addEventListener("resize", handler);
   // FIX: remove on teardown
-  return () => window.removeEventListener('resize', handler);
+  return () => window.removeEventListener("resize", handler);
 }
 
 // Caches: prefer WeakMap when key is an object
@@ -203,12 +211,12 @@ function compute(obj) {
 - Use `WeakRef` to hold non-owning references and `FinalizationRegistry` to observe GC (best-effort, not guaranteed timing). Avoid using finalizers for core logic.
 
 ```javascript
-let obj = { data: 'huge' };
+let obj = { data: "huge" };
 const wr = new WeakRef(obj);
 const reg = new FinalizationRegistry((held) => {
-  console.log('finalized', held);
+  console.log("finalized", held);
 });
-reg.register(obj, 'obj1');
+reg.register(obj, "obj1");
 obj = null; // may be collected later
 const maybe = wr.deref(); // null if already collected
 ```
@@ -230,11 +238,13 @@ view[0] = 255; // efficient fixed-size storage
 ## **10. Measuring and Profiling Memory**
 
 ### **10.1 Browser (Chrome DevTools)**
+
 - Performance > Memory: take heap snapshots, compare retained sizes, find detached DOM.
 - Performance panel: record timeline with memory to spot growth over time.
 - `performance.memory` (Chrome-only) to sample heap size.
 
 ### **10.2 Node.js**
+
 - `node --inspect` and DevTools: take heap snapshots from the Node target.
 - Generate heapdumps in production for offline analysis (e.g., `heapdump` module).
 - `process.memoryUsage()` to log RSS/heap stats.
@@ -270,3 +280,9 @@ function parseLines(lines) {
 ## **Conclusion**
 
 Understanding memory management in JavaScript is vital for creating efficient and performant applications. By adopting best practices, leveraging garbage collection algorithms, and using monitoring tools, developers can prevent memory leaks, reduce resource usage, and ensure smooth application performance.
+
+---
+
+[<< Chapter 17](./17_functional_programming.md) | [Chapter 19 >>](./19_performance_optimization.md)
+
+---

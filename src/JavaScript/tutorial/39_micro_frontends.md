@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 38](./38_state_management_patterns.md) | [Chapter 40 >>](./40_server_side_javaScript.md)
+
+---
+
 # Chapter 39: Micro-Frontends in JavaScript
 
 This chapter explores how modern large-scale web applications are being decomposed into independently deployable and maintainable front-end modules — using the micro-frontend architecture.
@@ -33,11 +39,10 @@ Each micro-frontend:
 ### Architecture Diagram
 
 +-----------------------------------------------------+
-|                Main Shell / Container               |
+| Main Shell / Container |
 |-----------------------------------------------------|
-|  Navbar (React) | Product List (Vue) | Cart (Svelte) |
+| Navbar (React) | Product List (Vue) | Cart (Svelte) |
 +-----------------------------------------------------+
-
 
 Each team develops, builds, and deploys their part independently.
 
@@ -45,25 +50,25 @@ Each team develops, builds, and deploys their part independently.
 
 ### Benefits
 
-| Benefit	| Description |
-|:--- |:--- |
-| Independent Deployment	| Each feature can be released without redeploying the whole app. |
-| Team Autonomy	| Teams can own and manage their part of the app end-to-end. |
-| Scalability	| Multiple teams can work in parallel without blocking each other. |
-| Technology Freedom	| Different micro-frontends can use different frameworks or versions. |
-| Incremental Upgrades	| Gradually modernize or rewrite old sections without a full migration. |
-| Resilience	| Failures in one module don’t break the entire app. |
+| Benefit                | Description                                                           |
+| :--------------------- | :-------------------------------------------------------------------- |
+| Independent Deployment | Each feature can be released without redeploying the whole app.       |
+| Team Autonomy          | Teams can own and manage their part of the app end-to-end.            |
+| Scalability            | Multiple teams can work in parallel without blocking each other.      |
+| Technology Freedom     | Different micro-frontends can use different frameworks or versions.   |
+| Incremental Upgrades   | Gradually modernize or rewrite old sections without a full migration. |
+| Resilience             | Failures in one module don’t break the entire app.                    |
 
 ### Challenges
 
-| Challenge	| Description |
-|:--- |:--- |
-| Performance Overhead	| Multiple bundles increase load time if not optimized. |
-| Shared Dependencies	| Conflicts between framework versions or libraries. |
-| Complex Integration	| Communication and routing between apps require orchestration. |
-| Consistent UX	| Ensuring a unified design system across independently developed apps. |
-| Cross-App State	| Managing shared state or session data between micro-frontends. |
-| CI/CD Complexity	| Requires multi-pipeline management and version control discipline. |
+| Challenge            | Description                                                           |
+| :------------------- | :-------------------------------------------------------------------- |
+| Performance Overhead | Multiple bundles increase load time if not optimized.                 |
+| Shared Dependencies  | Conflicts between framework versions or libraries.                    |
+| Complex Integration  | Communication and routing between apps require orchestration.         |
+| Consistent UX        | Ensuring a unified design system across independently developed apps. |
+| Cross-App State      | Managing shared state or session data between micro-frontends.        |
+| CI/CD Complexity     | Requires multi-pipeline management and version control discipline.    |
 
 ## 3. Implementation Strategies
 
@@ -167,29 +172,32 @@ Introduced in Webpack 5, Module Federation allows applications to dynamically im
 #### Example Setup:
 
 #### Host app (`webpack.config.js`):
+
 ```js
 new ModuleFederationPlugin({
-  name: 'host',
+  name: "host",
   remotes: {
-    cart: 'cart@https://cartapp.com/remoteEntry.js',
+    cart: "cart@https://cartapp.com/remoteEntry.js",
   },
 });
 ```
 
 #### Remote app (`webpack.config.js`):
+
 ```js
 new ModuleFederationPlugin({
-  name: 'cart',
-  filename: 'remoteEntry.js',
+  name: "cart",
+  filename: "remoteEntry.js",
   exposes: {
-    './Cart': './src/Cart',
+    "./Cart": "./src/Cart",
   },
 });
 ```
 
 Then dynamically load:
+
 ```js
-import Cart from 'cart/Cart';
+import Cart from "cart/Cart";
 ```
 
 #### Benefits:
@@ -203,13 +211,14 @@ import Cart from 'cart/Cart';
 Single-SPA (Single-Single Page Application) orchestrates multiple front-end apps built with different frameworks (React, Vue, Angular, etc.) to work together.
 
 #### Example:
+
 ```js
-import { registerApplication, start } from 'single-spa';
+import { registerApplication, start } from "single-spa";
 
 registerApplication({
-  name: 'nav',
-  app: () => import('navApp/navApp.js'),
-  activeWhen: ['/'],
+  name: "nav",
+  app: () => import("navApp/navApp.js"),
+  activeWhen: ["/"],
 });
 
 start();
@@ -226,17 +235,18 @@ start();
 Modern browsers support loading modules directly via import maps.
 
 #### Example:
+
 ```html
 <script type="importmap">
-{
-  "imports": {
-    "userApp": "https://cdn.example.com/userApp/index.js"
+  {
+    "imports": {
+      "userApp": "https://cdn.example.com/userApp/index.js"
+    }
   }
-}
 </script>
 <script type="module">
-  import { UserProfile } from 'userApp';
-  UserProfile.render(document.getElementById('app'));
+  import { UserProfile } from "userApp";
+  UserProfile.render(document.getElementById("app"));
 </script>
 ```
 
@@ -256,15 +266,19 @@ Other tools that enable micro-frontend development:
 ## 5. Best Practices
 
 ### Consistent Design System
+
 Use a shared UI library (like a Web Component or design token system) to maintain visual consistency.
 
 ### Version Synchronization
+
 Lock shared dependency versions (like React) to prevent duplication.
 
 ### Cross-App Communication
+
 Use custom events, RxJS, or shared stores for data passing.
 
 ### Routing Strategy
+
 Centralize routing in the container, delegate child routes to sub-apps.
 
 ### Performance Optimization
@@ -274,12 +288,15 @@ Centralize routing in the container, delegate child routes to sub-apps.
 - Share dependencies via Module Federation’s shared config.
 
 ### Monitoring & Error Boundaries
+
 Wrap each micro-frontend in an error boundary to isolate failures.
 
 ### Security
+
 Sandbox remote apps if loaded from different domains.
 
 ## 6. Example Architecture
+
 ```css
 /microfrontends/
  ├── container/
@@ -302,24 +319,24 @@ Each app:
 
 ## 7. When to Use Micro-Frontends
 
-| Use Case	| Suitable? |
-|:--- |:--- |
-| Large enterprise app with multiple teams	| Excellent |
-| Monolithic app needing modular rewrite	| Great migration path |
-| Small startup app	| Over-engineered |
-| SaaS platforms with multiple clients	| Scalable |
-| Real-time dashboards	| Maybe — depends on complexity |
+| Use Case                                 | Suitable?                     |
+| :--------------------------------------- | :---------------------------- |
+| Large enterprise app with multiple teams | Excellent                     |
+| Monolithic app needing modular rewrite   | Great migration path          |
+| Small startup app                        | Over-engineered               |
+| SaaS platforms with multiple clients     | Scalable                      |
+| Real-time dashboards                     | Maybe — depends on complexity |
 
 ## 8. Summary
 
-| Concept	| Description |
-|:--- |:--- |
-| Definition	| Breaking the frontend into smaller, independent units |
-| Key Benefits	| Scalability, autonomy, independent deployment |
-| Main Tools	| Module Federation, Single-SPA, import-maps |
-| Integration Types	| Build-time, runtime, route-based, component-level |
-| Challenges	| Complexity, shared dependencies, performance overhead |
-| Best Practices	| Shared design system, version control, consistent routing |
+| Concept           | Description                                               |
+| :---------------- | :-------------------------------------------------------- |
+| Definition        | Breaking the frontend into smaller, independent units     |
+| Key Benefits      | Scalability, autonomy, independent deployment             |
+| Main Tools        | Module Federation, Single-SPA, import-maps                |
+| Integration Types | Build-time, runtime, route-based, component-level         |
+| Challenges        | Complexity, shared dependencies, performance overhead     |
+| Best Practices    | Shared design system, version control, consistent routing |
 
 ## Conclusion
 
@@ -328,3 +345,9 @@ They offer flexibility, independence, and speed — but also demand strong disci
 
 **In essence:**
 Micro-frontends enable teams to ship faster and scale smarter — when built with the right boundaries and collaboration strategy.
+
+---
+
+[<< Chapter 38](./38_state_management_patterns.md) | [Chapter 40 >>](./40_server_side_javaScript.md)
+
+---

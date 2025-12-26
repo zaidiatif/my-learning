@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 37](./37_javaScript_frameworks.md) | [Chapter 39 >>](./39_micro_frontends.md)
+
+---
+
 # Chapter 38: State Management Patterns in JavaScript
 
 ## 1. State Management Challenges in Large Applications
@@ -19,14 +25,14 @@ Application state represents `data that drives UI` rendering and user experience
 
 ### Common Challenges
 
-| Challenge	| Description |
-|:--- |:--- |
-| State Duplication	| Same data managed in multiple places (UI + store + cache) |
-| Inconsistent Updates	| Components showing stale or mismatched data |
-| Prop Drilling	| Passing state down through multiple component levels |
-| Performance Bottlenecks	| Re-rendering large parts of the app unnecessarily |
-| Testing Complexity	| Hard to mock global state or simulate actions |
-| Scalability	| Maintaining predictable flows across multiple teams or modules |
+| Challenge               | Description                                                    |
+| :---------------------- | :------------------------------------------------------------- |
+| State Duplication       | Same data managed in multiple places (UI + store + cache)      |
+| Inconsistent Updates    | Components showing stale or mismatched data                    |
+| Prop Drilling           | Passing state down through multiple component levels           |
+| Performance Bottlenecks | Re-rendering large parts of the app unnecessarily              |
+| Testing Complexity      | Hard to mock global state or simulate actions                  |
+| Scalability             | Maintaining predictable flows across multiple teams or modules |
 
 ## 2. Core State Management Patterns
 
@@ -45,6 +51,7 @@ Flux is a unidirectional data flow pattern introduced by Facebook.
 - View (Component): Reacts to store updates.
 
 #### Flow Diagram:
+
 ```scss
 Action → Dispatcher → Store → View → (triggers another Action)
 ```
@@ -70,34 +77,39 @@ Redux evolved from Flux and is now the de facto standard for predictable state m
 - Changes via Pure Reducers: Functions that return new state objects.
 
 #### Example:
+
 ```js
 // actions.js
-export const increment = () => ({ type: 'INCREMENT' });
+export const increment = () => ({ type: "INCREMENT" });
 
 // reducer.js
 const counter = (state = 0, action) => {
   switch (action.type) {
-    case 'INCREMENT': return state + 1;
-    default: return state;
+    case "INCREMENT":
+      return state + 1;
+    default:
+      return state;
   }
 };
 
 // store.js
-import { createStore } from 'redux';
+import { createStore } from "redux";
 const store = createStore(counter);
 ```
 
 #### Modern Redux (Redux Toolkit):
+
 Simplifies reducers, immutability, and side effects:
+
 ```js
-import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 const counterSlice = createSlice({
-  name: 'counter',
+  name: "counter",
   initialState: 0,
   reducers: {
-    increment: (state) => state + 1
-  }
+    increment: (state) => state + 1,
+  },
 });
 
 export const { increment } = counterSlice.actions;
@@ -127,6 +139,7 @@ MobX is a `reactive` state management library — it automatically tracks observ
 - Reaction: Automatic updates when data changes.
 
 #### Example:
+
 ```js
 import { makeAutoObservable } from "mobx";
 
@@ -165,8 +178,9 @@ A lightweight state management library built for React using hooks and immer.
 - Reactive and high-performance.
 
 #### Example:
+
 ```js
-import { create } from 'zustand';
+import { create } from "zustand";
 
 const useStore = create((set) => ({
   count: 0,
@@ -195,6 +209,7 @@ export default function Counter() {
 The `Context API` is built into React and helps avoid prop drilling by providing global access to data.
 
 #### Example:
+
 ```js
 const ThemeContext = React.createContext();
 
@@ -224,12 +239,12 @@ function Toolbar() {
 
 ## 3. Global vs Local State
 
-| Type	| Description	| Example |
-|:--- |:---- |:---- |
-| Local State	| Lives within a single component	| Form inputs, dropdown toggles |
-| Global State	| Shared across multiple components or routes	| Auth, theme, user session |
-| Server State	| Comes from APIs or remote data	| Fetched posts, user list |
-| URL State	| Derived from navigation or query params	| Filters, sorting, pagination |
+| Type         | Description                                 | Example                       |
+| :----------- | :------------------------------------------ | :---------------------------- |
+| Local State  | Lives within a single component             | Form inputs, dropdown toggles |
+| Global State | Shared across multiple components or routes | Auth, theme, user session     |
+| Server State | Comes from APIs or remote data              | Fetched posts, user list      |
+| URL State    | Derived from navigation or query params     | Filters, sorting, pagination  |
 
 ### When to Use Global State
 
@@ -298,6 +313,7 @@ function Toolbar() {
 - Too many wrappers or layers can reduce clarity and performance.
 
 ## 6. Example Architecture for Scalable State
+
 ```bash
 /src
  ├── store/
@@ -319,16 +335,16 @@ Combine Context (for config) + Zustand (for app state) + React Query (for server
 
 ## 7. Summary
 
-| Concept	| Description |
-|:--- |:--- |
-| Flux	| Original unidirectional data flow model |
-| Redux	| Predictable global state with reducers and actions |
-| MobX	| Reactive and observable-based state management |
-| Zustand	| Lightweight, hook-based global store |
-| Context API	| Built-in global context for small global data |
-| Global vs Local	| Split by scope and reusability |
-| Best Practices	| Keep state minimal, immutable, and organized |
-| Anti-Patterns	| Avoid over-globalization and side effects |
+| Concept         | Description                                        |
+| :-------------- | :------------------------------------------------- |
+| Flux            | Original unidirectional data flow model            |
+| Redux           | Predictable global state with reducers and actions |
+| MobX            | Reactive and observable-based state management     |
+| Zustand         | Lightweight, hook-based global store               |
+| Context API     | Built-in global context for small global data      |
+| Global vs Local | Split by scope and reusability                     |
+| Best Practices  | Keep state minimal, immutable, and organized       |
+| Anti-Patterns   | Avoid over-globalization and side effects          |
 
 ## Conclusion
 
@@ -336,3 +352,9 @@ Effective state management isn’t about choosing one library — it’s about c
 Large-scale JavaScript applications thrive on `predictable, minimal, and well-structured state`, ensuring scalability, performance, and maintainability.
 
 **Rule of Thumb:** Keep state close to where it’s used — and global only when necessary.
+
+---
+
+[<< Chapter 37](./37_javaScript_frameworks.md) | [Chapter 39 >>](./39_micro_frontends.md)
+
+---

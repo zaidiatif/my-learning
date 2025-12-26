@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 39](./39_micro_frontends.md) | [Chapter 41 >>](./41_real_time_collaboration.md)
+
+---
+
 # Chapter 40: Server-Side JavaScript
 
 Server-side JavaScript (SSJS) extends JavaScript’s capabilities beyond the browser, empowering developers to build full-fledged, high-performance back-end applications. With the rise of Node.js and frameworks like Express, NestJS, and Next.js, JavaScript has become a truly full-stack language.
@@ -78,7 +84,7 @@ Node.js is a runtime environment built on Chrome’s V8 engine that allows JavaS
 - **Event Loop:** Handles asynchronous operations efficiently.
 - **Modules:** Built-in modules like `fs`, `http`, and `path` simplify server-side tasks.
 - **Package Management:** npm enables easy installation and management of third-party libraries.
-- **REPL:**	Interactive console for testing and debugging JS code.
+- **REPL:** Interactive console for testing and debugging JS code.
 
 ### 3.4 Use Cases
 
@@ -121,6 +127,7 @@ server.listen(3000, () => {
   - `dependencies` and `devDependencies`: Lists required packages.
   - `scripts`: Defines command-line tasks for the project.
 - **Example:**
+
 ```javascript
 {
   "name": "my-server-app",
@@ -293,7 +300,9 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => console.log("❌ User disconnected"));
 });
 
-server.listen(3000, () => console.log("💬 Chat server on http://localhost:3000"));
+server.listen(3000, () =>
+  console.log("💬 Chat server on http://localhost:3000")
+);
 ```
 
 **Use Cases:** Chat, notifications, stock tickers, multiplayer games.
@@ -324,7 +333,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-io.on("connection" , (socket) => {
+io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("message", (msg) => {
@@ -345,14 +354,14 @@ server.listen(3000, () => {
 
 ### 10. Frameworks and Libraries for Server-Side JavaScript
 
-| Framework	| Highlights	| Ideal Use |
-|:--- |:--- |:--- |
-| Express.js	| Simple, flexible, fast	| REST APIs |
-| NestJS	| Modular, TypeScript-first	| Enterprise apps |
-| Koa.js	| Lightweight, async/await-based	| Modern microservices |
-| Hapi.js	| Secure, configuration-centric	| Enterprise APIs |
-| Fastify	| High performance	| Real-time or heavy-load APIs |
-| Serverless Framework	| Cloud function deployment	| Pay-per-use apps |
+| Framework            | Highlights                     | Ideal Use                    |
+| :------------------- | :----------------------------- | :--------------------------- |
+| Express.js           | Simple, flexible, fast         | REST APIs                    |
+| NestJS               | Modular, TypeScript-first      | Enterprise apps              |
+| Koa.js               | Lightweight, async/await-based | Modern microservices         |
+| Hapi.js              | Secure, configuration-centric  | Enterprise APIs              |
+| Fastify              | High performance               | Real-time or heavy-load APIs |
+| Serverless Framework | Cloud function deployment      | Pay-per-use apps             |
 
 ## 11 Frameworks and Libraries for Server-Side JavaScript
 
@@ -423,6 +432,7 @@ server.listen(3000, () => {
 - Monitor server performance using tools like PM2, New Relic, Datadog, and Grafana.
 
 ## 13. Advanced Topics
+
 ### 13.1 TypeScript in Server-Side JS
 
 - Adds type safety and IDE autocompletion — standard in frameworks like NestJS.
@@ -440,3 +450,9 @@ server.listen(3000, () => {
 ## Conclusion
 
 Server-side JavaScript, powered by Node.js and its ecosystem, has revolutionized web development by enabling JavaScript to handle back-end operations. By mastering Node.js, Express.js, database integration, event-driven programming, and real-time communication, developers can create robust, scalable, and high-performance server-side applications.
+
+---
+
+[<< Chapter 39](./39_micro_frontends.md) | [Chapter 41 >>](./41_real_time_collaboration.md)
+
+---

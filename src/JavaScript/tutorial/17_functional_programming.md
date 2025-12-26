@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 16](./16_javaScript_design_patterns.md) | [Chapter 18 >>](./18_memory_management.md)
+
+---
+
 # Chapter 17: Functional Programming
 
 Functional programming is a programming paradigm that treats computation as the evaluation of mathematical functions and avoids changing state or mutable data. JavaScript supports functional programming principles, making it a versatile language for both object-oriented and functional paradigms.
@@ -167,16 +173,17 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Shallow vs deep freeze; structural sharing to avoid copying whole trees.
 - Examples:
+
   ```javascript
   // Shallow freeze
-  const cfg = Object.freeze({ env: 'prod', limits: { max: 5 } });
+  const cfg = Object.freeze({ env: "prod", limits: { max: 5 } });
   // cfg.env = 'dev'; // TypeError in strict mode
 
   // Structural sharing (non-mutating nested update)
-  const state = { user: { name: 'Alice', tags: ['a'] } };
+  const state = { user: { name: "Alice", tags: ["a"] } };
   const next = {
     ...state,
-    user: { ...state.user, tags: [...state.user.tags, 'b'] }
+    user: { ...state.user, tags: [...state.user.tags, "b"] },
   };
   ```
 
@@ -186,15 +193,19 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Prefer data-last functions for easy composition.
 - Example:
+
   ```javascript
   const map = (fn) => (arr) => arr.map(fn);
   const filter = (pred) => (arr) => arr.filter(pred);
-  const pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
+  const pipe =
+    (...fns) =>
+    (x) =>
+      fns.reduce((v, f) => f(v), x);
 
   const isEven = (n) => n % 2 === 0;
   const double = (n) => n * 2;
   const process = pipe(filter(isEven), map(double));
-  console.log(process([1,2,3,4])); // [4,8]
+  console.log(process([1, 2, 3, 4])); // [4,8]
   ```
 
 ---
@@ -203,20 +214,24 @@ JavaScript has several libraries to facilitate functional programming:
 
 - A Functor supports `map`; a Maybe avoids null checks.
 - Example:
+
   ```javascript
   const Just = (v) => ({
     map: (f) => Just(f(v)),
-    fold: (_, g) => g(v)
+    fold: (_, g) => g(v),
   });
   const Nothing = () => ({
     map: () => Nothing(),
-    fold: (f) => f()
+    fold: (f) => f(),
   });
   const fromNullable = (v) => (v == null ? Nothing() : Just(v));
 
   const result = fromNullable(user.email)
     .map((s) => s.toLowerCase())
-    .fold(() => 'no-email', (s) => s);
+    .fold(
+      () => "no-email",
+      (s) => s
+    );
   ```
 
 ---
@@ -225,16 +240,32 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Represent success/ failure without throwing.
 - Example:
+
   ```javascript
-  const Left = (e) => ({ map: () => Left(e), chain: () => Left(e), fold: (f) => f(e) });
-  const Right = (v) => ({ map: (f) => Right(f(v)), chain: (f) => f(v), fold: (_, g) => g(v) });
+  const Left = (e) => ({
+    map: () => Left(e),
+    chain: () => Left(e),
+    fold: (f) => f(e),
+  });
+  const Right = (v) => ({
+    map: (f) => Right(f(v)),
+    chain: (f) => f(v),
+    fold: (_, g) => g(v),
+  });
   const tryCatch = (fn) => {
-    try { return Right(fn()); } catch (e) { return Left(e); }
+    try {
+      return Right(fn());
+    } catch (e) {
+      return Left(e);
+    }
   };
 
   const parsed = tryCatch(() => JSON.parse('{"a":1}'))
     .map((o) => o.a)
-    .fold(() => 0, (a) => a);
+    .fold(
+      () => 0,
+      (a) => a
+    );
   ```
 
 ---
@@ -243,17 +274,25 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Read/update deeply nested data immutably.
 - Example (simple lens):
-  ```javascript
-  const lens = (getter, setter) => ({ get: (s) => getter(s), set: (v, s) => setter(v, s) });
-  const prop = (k) => lens((s) => s[k], (v, s) => ({ ...s, [k]: v }));
 
-  const userLens = prop('user');
+  ```javascript
+  const lens = (getter, setter) => ({
+    get: (s) => getter(s),
+    set: (v, s) => setter(v, s),
+  });
+  const prop = (k) =>
+    lens(
+      (s) => s[k],
+      (v, s) => ({ ...s, [k]: v })
+    );
+
+  const userLens = prop("user");
   const nameLens = lens(
     (s) => s.user.name,
     (v, s) => ({ ...s, user: { ...s.user, name: v } })
   );
-  const state = { user: { name: 'Alice' } };
-  const next = nameLens.set('Bob', state); // { user: { name: 'Bob' } }
+  const state = { user: { name: "Alice" } };
+  const next = nameLens.set("Bob", state); // { user: { name: 'Bob' } }
   ```
 
 ---
@@ -262,14 +301,18 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Compose transformations and apply once to a collection.
 - Example:
+
   ```javascript
   const mapT = (f) => (reducer) => (acc, x) => reducer(acc, f(x));
-  const filterT = (p) => (reducer) => (acc, x) => (p(x) ? reducer(acc, x) : acc);
+  const filterT = (p) => (reducer) => (acc, x) => p(x) ? reducer(acc, x) : acc;
   const composeT = (...ts) => ts.reduce((a, b) => (r) => a(b(r)));
 
-  const xf = composeT(mapT((x) => x * 2), filterT((x) => x % 3 === 0));
+  const xf = composeT(
+    mapT((x) => x * 2),
+    filterT((x) => x % 3 === 0)
+  );
   const push = (acc, x) => (acc.push(x), acc);
-  const result = [1,2,3,4,5,6].reduce(xf(push), []);
+  const result = [1, 2, 3, 4, 5, 6].reduce(xf(push), []);
   console.log(result); // [6, 12]
   ```
 
@@ -279,12 +322,22 @@ JavaScript has several libraries to facilitate functional programming:
 
 - Use generators to build lazy pipelines on large/streaming data.
 - Example:
-  ```javascript
-  function* mapG(iter, f) { for (const x of iter) yield f(x); }
-  function* filterG(iter, p) { for (const x of iter) if (p(x)) yield x; }
-  const range = function* (n) { for (let i = 0; i < n; i++) yield i; };
 
-  const pipeline = filterG(mapG(range(10), (x) => x * 2), (x) => x % 3 === 0);
+  ```javascript
+  function* mapG(iter, f) {
+    for (const x of iter) yield f(x);
+  }
+  function* filterG(iter, p) {
+    for (const x of iter) if (p(x)) yield x;
+  }
+  const range = function* (n) {
+    for (let i = 0; i < n; i++) yield i;
+  };
+
+  const pipeline = filterG(
+    mapG(range(10), (x) => x * 2),
+    (x) => x % 3 === 0
+  );
   console.log([...pipeline]); // [0, 6, 12, 18]
   ```
 
@@ -306,3 +359,9 @@ JavaScript has several libraries to facilitate functional programming:
 ## **Conclusion**
 
 Functional programming in JavaScript enables developers to write clean, maintainable, and predictable code. By embracing principles like immutability, pure functions, and higher-order functions, you can create robust applications that are easier to debug and scale.
+
+---
+
+[<< Chapter 16](./16_javaScript_design_patterns.md) | [Chapter 18 >>](./18_memory_management.md)
+
+---

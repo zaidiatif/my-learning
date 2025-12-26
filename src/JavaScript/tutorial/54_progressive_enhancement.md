@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 53](./53_conclusion.md) | [Chapter 55 >>](./55_legal_ethical_considerations.md)
+
+---
+
 # Chapter 54: Progressive Enhancement and Graceful Degradation in JavaScript
 
 This chapter explores strategies to build robust, accessible, and future-proof web applications. It focuses on progressive enhancement, graceful degradation, and modern techniques like feature detection and polyfills to ensure apps work across diverse environments.
@@ -14,16 +20,17 @@ Progressive Enhancement (PE) is a development philosophy where you start with a 
 - Resilience: Your application should still work if JavaScript is disabled or a feature is unsupported.
 
 ### Example
+
 ```html
 <!-- Core content accessible to all users -->
 <a href="/download" class="btn">Download Report</a>
 
 <!-- Enhanced interaction with JS -->
 <script>
-document.querySelector('.btn').addEventListener('click', (e) => {
-  e.preventDefault();
-  alert('Downloading your report...');
-});
+  document.querySelector(".btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("Downloading your report...");
+  });
 </script>
 ```
 
@@ -36,10 +43,10 @@ Graceful Degradation (GD) is the complementary concept: start with a rich experi
 
 ### Key Differences
 
-| Concept	| Approach |
-|:--- |:--- |
-| Progressive Enhancement	| Start simple → enhance for capable browsers |
-| Graceful Degradation	| Start complex → fallback for less capable browsers |
+| Concept                 | Approach                                           |
+| :---------------------- | :------------------------------------------------- |
+| Progressive Enhancement | Start simple → enhance for capable browsers        |
+| Graceful Degradation    | Start complex → fallback for less capable browsers |
 
 ### Example
 
@@ -51,15 +58,16 @@ Graceful Degradation (GD) is the complementary concept: start with a rich experi
 Feature detection is critical in PE and GD to determine if a browser supports a specific API or capability.
 
 ### Using `if` Checks
+
 ```js
-if ('fetch' in window) {
-  fetch('/api/data')
-    .then(res => res.json())
-    .then(data => console.log(data));
+if ("fetch" in window) {
+  fetch("/api/data")
+    .then((res) => res.json())
+    .then((data) => console.log(data));
 } else {
   // Fallback using XMLHttpRequest
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/api/data');
+  xhr.open("GET", "/api/data");
   xhr.onload = () => console.log(JSON.parse(xhr.responseText));
   xhr.send();
 }
@@ -69,6 +77,7 @@ if ('fetch' in window) {
 
 - Modernizr is a popular feature detection library.
 - Example:
+
 ```js
 if (Modernizr.webgl) {
   initWebGLCanvas();
@@ -88,6 +97,7 @@ A polyfill is code that adds missing functionality to older browsers so that mod
 - IntersectionObserver Polyfill → for lazy-loading images
 
 ### Example
+
 ```html
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
 ```
@@ -121,10 +131,11 @@ A polyfill is code that adds missing functionality to older browsers so that mod
 ### f. Handle Failures Gracefully
 
 - Provide fallbacks for API failures or network issues.
+
 ```js
 async function fetchData() {
   try {
-    const res = await fetch('/api/data');
+    const res = await fetch("/api/data");
     const data = await res.json();
     renderData(data);
   } catch (error) {
@@ -140,6 +151,7 @@ async function fetchData() {
 - CSS Custom Properties: Provide dynamic theming with fallback values.
 
 ### Example with CSS Variables
+
 ```css
 :root {
   --primary-color: blue; /* default */
@@ -155,15 +167,21 @@ async function fetchData() {
 
 ## 7. Summary Table
 
-| Concept	| Purpose	| Example |
-|:--- |:---- |:--- |
-| Progressive Enhancement	| Start simple → enhance	| Basic HTML + JS features layered |
-| Graceful Degradation	| Start rich → fallback	| CSS Grid → Flexbox fallback |
-| Feature Detection	| Check support before using API	| 'fetch' in window |
-| Polyfill	| Add missing functionality	| Promise, Fetch polyfills |
-| Best Practices	| Robust, future-proof code	| Semantic HTML, fallback strategies, layered enhancements |
+| Concept                 | Purpose                        | Example                                                  |
+| :---------------------- | :----------------------------- | :------------------------------------------------------- |
+| Progressive Enhancement | Start simple → enhance         | Basic HTML + JS features layered                         |
+| Graceful Degradation    | Start rich → fallback          | CSS Grid → Flexbox fallback                              |
+| Feature Detection       | Check support before using API | 'fetch' in window                                        |
+| Polyfill                | Add missing functionality      | Promise, Fetch polyfills                                 |
+| Best Practices          | Robust, future-proof code      | Semantic HTML, fallback strategies, layered enhancements |
 
 ## 8. Conclusion
 
 Progressive enhancement and graceful degradation are foundational strategies for building resilient, inclusive, and maintainable web applications.
 By combining feature detection, polyfills, and a layered approach to interactivity, developers can ensure that apps work across a wide range of browsers and devices, while still providing modern experiences for capable users.
+
+---
+
+[<< Chapter 53](./53_conclusion.md) | [Chapter 55 >>](./55_legal_ethical_considerations.md)
+
+---

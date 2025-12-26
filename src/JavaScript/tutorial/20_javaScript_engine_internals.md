@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 19](./19_performance_optimization.md) | [Chapter 21 >>](./21_event_loop_and_concurrency.md)
+
+---
+
 # Chapter 20: JavaScript Engine Internals
 
 JavaScript is powered by engines that interpret and execute the code written by developers. Understanding the inner workings of these engines can help developers write more efficient code and debug complex issues. This chapter explores the architecture of modern JavaScript engines, the phases of code execution, and advanced optimizations performed by the engine to deliver high performance.
@@ -81,11 +87,14 @@ Optimizes changes to object structure (e.g., adding or removing properties) by m
 - Megamorphic: many shapes; falls back to slower generic path.
 
 ```javascript
-function getName(u) { return u.name; }
+function getName(u) {
+  return u.name;
+}
 // Keep objects created with same field order/shape to stay mono/poly
-const a = { name: 'a', age: 1 };
-const b = { name: 'b', age: 2 };
-getName(a); getName(b); // likely polymorphic and still fast
+const a = { name: "a", age: 1 };
+const b = { name: "b", age: 2 };
+getName(a);
+getName(b); // likely polymorphic and still fast
 ```
 
 ---
@@ -190,7 +199,7 @@ Understanding these optimizations can help you write code that aligns with engin
 
 ```javascript
 // Avoid creating holey arrays
-const arr = [1,2,3];
+const arr = [1, 2, 3];
 arr[100] = 5; // creates holes; slower elements kind
 ```
 
@@ -238,3 +247,9 @@ Use these tools to gain insights into how your code is executed and identify are
 ---
 
 By understanding the internals of JavaScript engines, you can write more efficient, optimized code and troubleshoot performance issues with greater precision.
+
+---
+
+[<< Chapter 19](./19_performance_optimization.md) | [Chapter 21 >>](./21_event_loop_and_concurrency.md)
+
+---

@@ -1,5 +1,11 @@
 # Chapter 50: Monorepos and Multi-Package Management in JavaScript
 
+---
+
+[<< Chapter 49](./49_javaScript_build_tools_and_bundlers.md) | [Chapter 51 >>](./51_becoming_a_javaScript_expert.md)
+
+---
+
 This chapter explores the concept of monorepos, tools for managing multiple packages in a single repository, strategies for dependency management, and best practices for scaling large JavaScript codebases.
 
 ## 1. What is a Monorepo?
@@ -21,6 +27,7 @@ A monorepo (monolithic repository) is a single repository that contains multiple
 - Can require advanced tooling for dependency and cache management.
 
 ### Example Structure
+
 ```bash
 /my-monorepo
  ├── apps/
@@ -39,13 +46,14 @@ A monorepo (monolithic repository) is a single repository that contains multiple
 - Workspace tooling manages dependencies and links between packages.
 
 ## 2. Tools for Monorepos
+
 ### a. Lerna
 
 - Purpose: Manages JavaScript projects with multiple packages.
 - Key Features:
--   - Versioning and publishing
--   - Bootstrapping packages
--   - Linking local dependencies
+- - Versioning and publishing
+- - Bootstrapping packages
+- - Linking local dependencies
 - Example Commands:
 
 ```bash
@@ -62,11 +70,12 @@ lerna publish     # version and release packages
 - Purpose: Smart monorepo tool for full-stack apps.
 
 - Key Features:
--   - Integrated build system with caching
--   - Code generation and scaffolding
--   - Dependency graph visualization
+- - Integrated build system with caching
+- - Code generation and scaffolding
+- - Dependency graph visualization
 
 - Example Commands:
+
 ```bash
 npx create-nx-workspace@latest myworkspace
 nx generate @nrwl/react:app web-app
@@ -79,10 +88,11 @@ nx build web-app
 
 - Purpose: High-performance monorepo build system.
 - Key Features:
--   - Remote and local caching
--   - Parallel execution of tasks
--   - Incremental builds for faster CI/CD
+- - Remote and local caching
+- - Parallel execution of tasks
+- - Incremental builds for faster CI/CD
 - Example package.json scripts:
+
 ```json
 {
   "scripts": {
@@ -109,21 +119,20 @@ Effective monorepo management relies on tools for dependency installation, linki
 - Local linking: Packages in the repo depend on each other without publishing.
 - Shared dependencies: Deduplicate common libraries to reduce size.
 - Versioning strategies:
--   - Independent – Each package versioned separately.
--   - Fixed/locked – All packages share the same version.
+- - Independent – Each package versioned separately.
+- - Fixed/locked – All packages share the same version.
 - Example package.json for a workspace
+
 ```json
 {
   "name": "my-monorepo",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": ["apps/*", "packages/*"]
 }
 ```
 
 ## 4. Best Practices for Large Monorepos
+
 ### Project Organization
 
 - Separate apps and packages folders.
@@ -155,15 +164,21 @@ Effective monorepo management relies on tools for dependency installation, linki
 
 ## 5. Summary Table
 
-| Concept	| Description |
-|:--- |:--- |
-| Monorepo	| Single repository for multiple projects/packages |
-| Lerna	| Manages multiple packages with versioning and linking |
-| Nx	| Enterprise-grade build system with caching & graphing |
-| Turborepo	| High-performance build system for fast CI/CD |
-| Workspaces	| npm/yarn/pnpm feature to link local packages |
-| Best Practices	| Project organization, incremental builds, code quality, dependency management |
+| Concept        | Description                                                                   |
+| :------------- | :---------------------------------------------------------------------------- |
+| Monorepo       | Single repository for multiple projects/packages                              |
+| Lerna          | Manages multiple packages with versioning and linking                         |
+| Nx             | Enterprise-grade build system with caching & graphing                         |
+| Turborepo      | High-performance build system for fast CI/CD                                  |
+| Workspaces     | npm/yarn/pnpm feature to link local packages                                  |
+| Best Practices | Project organization, incremental builds, code quality, dependency management |
 
 ## 6. Conclusion
 
 Monorepos provide centralized control, easier sharing, and scalable workflows for large JavaScript projects. With tools like Lerna, Nx, and Turborepo, teams can manage multiple packages, streamline builds, and enforce consistent practices, while maintaining developer productivity and CI/CD efficiency.
+
+---
+
+[<< Chapter 49](./49_javaScript_build_tools_and_bundlers.md) | [Chapter 51 >>](./51_becoming_a_javaScript_expert.md)
+
+---

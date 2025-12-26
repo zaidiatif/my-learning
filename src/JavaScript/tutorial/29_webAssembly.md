@@ -1,3 +1,9 @@
+---
+
+[<< Chapter 28](./29_webAssembly.md) | [Chapter 30 >>](./30_building_progressive_web_apps.md)
+
+---
+
 # Chapter 29: WebAssembly
 
 WebAssembly (Wasm) is a binary instruction format that allows high-performance execution of code on web browsers. It enables developers to run languages like C, C++, and Rust on the web, opening up possibilities for computationally intensive tasks in a web environment.
@@ -44,13 +50,17 @@ model. Key components include:
 ## 3.1 Modules, Imports/Exports, Memory, and Tables
 
 - Modules export functions, memories, tables (function refs), and globals; JS provides imports.
+
 ```javascript
 const imports = {
   env: {
-    jsLog: (x) => console.log('wasm says', x)
-  }
+    jsLog: (x) => console.log("wasm says", x),
+  },
 };
-const { instance, module } = await WebAssembly.instantiateStreaming(fetch('mod.wasm'), imports);
+const { instance, module } = await WebAssembly.instantiateStreaming(
+  fetch("mod.wasm"),
+  imports
+);
 instance.exports.main?.();
 ```
 
@@ -101,12 +111,13 @@ Use cases include:
 ## 6. Passing Data: Numbers, Arrays, and Strings
 
 - Wasm uses a linear memory (ArrayBuffer). Pass arrays/strings by writing into memory and passing pointers/lengths.
+
 ```javascript
 // JS writes bytes into wasm memory
 const mem = instance.exports.memory; // WebAssembly.Memory
 const view = new Uint8Array(mem.buffer);
 const encoder = new TextEncoder();
-const str = 'hello';
+const str = "hello";
 const bytes = encoder.encode(str);
 const ptr = instance.exports.malloc(bytes.length);
 view.set(bytes, ptr);
@@ -115,6 +126,7 @@ instance.exports.free(ptr);
 ```
 
 - i64 values map to JS BigInt: import/export signatures use BigInt.
+
 ```javascript
 // Exported i64 function must be called with BigInt
 instance.exports.add64(1n, 2n);
@@ -143,10 +155,12 @@ WebAssembly is inherently optimized for speed, but further optimizations can enh
 - Leverage browser caching for Wasm modules.
 
 ### Streaming Compilation and Caching
+
 - Prefer `instantiateStreaming(fetch(url))` (with correct MIME `application/wasm`) for parse+compile during download.
 - Fallback when server lacks MIME:
+
 ```javascript
-const res = await fetch('mod.wasm');
+const res = await fetch("mod.wasm");
 const bytes = await res.arrayBuffer();
 const mod = await WebAssembly.compile(bytes); // cache this Module
 const inst = await WebAssembly.instantiate(mod, imports);
@@ -218,3 +232,9 @@ Integrate the compiled Wasm module into a JavaScript application to utilize its 
 ---
 
 WebAssembly is a transformative technology that bridges the gap between native application performance and the web's universal accessibility. Mastering Wasm empowers developers to build high-performance applications in the browser and beyond.
+
+---
+
+[<< Chapter 28](./28_webxr_webvr.md) | [Chapter 30 >>](./30_building_progressive_web_apps.md)
+
+---
