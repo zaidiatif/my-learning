@@ -1,6 +1,6 @@
 ---
 
-[<< Chapter 28](./29_webAssembly.md) | [Chapter 30 >>](./30_building_progressive_web_apps.md)
+[<< Chapter 28](./28_webxr_webvr.md) | [Chapter 30 >>](./30_building_progressive_web_apps.md)
 
 ---
 

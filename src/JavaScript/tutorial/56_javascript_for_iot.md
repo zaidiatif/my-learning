@@ -1,10 +1,11 @@
-# Chapter 56: JavaScript for IoT (Internet of Things)
-
 ---
 
 [<< Chapter 55](./55_legal_ethical_considerations.md)
 
 ---
+
+# Chapter 56: JavaScript for IoT (Internet of Things)
+
 
 This chapter explores how JavaScript can be used to build Internet of Things (IoT) applications, from controlling microcontrollers to handling communication protocols. It covers hardware programming frameworks, IoT protocols, and practical use cases.
 

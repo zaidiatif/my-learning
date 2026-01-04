@@ -218,6 +218,6 @@ export async function getStaticProps() {
 
 ---
 
-[<< 30](./30_building_progressive_web_apps.md) | [Chapter 32 >>](./32_javaScript_security.md)
+[<< Chapter 30](./30_building_progressive_web_apps.md) | [Chapter 32 >>](./32_javaScript_security.md)
 
 ---
